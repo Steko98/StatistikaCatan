@@ -1,4 +1,5 @@
 ﻿using BACKEND.Data;
+using BACKEND.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BACKEND.Controllers
@@ -27,6 +28,27 @@ namespace BACKEND.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpPost]
+        public IActionResult Post(Turnir turnir)
+        {
+            try
+            {
+                _context.Turniri.Add(turnir);
+                _context.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, turnir);
+            } 
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+
+
+
+
+
 
     }
 }
