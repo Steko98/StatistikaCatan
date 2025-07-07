@@ -1,10 +1,18 @@
-﻿use master;
-go
-drop database if exists catan;
-go
-create database catan collate Croatian_CI_AS;
-go
-use catan;
+﻿ALTER DATABASE db_abb799_wp8 SET SINGLE_USER WITH
+ROLLBACK IMMEDIATE;
+GO
+ALTER DATABASE db_abb799_wp8 COLLATE Latin1_General_100_CI_AI_SC_UTF8;
+GO
+ALTER DATABASE db_abb799_wp8 SET MULTI_USER;
+GO
+
+--use master;
+--go
+--drop database if exists catan;
+--go
+--create database catan collate Croatian_CI_AS;
+--go
+--use catan;
 
 create  table turniri(
 sifra int not null primary key identity(1,1),
@@ -39,12 +47,12 @@ pobjeda bit not null default 0
 create table rekordi(
 sifra int not null primary key identity(1,1),
 naziv varchar(100),
-igrac int references igraci(sifra)
 );
 
 create table turnirRekord(
 turnir int references turniri(sifra),
-rekord int references rekordi(sifra)
+rekord int references rekordi(sifra),
+igrac int references igraci(sifra)
 );
 
 insert into turniri(ime, datumpocetka, datumzavrsetka) values
@@ -281,10 +289,21 @@ insert into clanovi(igra, igrac, pobjeda, brojbodova) values
 (180, 4, 1, 10), (180, 6, 0, 6), (180, 3, 0, 4), (180, 1, 0, 9),
 (181, 6, 0, 6), (181, 3, 1, 10), (181, 1, 0, 5);
 
-insert into rekordi(naziv, igrac) values
-('Naviše pobjeda',1),
-('Najduži niz',6),
-('Najbolji postotak',5);
---('Najviše bodova'),
---('Najveća vojska'),
---('Najduža cesta');
+insert into rekordi(naziv) values
+('Naviše pobjeda'),
+('Najduži niz'),
+('Najbolji postotak'),
+('Najviše bodova'),
+('Najviše odigranih');
+
+insert into turnirRekord (turnir, rekord, igrac)
+values (1, 1, 1)
+,(1, 2, 1)
+,(1, 3, 5)
+,(1, 4, 3)
+,(1, 5, 1)
+,(2, 1, 1)
+,(2, 2, 4)
+,(2, 3, 4)
+,(2, 4, 1)
+,(2, 5, 1);
