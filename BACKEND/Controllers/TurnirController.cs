@@ -44,9 +44,61 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpPut("sifra:int")]
+        public IActionResult Put(int sifra, Turnir turnir)
+        {
+            if (sifra < 1)
+            {
+                return BadRequest(new { poruka = "Šifra mora biti veća od 0" });
+            }
 
+            try {
+                Turnir t = _context.Turniri.Find(sifra);
+                if (t == null)
+                {
+                    return NotFound();
+                }
+                t.Naziv = turnir.Naziv;
+                t.DatumPocetka = turnir.DatumPocetka;
+                t.DatumZavrsetka = turnir.DatumZavrsetka;
 
+                _context.Turniri.Update(t);
+                _context.SaveChanges();
+                return Ok(t);
 
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpDelete("{sifra:int}")]
+        public IActionResult Delete(int sifra)
+        {
+            if (sifra < 1)
+            {
+                return BadRequest(new { poruka = "Šifra mora biti veća od 0" });
+            }
+
+            try
+            {
+                Turnir t = _context.Turniri.Find(sifra);
+                if (t == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Turniri.Remove(t);
+                _context.SaveChanges();
+                return NoContent();
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
 
 
 
