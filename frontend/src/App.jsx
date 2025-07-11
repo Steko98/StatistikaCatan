@@ -5,6 +5,7 @@ import NavBarEdunova from './components/NavBarEdunova'
 import { Route, Routes } from 'react-router-dom'
 import { RouteNames } from './constants'
 import Pocetna from './pages/Pocetna'
+import TurniriPregled from './pages/turniri/TurniriPregled'
 
 
 
@@ -17,8 +18,12 @@ function App() {
 
       <Routes>
         <Route path={RouteNames.HOME} element={<Pocetna />}/>
+        <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
       </Routes>
-      
+      <hr />
+
+      &copy;Ivan Šteko
+
     </Container>    
   )
 }
