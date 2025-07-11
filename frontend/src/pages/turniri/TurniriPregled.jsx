@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
 
-export default function Pocetna(){
+export default function TurniriPregled(){
     return(
         <Container className="app">
-            Dobrodošli!
+            Pregled turnira!
         </Container>
     )
 }
