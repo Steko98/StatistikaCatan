@@ -18,6 +18,14 @@ builder.Services.AddDbContext<EdunovaContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("EdunovaContext"));
 });
 
+builder.Services.AddCors(o =>
+{
+    o.AddPolicy("CorsPolicy", p =>
+    {
+        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,5 +48,13 @@ app.UseSwaggerUI(options =>
 
 
 app.MapControllers();
+
+
+app.UseStaticFiles();
+app.UseDefaultFiles();
+app.MapFallbackToFile("index.html");
+
+
+app.UseCors("CorsPolicy");
 
 app.Run();

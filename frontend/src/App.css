@@ -4,11 +4,12 @@
 
 .app {
     min-height: 600px;
-    border: 2px solid black;
-    margin: 50px;
-    padding: 100px;
-    background-color: #A47864;
-    font-size: 1.5rem;
-    color: aqua;
-    font-weight: 900;
+}
+
+.sredina {
+    text-align: center;
+}
+
+.desno {
+    text-align: right;
 }
