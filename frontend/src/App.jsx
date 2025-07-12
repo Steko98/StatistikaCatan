@@ -15,11 +15,12 @@ function App() {
   return (
     <Container>
       <NavBarEdunova />
-
-      <Routes>
-        <Route path={RouteNames.HOME} element={<Pocetna />}/>
-        <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
-      </Routes>
+      <Container className='app'>
+        <Routes>
+          <Route path={RouteNames.HOME} element={<Pocetna />}/>
+          <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
+        </Routes>
+      </Container>
       <hr />
 
       &copy;Ivan Šteko

@@ -10,6 +10,11 @@ namespace BACKEND.Controllers
     {
         private readonly EdunovaContext _context;
 
+        public RekordController(EdunovaContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult Get()
         {

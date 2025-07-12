@@ -1,9 +1,10 @@
 import { Container } from "react-bootstrap";
+import slika from '../assets/slikaCatan.jpg';
 
 export default function Pocetna(){
     return(
-        <Container className="app">
-            Dobrodošli!
-        </Container>
+            <>
+                <img src={slika} alt="drustvena igra catan" style={{maxWidth:600}}/>
+            </>
     )
 }
