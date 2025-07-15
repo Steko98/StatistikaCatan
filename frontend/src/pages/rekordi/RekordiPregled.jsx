@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import RekordService from "../../services/RekordService";
 import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { RouteNames } from "../../constants";
 
 export default function RekordiPregled(){
 
@@ -17,6 +19,11 @@ export default function RekordiPregled(){
 
     return(
         <>
+
+            <Link className="btn btn-success" to={RouteNames.REKORD_NOVI}>Dodaj rekord</Link>
+
+            <hr />
+
             <Table striped bordered hover responsive>
                 <thead>
                     <tr>

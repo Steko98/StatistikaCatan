@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import { RouteNames } from "../../constants";
 
 export default function TurniriPregled(){
 
@@ -19,7 +21,13 @@ export default function TurniriPregled(){
 
     return(
         <>
-        Pregled turnira!
+
+        <Link 
+        className="btn btn-success"
+        to={RouteNames.TURNIR_NOVI}>Dodavanje novog turnira</Link>
+
+        <hr />
+
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
