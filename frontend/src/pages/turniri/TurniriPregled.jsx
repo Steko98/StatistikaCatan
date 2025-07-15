@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 
