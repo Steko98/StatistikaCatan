@@ -7,7 +7,7 @@ export const RouteNames = {
     IGRACI_PREGLED: '/igraci',
     IGRAC_NOVI: '/igraci/dodaj',
     REKORDI_PREGLED: '/rekordi',
-    REKORD_NOVI: '/rekordi/novi'
+    REKORD_NOVI: '/rekordi/dodaj'
 }
 
 export const PRODUKCIJA='https://steko98-001-site1.ntempurl.com';

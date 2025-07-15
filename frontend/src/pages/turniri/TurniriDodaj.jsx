@@ -1,16 +1,40 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import TurnirService from "../../services/TurnirService";
+import moment from "moment";
 
 export default function TurniriDodaj(){
+
+    const navigate = useNavigate();
+
+    async function dodaj(turnir){
+        const odgovor = await TurnirService.dodaj(turnir);
+        navigate(RouteNames.TURNIR_PREGLED);
+    }
+
+
+
+    function odradiSubmit(e){
+        e.preventDefault();
+
+        let podaci = new FormData(e.target);
+
+        dodaj(
+            {
+                naziv: podaci.get('naziv'),
+                datumPocetka: moment.utc(podaci.get('datumPocetka')),
+                datumZavrsetka: moment.utc(podaci.get('datumZavrsetka'))
+            }
+        )
+    }
+
+
+
     return (
         <>
 
-        Dodavanje Turniri
-
-        <hr />
-
-        <Form>
+        <Form onSubmit={odradiSubmit}>
 
             <Form.Group controlId="naziv">
                 <Form.Label>Naziv</Form.Label>
@@ -41,10 +65,6 @@ export default function TurniriDodaj(){
             </Row>
 
         </Form>
-
-
-
-
 
         </>
     )

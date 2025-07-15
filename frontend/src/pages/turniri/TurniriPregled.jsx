@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -19,6 +19,19 @@ export default function TurniriPregled(){
         dohvatiTurnire();
     },[])
 
+    function obrisi(sifra){
+        if (!confirm('Sigurno obrisati?')) {
+            return;
+        }
+        brisanje(sifra)
+    }
+
+    async function brisanje(sifra) {
+        const odgovor = await TurnirService.obrisi(sifra);
+        dohvatiTurnire();
+    }
+
+
     return(
         <>
 
@@ -34,6 +47,7 @@ export default function TurniriPregled(){
                     <th>Naziv</th>
                     <th>Datum početka</th>
                     <th>Datum završetka</th>
+                    <th>Akcija</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,6 +67,15 @@ export default function TurniriPregled(){
                             moment.utc(turnir.datumZavrsetka).format('DD.MM.YYYY')
                             : ''
                             }
+                        </td>
+
+                        
+
+                        <td>
+                            <Button variant="danger" 
+                            onClick={()=>obrisi(turnir.sifra)}>
+                                Obriši
+                            </Button>
                         </td>
                     </tr>
                 ))}
