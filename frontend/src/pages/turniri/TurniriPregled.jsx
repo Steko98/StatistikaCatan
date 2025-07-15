@@ -47,7 +47,7 @@ export default function TurniriPregled(){
                     <th>Naziv</th>
                     <th>Datum početka</th>
                     <th>Datum završetka</th>
-                    <th>Akcija</th>
+                    <th className="sredina">Akcija</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,9 +69,12 @@ export default function TurniriPregled(){
                             }
                         </td>
 
-                        
+                        <td className="sredina">
 
-                        <td>
+                            {/* <Button style={{marginRight: '10px'}}>
+                                Promijeni
+                            </Button> */}
+
                             <Button variant="danger" 
                             onClick={()=>obrisi(turnir.sifra)}>
                                 Obriši

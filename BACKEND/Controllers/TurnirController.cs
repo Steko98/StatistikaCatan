@@ -29,6 +29,30 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpGet("{sifra:int}")]
+        public IActionResult Get(int sifra)
+        {
+            if (sifra<=0)
+            {
+                return BadRequest("Sifra ti ne valja");
+            }
+
+            try
+            {
+                var turnir = _context.Turniri.Find(sifra);
+                if (turnir == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(turnir);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(Turnir turnir)
         {
