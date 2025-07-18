@@ -1,0 +1,9 @@
+Turniri, pregled turnira sve, pregled turnira pojedinacno, dodavanje turnira
+
+U dodavanju turnira: dodavanje igre
+U dodavanju igre: dodavanje igraca, dodijeljivanje bodova, pobjeda
+
+Rekordi: odvojeno, sami se dodijeljuju po turniru, prikaz u turniru
+
+Igraci, pregled svih igraca(mozda), pregled pojedinacnog igraca(statistika, u kojim je turnirima, sudjelovanje)
+Igre, pregled svih igara (mozda, bolje po turniru), pregled pojedine igre (naci po sifri turnira pa igre)
