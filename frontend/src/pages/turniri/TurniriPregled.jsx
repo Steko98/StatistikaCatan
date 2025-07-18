@@ -72,10 +72,10 @@ export default function TurniriPregled(){
 
                         <td className="sredina">
 
-                            <Button variant="info" style={{marginRight: '10px'}} disabled>
+                            <Button variant="info" disabled>
                                 Detalji
                             </Button>
-
+                            &nbsp;&nbsp;&nbsp;&nbsp;
                             <Button variant="warning" 
                             onClick={()=>navigate(`/turniri/${turnir.sifra}`)}>
                                 Uredi
