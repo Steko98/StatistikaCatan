@@ -71,9 +71,13 @@ export default function TurniriPregled(){
 
                         <td className="sredina">
 
-                            {/* <Button style={{marginRight: '10px'}}>
-                                Promijeni
-                            </Button> */}
+                            <Button variant="info" style={{marginRight: '10px'}}>
+                                Detalji
+                            </Button>
+
+                            <Button variant="warning" style={{marginRight: '10px'}}>
+                                Uredi
+                            </Button>
 
                             <Button variant="danger" 
                             onClick={()=>obrisi(turnir.sifra)}>
