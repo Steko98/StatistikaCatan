@@ -4,6 +4,10 @@ export const RouteNames = {
     HOME: '/',
     TURNIR_PREGLED: '/turniri',
     TURNIR_NOVI: '/turniri/dodaj',
+    TURNIR_PROMJENI: '/turniri/:sifra',
+
+
+
     IGRACI_PREGLED: '/igraci',
     IGRAC_NOVI: '/igraci/dodaj',
     REKORDI_PREGLED: '/rekordi',

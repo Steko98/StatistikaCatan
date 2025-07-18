@@ -9,6 +9,15 @@ async function get() {
     .catch((e)=>{})
 }
 
+async function getBySifra() {
+    return await HttpService.get('/Turnir/'+sifra)
+    .then((odgovor)=>{
+        //console.log(odgovor.data)
+        return odgovor.data
+    })
+    .catch((e)=>{})
+}
+
 async function dodaj(turnir) {
     return await HttpService.post('/Turnir', turnir)
     .then((odgovor)=>{return true})
@@ -21,8 +30,17 @@ async function obrisi(sifra) {
     .catch((e)=>{return false})
 }
 
+async function promjeni(sifra, turnir) {
+    return await HttpService.put('/Turnir/'+sifra, turnir)
+    .then((odgovor)=>{return true})
+    .catch((e)=>{return false})
+}
+
+
 export default{
     get,
     dodaj,
-    obrisi
+    obrisi,
+    promjeni,
+    getBySifra
 }
