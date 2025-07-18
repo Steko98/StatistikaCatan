@@ -11,6 +11,7 @@ import RekordiPregled from './pages/rekordi/RekordiPregled'
 import TurniriDodaj from './pages/turniri/TurniriDodaj'
 import IgraciDodaj from './pages/igraci/IgraciDodaj'
 import RekordiDodaj from './pages/rekordi/RekordiDodaj'
+import TurniriPromjeni from './pages/turniri/TurniriPromjeni'
 
 
 
@@ -26,6 +27,7 @@ function App() {
 
           <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
           <Route path={RouteNames.TURNIR_NOVI} element={<TurniriDodaj/>}/>
+          <Route path={RouteNames.TURNIR_PROMJENI} element={<TurniriPromjeni/>} />
 
           <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />}/>
           <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj/>}/>

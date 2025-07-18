@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 
 export default function TurniriPregled(){
 
     const[turniri, setTurniri] = useState([]);
+    const navigate = useNavigate();
 
     async function dohvatiTurnire(){
        const odgovor = await TurnirService.get()
@@ -71,14 +72,15 @@ export default function TurniriPregled(){
 
                         <td className="sredina">
 
-                            <Button variant="info" style={{marginRight: '10px'}}>
+                            <Button variant="info" style={{marginRight: '10px'}} disabled>
                                 Detalji
                             </Button>
 
-                            <Button variant="warning" style={{marginRight: '10px'}}>
+                            <Button variant="warning" 
+                            onClick={()=>navigate(`/turniri/${turnir.sifra}`)}>
                                 Uredi
                             </Button>
-
+                            &nbsp;&nbsp;&nbsp;&nbsp;
                             <Button variant="danger" 
                             onClick={()=>obrisi(turnir.sifra)}>
                                 Obriši
