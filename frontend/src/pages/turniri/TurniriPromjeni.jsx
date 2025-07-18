@@ -9,7 +9,7 @@ export default function TurniriPromjeni(){
 
     const navigate = useNavigate();
     const params = useParams();
-    const[turnir, setTurnir] = useState({}) 
+    const[turnir,setTurnir] = useState({}) 
 
     async function ucitajTurnir() {
         const odgovor = await TurnirService.getBySifra(params.sifra)
@@ -54,8 +54,8 @@ export default function TurniriPromjeni(){
 
             <Form.Group controlId="naziv">
                 <Form.Label>Naziv</Form.Label>
-                <Form.Control type="text" name="naziv" 
-                defaultValue={turnir.naziv}/>
+                <Form.Control type="text" name="naziv" required
+                defaultValue={turnir.naziv} />
             </Form.Group>
 
             <Form.Group controlId="datumPocetka">
