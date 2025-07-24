@@ -8,11 +8,11 @@ namespace BACKEND.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class IgracController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
+    public class IgraController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
     {
 
         [HttpGet]
-        public ActionResult<List<IgracDTORead>> Get()
+        public ActionResult<List<IgraDTORead>> Get()
         {
             if (!ModelState.IsValid)
             {
@@ -20,7 +20,7 @@ namespace BACKEND.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<IgracDTORead>>(_context.Igraci));
+                return Ok(_mapper.Map<List<IgraDTORead>>(_context.Igre));
             }
             catch (Exception ex)
             {
@@ -28,18 +28,19 @@ namespace BACKEND.Controllers
             }
         }
 
+
         [HttpGet]
         [Route("{sifra:int}")]
-        public ActionResult<IgracDTOInsertUpdate> GetBySifra(int sifra)
+        public ActionResult<IgraDTOInsertUpdate> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { poruka = ModelState });
             }
-            Igrac? e;
+            Igra? e;
             try
             {
-                e = _context.Igraci.Find(sifra);
+                e = _context.Igre.Find(sifra);
             }
             catch (Exception ex)
             {
@@ -47,14 +48,14 @@ namespace BACKEND.Controllers
             }
             if (e == null)
             {
-                return NotFound(new { poruka = "Igrač nije pronađen" });
+                return NotFound(new { poruka = "Igra nije pronađena" });
             }
 
-            return Ok(_mapper.Map<IgracDTOInsertUpdate>(e));
+            return Ok(_mapper.Map<IgraDTOInsertUpdate>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(IgracDTOInsertUpdate dto)
+        public IActionResult Post(IgraDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -62,10 +63,10 @@ namespace BACKEND.Controllers
             }
             try
             {
-                var e = _mapper.Map<Igrac>(dto);
-                _context.Igraci.Add(e);
+                var e = _mapper.Map<Igra>(dto);
+                _context.Igre.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, _mapper.Map<IgracDTORead>(e));
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<IgraDTORead>(e));
             }
             catch (Exception ex)
             {
@@ -73,10 +74,11 @@ namespace BACKEND.Controllers
             }
         }
 
+
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, IgracDTOInsertUpdate dto)
+        public IActionResult Put(int sifra, IgraDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -85,10 +87,10 @@ namespace BACKEND.Controllers
 
             try
             {
-                Igrac? e;
+                Igra? e;
                 try
                 {
-                    e = _context.Igraci.Find(sifra);
+                    e = _context.Igre.Find(sifra);
                 }
                 catch (Exception ex)
                 {
@@ -96,12 +98,12 @@ namespace BACKEND.Controllers
                 }
                 if (e == null)
                 {
-                    return NotFound(new { poruka = "Igrac nije pronađen" });
+                    return NotFound(new { poruka = "Igra nije pronađena" });
                 }
 
                 e = _mapper.Map(dto, e);
 
-                _context.Igraci.Update(e);
+                _context.Igre.Update(e);
                 _context.SaveChanges();
 
                 return Ok(new { poruka = "Uspješno promjenjeno" });
@@ -124,10 +126,10 @@ namespace BACKEND.Controllers
 
             try
             {
-                Igrac? e;
+                Igra? e;
                 try
                 {
-                    e = _context.Igraci.Find(sifra);
+                    e = _context.Igre.Find(sifra);
                 }
                 catch (Exception ex)
                 {
@@ -136,10 +138,10 @@ namespace BACKEND.Controllers
 
                 if (e == null)
                 {
-                    return NotFound("Igrac nije pronađen");
+                    return NotFound("Igra nije pronađena");
                 }
 
-                _context.Igraci.Remove(e);
+                _context.Igre.Remove(e);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Uspješno obrisano" });
 
@@ -149,6 +151,7 @@ namespace BACKEND.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
+
 
 
     }
