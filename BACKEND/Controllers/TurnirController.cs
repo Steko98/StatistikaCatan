@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BACKEND.Controllers
 {
+
     [ApiController]
     [Route("api/v1/[controller]")]
     public class TurnirController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
@@ -20,7 +21,8 @@ namespace BACKEND.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<TurnirDTORead>>(_context.Turniri));
+                var turniriDb = _context.Turniri.ToList();
+                return Ok(_mapper.Map<List<TurnirDTORead>>(turniriDb));
             }
             catch (Exception ex)
             {

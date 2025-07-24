@@ -14,5 +14,16 @@ namespace BACKEND.Data
         public DbSet<Igrac> Igraci { get; set; }
         public DbSet<Igra> Igre { get; set; }
         public DbSet<Clan> Clanovi { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Igra>().HasOne(t => t.Turnir);
+            modelBuilder.Entity<Clan>(ent =>
+            {
+                ent.HasOne(i => i.Igra);
+                ent.HasOne(ig => ig.Igrac);
+            });
+
+        }
     }
 }
