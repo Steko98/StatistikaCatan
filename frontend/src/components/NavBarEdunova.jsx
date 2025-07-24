@@ -21,7 +21,6 @@ export default function NavBarEdunova() {
             <NavDropdown title="Programi" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={()=>navigate(RouteNames.TURNIR_PREGLED)}>Turniri</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.IGRACI_PREGLED)}>Igrači</NavDropdown.Item>
-              <NavDropdown.Item onClick={()=>navigate(RouteNames.REKORDI_PREGLED)}>Rekordi</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

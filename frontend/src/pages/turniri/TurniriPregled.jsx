@@ -59,14 +59,14 @@ export default function TurniriPregled(){
                             {
                             turnir.datumPocetka!=null ?
                             moment.utc(turnir.datumPocetka).format('DD.MM.YYYY')
-                            : ''
+                            : 'Neodređeno'
                             }
                         </td>
                         <td>
                             {
-                            turnir.datumPocetka!=null ?
+                            turnir.datumZavrsetka!=null ?
                             moment.utc(turnir.datumZavrsetka).format('DD.MM.YYYY')
-                            : ''
+                            : 'Neodređeno'
                             }
                         </td>
 

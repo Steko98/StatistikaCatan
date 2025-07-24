@@ -37,23 +37,18 @@ igra int not null references igre(sifra),
 igrac int not null references igraci(sifra),
 brojbodova int,
 pobjeda bit not null default 0
---duzinaceste int,
---vojska int,
---karterazvoja int,
---naselja int,
---gradovi int
 );
 
-create table rekordi(
-sifra int not null primary key identity(1,1),
-naziv varchar(100),
-);
+--create table rekordi(
+--sifra int not null primary key identity(1,1),
+--naziv varchar(100),
+--);
 
-create table turnirRekord(
-turnir int references turniri(sifra),
-rekord int references rekordi(sifra),
-igrac int references igraci(sifra)
-);
+--create table turnirRekord(
+--turnir int references turniri(sifra),
+--rekord int references rekordi(sifra),
+--igrac int references igraci(sifra)
+--);
 
 insert into turniri(ime, datumpocetka, datumzavrsetka) values
 ('Catan 2024','2024-01-01','2024-12-31'),
@@ -289,21 +284,21 @@ insert into clanovi(igra, igrac, pobjeda, brojbodova) values
 (180, 4, 1, 10), (180, 6, 0, 6), (180, 3, 0, 4), (180, 1, 0, 9),
 (181, 6, 0, 6), (181, 3, 1, 10), (181, 1, 0, 5);
 
-insert into rekordi(naziv) values
-('Naviše pobjeda'),
-('Najduži niz'),
-('Najbolji postotak'),
-('Najviše bodova'),
-('Najviše odigranih');
+--insert into rekordi(naziv) values
+--('Naviše pobjeda'),
+--('Najduži niz'),
+--('Najbolji postotak'),
+--('Najviše bodova'),
+--('Najviše odigranih');
 
-insert into turnirRekord (turnir, rekord, igrac)
-values (1, 1, 1)
-,(1, 2, 1)
-,(1, 3, 5)
-,(1, 4, 3)
-,(1, 5, 1)
-,(2, 1, 1)
-,(2, 2, 4)
-,(2, 3, 4)
-,(2, 4, 1)
-,(2, 5, 1);
+--insert into turnirRekord (turnir, rekord, igrac)
+--values (1, 1, 1)
+--,(1, 2, 1)
+--,(1, 3, 5)
+--,(1, 4, 3)
+--,(1, 5, 1)
+--,(2, 1, 1)
+--,(2, 2, 4)
+--,(2, 3, 4)
+--,(2, 4, 1)
+--,(2, 5, 1);
