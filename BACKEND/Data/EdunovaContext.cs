@@ -12,5 +12,7 @@ namespace BACKEND.Data
 
         public DbSet<Turnir> Turniri { get; set; }
         public DbSet<Igrac> Igraci { get; set; }
+        public DbSet<Igra> Igre { get; set; }
+        public DbSet<Clan> Clanovi { get; set; }
     }
 }

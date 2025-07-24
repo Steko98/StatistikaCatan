@@ -1,126 +1,154 @@
-﻿using BACKEND.Data;
+﻿using AutoMapper;
+using BACKEND.Data;
 using BACKEND.Models;
+using BACKEND.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BACKEND.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class TurnirController : ControllerBase
+    public class TurnirController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
     {
-        //dependency injection
-        private readonly EdunovaContext _context;
-        //konstruktor
-        public TurnirController(EdunovaContext context)
-        {
-            _context = context;
-        }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<TurnirDTORead>> Get()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                return Ok(_context.Turniri);
+                return Ok(_mapper.Map<List<TurnirDTORead>>(_context.Turniri));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
 
-        [HttpGet("{sifra:int}")]
-        public IActionResult Get(int sifra)
-        {
-            if (sifra<=0)
-            {
-                return BadRequest("Sifra ti ne valja");
-            }
 
+        [HttpGet]
+        [Route("{sifra:int}")]
+        public ActionResult<TurnirDTOInsertUpdate> GetBySifra(int sifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Turnir? e;
             try
             {
-                var turnir = _context.Turniri.Find(sifra);
-                if (turnir == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(turnir);
-            }
-            catch (Exception e)
+                e = _context.Turniri.Find(sifra);
+            } 
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Turnir nije pronađen" });
+            }
+
+            return Ok(_mapper.Map<TurnirDTOInsertUpdate>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(Turnir turnir)
+        public IActionResult Post(TurnirDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                _context.Turniri.Add(turnir);
+                var e = _mapper.Map<Turnir>(dto);
+                _context.Turniri.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, turnir);
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<TurnirDTORead>(e));
             } 
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new {poruka = ex.Message});
             }
         }
 
-        [HttpPut("{sifra:int}")]
-        public IActionResult Put(int sifra, Turnir turnir)
+
+        [HttpPut]
+        [Route("{sifra:int}")]
+        [Produces("application/json")]
+        public IActionResult Put(int sifra, TurnirDTOInsertUpdate dto)
         {
-            if (sifra < 1)
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new { poruka = "Šifra mora biti veća od 0" });
+                return BadRequest(new { poruka = ModelState });
             }
-
-            try {
-                Turnir t = _context.Turniri.Find(sifra);
-                if (t == null)
+            
+            try
+            {
+                Turnir? e;
+                try
                 {
-                    return NotFound();
+                    e = _context.Turniri.Find(sifra);
                 }
-                t.Naziv = turnir.Naziv;
-                t.DatumPocetka = turnir.DatumPocetka;
-                t.DatumZavrsetka = turnir.DatumZavrsetka;
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Turnir nije pronađen" });
+                }
 
-                _context.Turniri.Update(t);
+                e = _mapper.Map(dto, e);
+
+                _context.Turniri.Update(e);
                 _context.SaveChanges();
-                return Ok(t);
 
+                return Ok(new { poruka = "Uspješno promjenjeno" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new {poruka = ex.Message});
             }
         }
 
-        [HttpDelete("{sifra:int}")]
+        [HttpDelete]
+        [Route("{sifra:int}")]
+        [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
-            if (sifra < 1)
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new { poruka = "Šifra mora biti veća od 0" });
+                return BadRequest(new { poruka = ModelState });
             }
 
             try
             {
-                Turnir t = _context.Turniri.Find(sifra);
-                if (t == null)
+                Turnir? e;
+                try
                 {
-                    return NotFound();
+                    e = _context.Turniri.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
                 }
 
-                _context.Turniri.Remove(t);
+                if (e == null)
+                {
+                    return NotFound("Turnir nije pronađen");
+                }
+
+                _context.Turniri.Remove(e);
                 _context.SaveChanges();
-                return NoContent();
+                return Ok(new {poruka="Uspješno obrisano"});
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new {poruka = ex.Message});
             }
         }
 
