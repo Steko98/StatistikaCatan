@@ -7,10 +7,8 @@ import { RouteNames } from './constants'
 import Pocetna from './pages/Pocetna'
 import TurniriPregled from './pages/turniri/TurniriPregled'
 import IgraciPregled from './pages/igraci/IgraciPregled'
-import RekordiPregled from './pages/rekordi/RekordiPregled'
 import TurniriDodaj from './pages/turniri/TurniriDodaj'
 import IgraciDodaj from './pages/igraci/IgraciDodaj'
-import RekordiDodaj from './pages/rekordi/RekordiDodaj'
 import TurniriPromjeni from './pages/turniri/TurniriPromjeni'
 
 
@@ -32,8 +30,6 @@ function App() {
           <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />}/>
           <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj/>}/>
 
-          <Route path={RouteNames.REKORDI_PREGLED} element={<RekordiPregled />}/>
-          <Route path={RouteNames.REKORD_NOVI} element={<RekordiDodaj/>}/>
 
         </Routes>
       </Container>
