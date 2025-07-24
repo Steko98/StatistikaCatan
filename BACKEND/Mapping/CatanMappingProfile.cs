@@ -12,17 +12,33 @@ namespace BACKEND.Mapping
             CreateMap<TurnirDTOInsertUpdate, Turnir>();
             CreateMap<Turnir, TurnirDTOInsertUpdate>();
 
-            CreateMap<Igra, IgraDTORead>(); //treba dodati custom map za TurnirNaziv
-            CreateMap<IgraDTOInsertUpdate, Igra>(); //custom map za TurnirSifra
-            CreateMap<Igra, IgraDTOInsertUpdate>();
+            CreateMap<Igra, IgraDTORead>()
+                .ForCtorParam("TurnirNaziv",
+                opt => opt.MapFrom(src => src.Turnir.Naziv)
+                );
+            CreateMap<IgraDTOInsertUpdate, Igra>(); 
+            CreateMap<Igra, IgraDTOInsertUpdate>().ForMember(
+                dest => dest.TurnirSifra,
+                opt => opt.MapFrom(src => src.Turnir.Sifra)
+                );
 
             CreateMap<Igrac, IgracDTORead>();
             CreateMap<IgracDTOInsertUpdate, Igrac>();
             CreateMap<Igrac, IgracDTOInsertUpdate>();
 
-            CreateMap<Clan, ClanDTORead>(); //custom map za SifraIgrac, SifraIgra, ImeIgrac
-            CreateMap<ClanDTOInsertUpdate, Clan>(); //custom map za SifraIgrac, SifraIgra
-            CreateMap<Clan, ClanDTOInsertUpdate>();
+            CreateMap<Clan, ClanDTORead>()
+                .ForCtorParam("SifraIgrac", opt => opt.MapFrom(src => src.Igrac.Sifra))
+                .ForCtorParam("SifraIgra", opt => opt.MapFrom(src => src.Igra.Sifra))
+                .ForCtorParam("ImeIgrac", opt => opt.MapFrom(src => src.Igrac.Ime));
+            CreateMap<ClanDTOInsertUpdate, Clan>();
+            CreateMap<Clan, ClanDTOInsertUpdate>()
+                .ForMember(
+                    dest => dest.SifraIgrac,
+                    opt => opt.MapFrom(src => src.Igrac.Sifra))
+                .ForMember(
+                    dest => dest.SifraIgra,
+                    opt => opt.MapFrom(src => src.Igra.Sifra)
+                );
         }
     }
 }
