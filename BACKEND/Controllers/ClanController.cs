@@ -20,7 +20,8 @@ namespace BACKEND.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<ClanDTORead>>(_context.Clanovi));
+                var clanoviDb = _context.Clanovi.ToList();
+                return Ok(_mapper.Map<List<ClanDTORead>>(clanoviDb));
             }
             catch (Exception ex)
             {

@@ -33,6 +33,7 @@ ime varchar(50) not null
 );
 
 create table clanovi(
+sifra int not null primary key identity(1,1),
 igra int not null references igre(sifra),
 igrac int not null references igraci(sifra),
 brojbodova int,

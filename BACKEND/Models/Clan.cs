@@ -2,7 +2,7 @@
 
 namespace BACKEND.Models
 {
-    public class Clan
+    public class Clan : Entitet
     {
         public int? BrojBodova { get; set; }
         public bool Pobjeda { get; set; }
