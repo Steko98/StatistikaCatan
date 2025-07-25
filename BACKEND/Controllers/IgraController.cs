@@ -74,7 +74,7 @@ namespace BACKEND.Controllers
             }
             if (es == null)
             {
-                return NotFound(new { poruka = "Nije pronađeno" });
+                return NotFound(new { poruka = "Odabrani turnir nije pronađen" });
             }
 
             try
@@ -107,7 +107,7 @@ namespace BACKEND.Controllers
                 Igra? e;
                 try
                 {
-                    e = _context.Igre.Find(sifra);
+                    e = _context.Igre.Include(i => i.Turnir).FirstOrDefault(x => x.Sifra == sifra);
                 }
                 catch (Exception ex)
                 {
@@ -118,8 +118,22 @@ namespace BACKEND.Controllers
                     return NotFound(new { poruka = "Igra nije pronađena" });
                 }
 
-                e = _mapper.Map(dto, e);
+                Turnir? es;
+                try
+                {
+                    es = _context.Turniri.Find(dto.TurnirSifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (es == null)
+                {
+                    return NotFound(new { poruka = "Odabrani turnir nije pronađen" });
+                }
 
+                e = _mapper.Map(dto, e);
+                e.Turnir = es;
                 _context.Igre.Update(e);
                 _context.SaveChanges();
 
