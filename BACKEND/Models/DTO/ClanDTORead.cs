@@ -6,7 +6,7 @@ namespace BACKEND.Models.DTO
         int Sifra,
         int? BrojBodova,
         bool Pobjeda,
-        int SifraIgrac,
+        //int SifraIgrac,
         string ImeIgrac,
         int SifraIgra
         );

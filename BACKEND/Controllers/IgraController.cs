@@ -3,6 +3,7 @@ using BACKEND.Data;
 using BACKEND.Models;
 using BACKEND.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
@@ -20,7 +21,7 @@ namespace BACKEND.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<IgraDTORead>>(_context.Igre));
+                return Ok(_mapper.Map<List<IgraDTORead>>(_context.Igre.Include(i => i.Turnir)));
             }
             catch (Exception ex)
             {
@@ -40,7 +41,7 @@ namespace BACKEND.Controllers
             Igra? e;
             try
             {
-                e = _context.Igre.Find(sifra);
+                e = _context.Igre.Include(i => i.Turnir).FirstOrDefault(i => i.Sifra == sifra);
             }
             catch (Exception ex)
             {
@@ -61,9 +62,25 @@ namespace BACKEND.Controllers
             {
                 return BadRequest(new { poruka = ModelState });
             }
+
+            Turnir? es;
+            try
+            {
+                es = _context.Turniri.Find(dto.TurnirSifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (es == null)
+            {
+                return NotFound(new { poruka = "Nije pronađeno" });
+            }
+
             try
             {
                 var e = _mapper.Map<Igra>(dto);
+                e.Turnir = es;
                 _context.Igre.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<IgraDTORead>(e));
