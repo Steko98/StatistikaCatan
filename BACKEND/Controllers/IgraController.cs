@@ -183,7 +183,79 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Igraci/{sifraIgre:int}")]
+        public ActionResult<List<ClanDTORead>> GetIgraci(int sifraIgre)
+        {
+            if (!ModelState.IsValid || sifraIgre < 1)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var p = _context.Igre
+                    .Include(i => i.Clanovi)
+                        .ThenInclude(c => c.Igrac)
+                    .FirstOrDefault(x => x.Sifra == sifraIgre);
+                if (p == null)
+                {
+                    return BadRequest("Ne postoji igra pod šifrom " + sifraIgre);
+                }
 
+                return Ok(_mapper.Map<List<ClanDTORead>>(p.Clanovi));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("{sifra:int}/dodaj/{igracSifra:int}")]
+        public IActionResult DodajIgraca(int sifra, int igracSifra, int brojBodova, bool pobjeda)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (sifra < 1 || igracSifra < 1)
+            {
+                return BadRequest("Šifra igre ili igrača nije pronađena");
+            }
+            try
+            {
+                var igra = _context.Igre
+                    .Include(i => i.Clanovi)
+                        .ThenInclude(c => c.Igrac)
+                    .FirstOrDefault(i => i.Sifra == sifra);
+                if (igra == null)
+                {
+                    return BadRequest("Igra pod odabranom šifrom nije pronađena");
+                }
+                var igrac = _context.Igraci.Find(igracSifra);
+                if (igrac == null)
+                {
+                    return BadRequest("Igrač pod odabranom šifrom nije pronađen");
+                }
+
+                var clan = new Clan { Igra = igra, Igrac = igrac, BrojBodova = brojBodova, Pobjeda = pobjeda };
+
+                _context.Clanovi.Add(clan);
+                _context.SaveChanges();
+
+                return Ok(new
+                {
+                    poruka = igrac.Ime + "dodan u igru " + igra.Sifra
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, ex.Message);
+            }
+
+
+        }
 
     }
 }

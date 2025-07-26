@@ -27,7 +27,6 @@ namespace BACKEND.Mapping
             CreateMap<Igrac, IgracDTOInsertUpdate>();
 
             CreateMap<Clan, ClanDTORead>()
-                //.ForCtorParam("SifraIgrac", opt => opt.MapFrom(src => src.Igrac.Sifra))
                 .ForCtorParam("SifraIgra", opt => opt.MapFrom(src => src.Igra.Sifra))
                 .ForCtorParam("ImeIgrac", opt => opt.MapFrom(src => src.Igrac.Ime));
             CreateMap<ClanDTOInsertUpdate, Clan>();
