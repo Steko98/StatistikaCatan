@@ -245,7 +245,7 @@ namespace BACKEND.Controllers
 
                 return Ok(new
                 {
-                    poruka = igrac.Ime + "dodan u igru " + igra.Sifra
+                    poruka = igrac.Ime + " dodan u igru " + igra.Sifra
                 });
 
             }
@@ -253,8 +253,51 @@ namespace BACKEND.Controllers
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, ex.Message);
             }
+        }
 
+        [HttpDelete]
+        [Route("{sifra:int}/obrisi/{igracSifra:int}")]
+        public IActionResult ObrisiIgraca(int sifra, int igracSifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (sifra < 1 || igracSifra < 1)
+            {
+                return BadRequest("Šifra igre ili igrača nije pronađena");
+            }
+            try
+            {
+                var igra = _context.Igre
+                    .Include(i => i.Clanovi)
+                        .ThenInclude(c => c.Igrac)
+                    .FirstOrDefault(i => i.Sifra == sifra);
+                if (igra == null)
+                {
+                    return BadRequest("Igra pod odabranom šifrom nije pronađena");
+                }
+                var igrac = _context.Igraci.Find(igracSifra);
+                if (igrac == null)
+                {
+                    return BadRequest("Igrač pod odabranom šifrom nije pronađen");
+                }
+                var clan = _context.Clanovi
+                    .Include(c => c.Igra)
+                    .Include(c => c.Igrac)
+                    .FirstOrDefault(c => c.Igra.Sifra == sifra && c.Igrac.Sifra == igracSifra);
 
+                igra.Clanovi.Remove(clan);
+                _context.Igre.Update(igra);
+                _context.SaveChanges();
+
+                return Ok(new { poruka = igrac.Ime + " uklonjen iz igre" });
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }
