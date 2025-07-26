@@ -6,3 +6,16 @@ U dodavanju igre: dodavanje igraca, dodijeljivanje bodova, pobjeda
 
 Igraci, pregled svih igraca(mozda), pregled pojedinacnog igraca(statistika, u kojim je turnirima, sudjelovanje)
 Igre, pregled svih igara (mozda, bolje po turniru), pregled pojedine igre (naci po sifri turnira pa igre)
+
+*******************************************************************
+
+Iz Turnira - Pregled svih turnira, dodavanje turnira, pregled turnira pojedinacno
+
+Iz pojedinacnog turnira - pregled svih igara, dodavanje igre, pregled pojedine igre, pregled tko je sve igrao, statistika 
+
+Iz dodavanja igre - dodavanje igraca (+ dodavanje novog igraca), dodijeljivanje bodova, pobjeda
+
+Iz pojedine igre - pregled tko je igrao, tko je pobjedio, tko koliko bodova
+
+Pregled po igracima - popis svih igraca, pregled pojedinacno
+Pregled igraca pojedinacno - mozda popis u kojim je turnirima sve, statistika 
