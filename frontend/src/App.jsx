@@ -6,12 +6,14 @@ import { Route, Routes } from 'react-router-dom'
 import { RouteNames } from './constants'
 import Pocetna from './pages/Pocetna'
 import TurniriPregled from './pages/turniri/TurniriPregled'
-import IgraciPregled from './pages/igraci/IgraciPregled'
 import TurniriDodaj from './pages/turniri/TurniriDodaj'
-import IgraciDodaj from './pages/igraci/IgraciDodaj'
 import TurniriPromjeni from './pages/turniri/TurniriPromjeni'
-
-
+import IgraciPregled from './pages/igraci/IgraciPregled'
+import IgraciDodaj from './pages/igraci/IgraciDodaj'
+import IgraciPromjeni from './pages/igraci/IgraciPromjeni'
+import IgrePregled from './pages/igre/IgrePregled'
+import IgreDodaj from './pages/igre/IgreDodaj'
+import IgrePromjeni from './pages/igre/IgrePromjeni'
 
 function App() {
 
@@ -27,9 +29,13 @@ function App() {
           <Route path={RouteNames.TURNIR_NOVI} element={<TurniriDodaj/>}/>
           <Route path={RouteNames.TURNIR_PROMJENI} element={<TurniriPromjeni/>} />
 
+          <Route path={RouteNames.IGRE_PREGLED} element={<IgrePregled/>}/>
+          <Route path={RouteNames.IGRE_NOVI} element={<IgreDodaj/>}/>
+          <Route path={RouteNames.IGRE_PROMJENI} element={<IgrePromjeni/>}/>
+
           <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />}/>
           <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj/>}/>
-
+          <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni/>}/>
 
         </Routes>
       </Container>
