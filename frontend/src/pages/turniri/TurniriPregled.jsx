@@ -52,7 +52,9 @@ export default function TurniriPregled(){
         <>
         <Link 
         className="btn btn-success"
-        to={RouteNames.TURNIR_NOVI}>Dodavanje novog turnira</Link>
+        to={RouteNames.TURNIR_NOVI}>
+            Dodavanje novog turnira
+        </Link>
 
         <hr />
 
@@ -75,7 +77,7 @@ export default function TurniriPregled(){
                             {formatirajDatum(turnir.datumPocetka)}
                         </td>
                         <td>
-                            {formatirajDatum(datumZavrsetka)}
+                            {formatirajDatum(turnir.datumZavrsetka)}
                         </td>
 
                         <td className="sredina">

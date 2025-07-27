@@ -1,7 +1,7 @@
 import { HttpService } from "./HttpService"
 
 async function get() {
-    return await HttpService('/Igrac')
+    return await HttpService.get('/Igrac')
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
