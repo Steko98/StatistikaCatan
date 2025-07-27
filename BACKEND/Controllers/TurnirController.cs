@@ -3,6 +3,7 @@ using BACKEND.Data;
 using BACKEND.Models;
 using BACKEND.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
@@ -154,7 +155,31 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Igre/{sifraTurnira:int}")]
+        public ActionResult<List<IgraDTORead>> GetIgre(int sifraTurnira)
+        {
+            if (!ModelState.IsValid || sifraTurnira < 1)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var p = _context.Turniri
+                    .Include(i => i.Igre)
+                    .FirstOrDefault(x => x.Sifra == sifraTurnira);
+                if (p == null)
+                {
+                    return BadRequest("Ne postoji turnir pod šifrom " + sifraTurnira);
+                }
 
+                return Ok(_mapper.Map<List<IgraDTORead>>(p.Igre));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
 
     }
 }
