@@ -8,14 +8,19 @@ import { useEffect, useState } from "react";
 export default function TurniriPromjeni(){
 
     const navigate = useNavigate();
-    const params = useParams();
+    const routeParams = useParams();
     const[turnir,setTurnir] = useState({}) 
 
     async function ucitajTurnir() {
-        const odgovor = await TurnirService.getBySifra(params.sifra)
-        odgovor.datumPocetka = moment.utc(odgovor.datumPocetka).format('yyyy-MM-DD')
-        odgovor.datumZavrsetka = moment.utc(odgovor.datumZavrsetka).format('yyyy-MM-DD')
-        setTurnir(odgovor)
+        const odgovor = await TurnirService.getBySifra(routeParams.sifra)
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
+        let s = odgovor.poruka
+        s.datumPocetka = moment.utc(odgovor.datumPocetka).format('yyyy-MM-DD')
+        s.datumZavrsetka = moment.utc(odgovor.datumZavrsetka).format('yyyy-MM-DD')
+        setTurnir(s)
     }
 
 
@@ -23,8 +28,12 @@ export default function TurniriPromjeni(){
         ucitajTurnir()
     },[])
 
-    async function promjeni(sifra, turnir){
-        const odgovor = await TurnirService.promjeni(sifra,turnir);
+    async function promjeni(turnir){
+        const odgovor = await TurnirService.promjeni(routeParams.sifra,turnir);
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
         navigate(RouteNames.TURNIR_PREGLED);
     }
 
@@ -36,7 +45,6 @@ export default function TurniriPromjeni(){
         let podaci = new FormData(e.target);
 
         promjeni(
-            params.sifra,
             {
                 naziv: podaci.get('naziv'),
                 datumPocetka: moment.utc(podaci.get('datumPocetka')),
@@ -73,10 +81,10 @@ export default function TurniriPromjeni(){
             <hr style={{marginTop: '50px'}}/>
 
             <Row>
-                <Col xs={6} sm={6} md={3} lg={2} xl={6} xxl={6}>
+                <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
                     <Link className="btn btn-danger" to={RouteNames.TURNIR_PREGLED}>Povratak</Link>
                 </Col>
-                <Col xs={6} sm={6} md={9} lg={10} xl={6} xxl={6}>
+                <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
                     <Button variant="success" type="submit">
                         Spremi promjene
                     </Button>

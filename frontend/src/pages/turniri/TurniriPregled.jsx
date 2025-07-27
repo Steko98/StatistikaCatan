@@ -12,7 +12,11 @@ export default function TurniriPregled(){
 
     async function dohvatiTurnire(){
        const odgovor = await TurnirService.get()
-       setTurniri(odgovor)
+       if (odgovor.greska) {
+        alert(odgovor.poruka)
+        return
+       }
+       setTurniri(odgovor.poruka)
     }
 
 
@@ -24,18 +28,28 @@ export default function TurniriPregled(){
         if (!confirm('Sigurno obrisati?')) {
             return;
         }
-        brisanje(sifra)
+        brisanjeTurnira(sifra)
     }
 
-    async function brisanje(sifra) {
+    async function brisanjeTurnira(sifra) {
         const odgovor = await TurnirService.obrisi(sifra);
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
         dohvatiTurnire();
+    }
+
+    function formatirajDatum(datum){
+        if (datum==null) {
+            return 'Nije definirano'
+        }
+        return moment.utc(datum).format('DD.MM.YYYY.')
     }
 
 
     return(
         <>
-
         <Link 
         className="btn btn-success"
         to={RouteNames.TURNIR_NOVI}>Dodavanje novog turnira</Link>
@@ -48,26 +62,20 @@ export default function TurniriPregled(){
                     <th>Naziv</th>
                     <th>Datum početka</th>
                     <th>Datum završetka</th>
-                    <th className="sredina">Akcija</th>
+                    <th className="sredina">Akcije</th>
                 </tr>
             </thead>
             <tbody>
                 {turniri && turniri.map((turnir,index)=>(
                     <tr key={index}>
-                        <td>{turnir.naziv}</td>
                         <td>
-                            {
-                            turnir.datumPocetka!=null ?
-                            moment.utc(turnir.datumPocetka).format('DD.MM.YYYY')
-                            : 'Neodređeno'
-                            }
+                            {turnir.naziv}
                         </td>
                         <td>
-                            {
-                            turnir.datumZavrsetka!=null ?
-                            moment.utc(turnir.datumZavrsetka).format('DD.MM.YYYY')
-                            : 'Neodređeno'
-                            }
+                            {formatirajDatum(turnir.datumPocetka)}
+                        </td>
+                        <td>
+                            {formatirajDatum(datumZavrsetka)}
                         </td>
 
                         <td className="sredina">
@@ -75,12 +83,16 @@ export default function TurniriPregled(){
                             <Button variant="info" disabled>
                                 Detalji
                             </Button>
+
                             &nbsp;&nbsp;&nbsp;&nbsp;
+
                             <Button variant="warning" 
                             onClick={()=>navigate(`/turniri/${turnir.sifra}`)}>
                                 Uredi
                             </Button>
+
                             &nbsp;&nbsp;&nbsp;&nbsp;
+                            
                             <Button variant="danger" 
                             onClick={()=>obrisi(turnir.sifra)}>
                                 Obriši
