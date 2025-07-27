@@ -1,19 +1,23 @@
 import { HttpService } from "./HttpService";
 
 async function get() {
-    return await HttpService('/Igra')
+    return await HttpService.get('/Igra')
     .then((odgovor)=>{
+
         return {greska: false, poruka: odgovor.data}
     })
-    .catch((e)=>{console.error(e)})
+    .catch((e)=>{
+        return {greska: true, poruka: 'Problem kod dohvaćanja igre'}
+    })
 }
+
 
 async function getBySifra(sifra) {
     return await HttpService.get('/Igra/' + sifra)
     .then((odgovor)=>{
         return {greska:false, poruka: odgovor.data}
     })
-    .catch(()=>{
+    .catch((e)=>{
         return {greska: true, poruka: 'Igra nije pronađena'}
     })
 }
