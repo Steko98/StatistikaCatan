@@ -3,6 +3,7 @@ using BACKEND.Data;
 using BACKEND.Models;
 using BACKEND.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
@@ -20,7 +21,10 @@ namespace BACKEND.Controllers
             }
             try
             {
-                var clanoviDb = _context.Clanovi.ToList();
+                var clanoviDb = _context.Clanovi
+                    .Include(c => c.Igrac)
+                    .Include(c => c.Igra)
+                    .ToList();
                 return Ok(_mapper.Map<List<ClanDTORead>>(clanoviDb));
             }
             catch (Exception ex)
@@ -41,7 +45,10 @@ namespace BACKEND.Controllers
             Clan? e;
             try
             {
-                e = _context.Clanovi.Find(sifra);
+                e = _context.Clanovi
+                    .Include(i => i.Igrac)
+                    .Include(i => i.Igra)
+                    .FirstOrDefault(i => i.Sifra == sifra);
             }
             catch (Exception ex)
             {
@@ -62,9 +69,39 @@ namespace BACKEND.Controllers
             {
                 return BadRequest(new { poruka = ModelState });
             }
+            Igra? g;
+            try
+            {
+                g = _context.Igre.Find(dto.SifraIgra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (g == null)
+            {
+                return NotFound(new { poruka = "Odabrana igra nije pronađena" });
+            }
+            Igrac? p;
+            try
+            {
+                p = _context.Igraci.Find(dto.SifraIgrac);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (p == null)
+            {
+                return NotFound(new { poruka = "Odabrani igrač nije pronađen" });
+            }
+
+
             try
             {
                 var e = _mapper.Map<Clan>(dto);
+                e.Igra = g;
+                e.Igrac = p;
                 _context.Clanovi.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<ClanDTORead>(e));
