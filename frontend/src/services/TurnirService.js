@@ -17,13 +17,16 @@ async function getBySifra(sifra) {
         return {greska: false, poruka: odgovor.data}
     })
     .catch((e)=>{
-        return {greska: true, poruka: 'Problem kod dohvaćanja odabranog turnira'}
+        return {greska: true, poruka: 'Turnir nije pronađen'}
     })
 }
 
 async function dodaj(turnir) {
     return await HttpService.post('/Turnir', turnir)
     .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{
         switch (e.status){
             case 400:
                 let poruke='';
@@ -36,15 +39,14 @@ async function dodaj(turnir) {
                 return {greska: true, poruka: 'Turnir se ne može dodati'}
         }
     })
-    .catch((e)=>{return false})
 }
 
 async function obrisi(sifra) {
     return await HttpService.delete('/Turnir/'+sifra)
     .then((odgovor)=>{
-        return {greska:false, poruka: 'Obrisano'}
+        return {greska:false, poruka: odgovor.data}
     })
-    .catch((e)=>{
+    .catch(()=>{
         return {greska: true, poruka: 'Greška kod brisanja turnira'}
     })
 }
