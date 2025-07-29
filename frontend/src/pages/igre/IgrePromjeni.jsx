@@ -7,12 +7,12 @@ import moment from "moment";
 import { Row, Form, Col, Button } from "react-bootstrap";
 
 export default function IgrePromjena(){
+
     const navigate = useNavigate();
     const routeParams = useParams();
 
     const [turniri,setTurniri] = useState([]);
     const [turnirSifra, setTurnirSifra] = useState(0);
-
     const [igra, setIgra] = useState({});
 
     async function dohvatiTurnire() {
@@ -40,8 +40,8 @@ export default function IgrePromjena(){
         dohvatiInicijalnePodatke();
     },[]);
 
-    async function promjeni(e) {
-        const odgovor = await Service.promjeni(routeParams.sifra,e);
+    async function promjeni(igra) {
+        const odgovor = await Service.promjeni(routeParams.sifra,igra);
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;

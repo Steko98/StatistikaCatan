@@ -9,6 +9,7 @@ export default function IgraciPromjena() {
     
     const navigate = useNavigate();
     const routeParams = useParams();
+
     const [igrac, setIgrac] = useState({});
 
     async function dohvatiIgrac(){
@@ -24,8 +25,8 @@ export default function IgraciPromjena() {
         dohvatiIgrac();
     },[]);
 
-    async function promjeni(e) {
-        const odgovor = await IgracService.promjeni(routeParams.sifra,e);
+    async function promjeni(igrac) {
+        const odgovor = await IgracService.promjeni(routeParams.sifra,igrac);
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
@@ -48,7 +49,7 @@ export default function IgraciPromjena() {
             <Form onSubmit={obradiSubmit}>
                 <Form.Group controlId="ime">
                     <Form.Label>Ime</Form.Label>
-                    <Form.Control type="text" name="ime" required defaultValue={polaznik.ime}/>
+                    <Form.Control type="text" name="ime" required defaultValue={igrac.ime}/>
                 </Form.Group>
 
                 <hr />
