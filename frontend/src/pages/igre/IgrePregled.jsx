@@ -8,8 +8,8 @@ import { RouteNames } from "../../constants";
 export default function IgrePregled(){
 
     const navigate = useNavigate();
-
     const[igre, setIgre] = useState([]);
+    
 
 
     async function dohvatiIgre() {
@@ -40,6 +40,12 @@ export default function IgrePregled(){
         }
         dohvatiIgre();
     }
+    function obrisi(sifra){
+        if (!confirm('Sigurno obrisati?')) {
+            return;
+        }
+        obrisiIgru(sifra)
+    }    
 
     return (
 
@@ -50,7 +56,7 @@ export default function IgrePregled(){
                 Dodaj novu igru
             </Link>
 
-<hr />
+            <hr />
 
             <Table striped bordered hover responsive>
                 <thead>
@@ -79,7 +85,7 @@ export default function IgrePregled(){
 
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button variant="danger"
-                                    onClick={()=>obrisiIgru(igra.sifra)}>
+                                    onClick={()=>obrisi(igra.sifra)}>
                                     Obriši
                                 </Button>
                             </td>

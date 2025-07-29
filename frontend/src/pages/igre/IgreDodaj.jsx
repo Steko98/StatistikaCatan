@@ -43,11 +43,25 @@ export default function IgreDodaj(){
     return (
         <>
 
-            <Form>
+            <Form onSubmit={obradiSubmit}>
                 <Form.Group controlId="datum">
                     <Form.Label>Datum</Form.Label>
                     <Form.Control type="date" name="datum" required/>
                 </Form.Group>
+
+                <Form.Group className="mb-3" controlId="turnir">
+                    <Form.Label>Turnir</Form.Label>
+                    <Form.Select onChange={(e)=>{setTurnirSifra(e.target.value)}}>
+                        {turniri && turniri.sifra((t,index)=>(
+                            <option key={index} value={t.sifra}>
+                                {t.naziv}
+                            </option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+
+                <hr />
+
                 <Row className="akcije">
                     <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
                         <Link to={RouteNames.IGRE_PREGLED}

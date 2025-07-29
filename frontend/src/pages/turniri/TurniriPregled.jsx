@@ -7,15 +7,16 @@ import { RouteNames } from "../../constants";
 
 export default function TurniriPregled(){
 
-    const[turniri, setTurniri] = useState([]);
     const navigate = useNavigate();
+    const[turniri, setTurniri] = useState([]);
+    
 
     async function dohvatiTurnire(){
        const odgovor = await TurnirService.get()
-       if (odgovor.greska) {
-        alert(odgovor.poruka)
-        return
-       }
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
        setTurniri(odgovor.poruka)
     }
 
@@ -24,14 +25,14 @@ export default function TurniriPregled(){
         dohvatiTurnire();
     },[])
 
-    function obrisi(sifra){
-        if (!confirm('Sigurno obrisati?')) {
-            return;
+    function formatirajDatum(datum){
+        if (datum==null) {
+            return 'Nije definirano'
         }
-        brisanjeTurnira(sifra)
+        return moment.utc(datum).format('DD.MM.YYYY.')
     }
 
-    async function brisanjeTurnira(sifra) {
+    async function obrisiTurnir(sifra) {
         const odgovor = await TurnirService.obrisi(sifra);
         if (odgovor.greska) {
             alert(odgovor.poruka)
@@ -39,13 +40,13 @@ export default function TurniriPregled(){
         }
         dohvatiTurnire();
     }
-
-    function formatirajDatum(datum){
-        if (datum==null) {
-            return 'Nije definirano'
+    function obrisi(sifra){
+        if (!confirm('Sigurno obrisati?')) {
+            return;
         }
-        return moment.utc(datum).format('DD.MM.YYYY.')
+        obrisiTurnir(sifra)
     }
+
 
 
     return(

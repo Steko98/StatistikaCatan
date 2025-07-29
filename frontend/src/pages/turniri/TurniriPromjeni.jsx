@@ -9,6 +9,7 @@ export default function TurniriPromjeni(){
 
     const navigate = useNavigate();
     const routeParams = useParams();
+
     const[turnir,setTurnir] = useState({}) 
 
     async function ucitajTurnir() {
@@ -36,8 +37,6 @@ export default function TurniriPromjeni(){
         }
         navigate(RouteNames.TURNIR_PREGLED);
     }
-
-
 
     function odradiSubmit(e){
         e.preventDefault();

@@ -6,9 +6,9 @@ import { RouteNames } from "../../constants";
 
 export default function IgraciPregled(){
 
+    const navigate = useNavigate();  
     const[igraci, setIgraci] = useState([]);
 
-    const navigate = useNavigate();
 
     async function dohvatiIgrace(){
        const odgovor = await IgracService.get()
@@ -23,7 +23,7 @@ export default function IgraciPregled(){
         dohvatiIgrace();
     },[])
 
-    async function obrisiAsync(sifra) {
+    async function obrisiIgraca(sifra) {
         const odgovor = await IgracService.obrisi(sifra)
         if (odgovor.greska) {
             alert(odgovor.poruka)
@@ -31,9 +31,11 @@ export default function IgraciPregled(){
         }
         dohvatiIgrace();
     }
-
     function obrisi(sifra){
-        obrisiAsync(sifra);
+        if (!confirm('Sigurno obrisati?')) {
+            return;
+        }
+        obrisiIgraca(sifra);
     }
 
     return(
