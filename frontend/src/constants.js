@@ -11,7 +11,11 @@ export const RouteNames = {
 
     IGRACI_PREGLED: '/igraci',
     IGRAC_NOVI: '/igraci/dodaj',
-    IGRAC_PROMJENI: '/igraci/:sifra'
+    IGRAC_PROMJENI: '/igraci/:sifra',
+
+    CLAN_PREGLED: '/clanovi',
+    CLAN_NOVI: '/clan/dodaj',
+    CLAN_PROMJENI: '/clanovi/:sifra'
 }
 
 export const BACKEND_URL='https://steko98-001-site1.ntempurl.com';

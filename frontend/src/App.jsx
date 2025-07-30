@@ -14,6 +14,9 @@ import IgraciPromjeni from './pages/igraci/IgraciPromjeni'
 import IgrePregled from './pages/igre/IgrePregled'
 import IgreDodaj from './pages/igre/IgreDodaj'
 import IgrePromjeni from './pages/igre/IgrePromjeni'
+import ClanoviPregled from './pages/igre/ClanoviPregled'
+import ClanoviDodaj from './pages/igre/ClanoviDodaj'
+import ClanoviPromjeni from './pages/igre/ClanoviPromjeni'
 
 function App() {
 
@@ -37,6 +40,9 @@ function App() {
           <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj/>}/>
           <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni/>}/>
 
+          <Route path={RouteNames.CLAN_PREGLED} element={<ClanoviPregled/>}/>
+          <Route path={RouteNames.CLAN_NOVI} element={<ClanoviDodaj/>}/>
+          <Route path={RouteNames.CLAN_PROMJENI} element={<ClanoviPromjeni/>}/>
         </Routes>
       </Container>
       <hr />

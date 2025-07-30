@@ -24,6 +24,7 @@ export default function NavBarEdunova() {
               <NavDropdown.Item onClick={()=>navigate(RouteNames.TURNIR_PREGLED)}>Turniri</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.IGRACI_PREGLED)}>Igrači</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.IGRE_PREGLED)}>Igre</NavDropdown.Item>
+              <NavDropdown.Item onClick={()=>navigate(RouteNames.CLAN_PREGLED)}>Članovi</NavDropdown.Item>
             </NavDropdown>
 
             <Nav.Link onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
