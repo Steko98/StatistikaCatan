@@ -14,9 +14,9 @@ import IgraciPromjeni from './pages/igraci/IgraciPromjeni'
 import IgrePregled from './pages/igre/IgrePregled'
 import IgreDodaj from './pages/igre/IgreDodaj'
 import IgrePromjeni from './pages/igre/IgrePromjeni'
-import ClanoviPregled from './pages/igre/ClanoviPregled'
-import ClanoviDodaj from './pages/igre/ClanoviDodaj'
-import ClanoviPromjeni from './pages/igre/ClanoviPromjeni'
+import ClanoviPregled from './pages/clanovi/ClanoviPregled'
+import ClanoviDodaj from './pages/clanovi/ClanoviDodaj'
+import ClanoviPromjeni from './pages/clanovi/ClanoviPromjeni'
 
 function App() {
 

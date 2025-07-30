@@ -49,6 +49,7 @@ export default function ClanoviDodaj(){
             brojBodova: parseInt(podaci.get('brojBodova')),
             pobjeda: podaci.get('pobjeda')=='on' ? true : false,
             imeIgraca: podaci.get('imeIgraca'),
+            sifraIgrac: parseInt(podaci.get('sifraIgrac')),
             sifraIgra: parseInt(sifraIgra)
         });
     }
@@ -60,10 +61,10 @@ export default function ClanoviDodaj(){
 
             <Form.Group className="mb-3" controlId="igrac">
                 <Form.Label>Igrač</Form.Label>
-                <Form.Select onChange={(e)=>{setIgracSifra(e.target.value)}}>
+                <Form.Select name="sifraIgrac" onChange={(e)=>{setIgracSifra(e.target.value)}}>
                     {igraci && igraci.map((i,index)=>(
                         <option key={index} value={i.sifra}>
-                            {i.imeIgraca}
+                            {i.ime}
                         </option>
                     ))}
                 </Form.Select>

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import ClanService from "../../services/ClanService";
 import { Button, Container, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
+import { GiPodiumWinner } from "react-icons/gi";
+import { FaSadTear } from "react-icons/fa";
 
 export default function ClanoviPregled(){
 
@@ -52,9 +54,9 @@ export default function ClanoviPregled(){
                 <thead>
                     <tr>
                         <th>Igrač</th>
-                        <th>Šifra Igre</th>
-                        <th>Broj Bodova</th>
-                        <th>Pobjeda</th>
+                        <th className="sredina">Šifra Igre</th>
+                        <th className="sredina">Broj Bodova</th>
+                        <th className="sredina">Pobjeda</th>
                         <th className="sredina">Akcije</th>
                     </tr>
                 </thead>
@@ -62,9 +64,15 @@ export default function ClanoviPregled(){
                     {clanovi && clanovi.map((clan, index)=>(
                         <tr key={index}>
                             <td>{clan.imeIgrac}</td>
-                            <td>{clan.sifraIgra}</td>
-                            <td>{clan.brojBodova}</td>
-                            <td>{clan.pobjeda}</td>
+                            <td className="sredina">{clan.sifraIgra}</td>
+                            <td className="sredina">{clan.brojBodova}</td>
+                            <td className="sredina">
+                                {clan.pobjeda ? (
+                                    <GiPodiumWinner size={35} color="green" />
+                                ) : (
+                                    <FaSadTear size={25} color="red"/>
+                                )}
+                            </td>
                             <td className="sredina">
 
                                 <Button variant="info" disabled>
