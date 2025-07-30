@@ -19,8 +19,8 @@ export default function TurniriPromjeni(){
             return
         }
         let s = odgovor.poruka
-        s.datumPocetka = moment.utc(odgovor.datumPocetka).format('yyyy-MM-DD')
-        s.datumZavrsetka = moment.utc(odgovor.datumZavrsetka).format('yyyy-MM-DD')
+        s.datumPocetka = moment.utc(s.datumPocetka).format('YYYY-MM-DD')
+        s.datumZavrsetka = moment.utc(s.datumZavrsetka).format('YYYY-MM-DD')
         setTurnir(s)
     }
 
