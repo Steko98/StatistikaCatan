@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Service from '../../services/IgraService';
 import TurnirService from "../../services/TurnirService";
 import { RouteNames } from "../../constants";
 import moment from "moment";
@@ -36,7 +37,8 @@ export default function IgreDodaj(){
         const podaci = new FormData(e.target);
 
         dodaj({
-            datum: moment.utc(podaci.get('datum'))
+            datum: moment.utc(podaci.get('datum')),
+            turnirSifra: parseInt(turnirSifra)
         });
     }
 
@@ -52,7 +54,7 @@ export default function IgreDodaj(){
                 <Form.Group className="mb-3" controlId="turnir">
                     <Form.Label>Turnir</Form.Label>
                     <Form.Select onChange={(e)=>{setTurnirSifra(e.target.value)}}>
-                        {turniri && turniri.sifra((t,index)=>(
+                        {turniri && turniri.map((t,index)=>(
                             <option key={index} value={t.sifra}>
                                 {t.naziv}
                             </option>

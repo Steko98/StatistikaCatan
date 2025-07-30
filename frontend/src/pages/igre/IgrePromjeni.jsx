@@ -22,11 +22,12 @@ export default function IgrePromjena(){
 
     async function dohvatiIgru() {
         const odgovor = await Service.getBySifra(routeParams.sifra);
-        if (odgovor.poruka) {
+        if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
         }
         let igra = odgovor.poruka;
+        igra.datum = moment.utc(igra.datum).format('YYYY-MM-DD')
         setIgra(igra);
         setTurnirSifra(igra.turnirSifra);
     }
@@ -55,7 +56,8 @@ export default function IgrePromjena(){
         const podaci = new FormData(e.target);
 
         promjeni({
-            datum: moment.utc(podaci.get('datum'))
+            datum: moment.utc(podaci.get('datum')),
+            turnirSifra: parseInt(turnirSifra)
         })
     }
 

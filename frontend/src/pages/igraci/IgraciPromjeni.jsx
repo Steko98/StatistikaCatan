@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import { Button, Col, Row, Form } from "react-bootstrap";
 import IgracService from "../../services/IgracService"
 import { RouteNames } from "../../constants";
-import { Col, Row } from "react-bootstrap";
+
 
 export default function IgraciPromjena() {
     
@@ -68,6 +68,7 @@ export default function IgraciPromjena() {
                     </Col>
                 </Row>
             </Form>
+            
         </>
     )
 }
