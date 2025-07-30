@@ -34,7 +34,8 @@ export default function IgraciDodaj(){
                     <Form.Control type="text" name="ime" required />
                 </Form.Group>
 
-                <hr />
+                <hr style={{marginTop: '50px'}}/>
+
 
                 <Row>
                     <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>

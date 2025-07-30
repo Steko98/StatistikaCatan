@@ -62,7 +62,8 @@ export default function IgreDodaj(){
                     </Form.Select>
                 </Form.Group>
 
-                <hr />
+                <hr style={{marginTop: '50px'}}/>
+
 
                 <Row className="akcije">
                     <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>

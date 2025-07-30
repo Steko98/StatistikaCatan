@@ -28,7 +28,7 @@ async function obrisi(sifra) {
         return {greska:false, poruka: odgovor.data}
     })
     .catch(()=>{
-        return {greska: true, poruka: 'Ćlan nije pronađen'}
+        return {greska: true, poruka: 'Član nije pronađen'}
     })
 }
 
