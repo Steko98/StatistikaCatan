@@ -128,7 +128,10 @@ namespace BACKEND.Controllers
                 Clan? e;
                 try
                 {
-                    e = _context.Clanovi.Find(sifra);
+                    e = _context.Clanovi
+                        .Include(c => c.Igrac)
+                        .Include(c => c.Igra)
+                        .FirstOrDefault(x => x.Sifra == sifra);
                 }
                 catch (Exception ex)
                 {
@@ -139,8 +142,37 @@ namespace BACKEND.Controllers
                     return NotFound(new { poruka = "Nije pronađeno" });
                 }
 
-                e = _mapper.Map(dto, e);
+                Igra? es;
+                try
+                {
+                    es = _context.Igre.Find(dto.SifraIgra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (es==null)
+                {
+                    return NotFound(new { poruka = "Igra nije pronađena" });
+                }
 
+                Igrac? esi;
+                try
+                {
+                    esi = _context.Igraci.Find(dto.SifraIgrac);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (esi == null)
+                {
+                    return NotFound(new { poruka = "Igrač nije pronađen" });
+                }
+
+                e = _mapper.Map(dto, e);
+                e.Igra = es;
+                e.Igrac = esi;
                 _context.Clanovi.Update(e);
                 _context.SaveChanges();
 
