@@ -108,7 +108,7 @@ export default function ClanoviPromjeni(){
                 <Form.Group controlId="brojBodova">
                     <Form.Label>Broj bodova</Form.Label>
                     <Form.Control type="number" name="brojBodova" 
-                    step={0.01} defaultValue={clan.brojBodova}/>
+                    step={1} defaultValue={clan.brojBodova}/>
                 </Form.Group>
 
                 <Form.Group controlId="pobjeda">

@@ -292,11 +292,33 @@ namespace BACKEND.Controllers
                 _context.SaveChanges();
 
                 return Ok(new { poruka = igrac.Ime + " uklonjen iz igre" });
-                
+
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("trazi")]
+        public ActionResult<List<IgracDTORead>> TraziIgru(DateTime uvjetPocetak, DateTime uvjetKraj)
+        {
+            if (uvjetPocetak > uvjetKraj)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                IEnumerable<Igra> query = _context.Igre
+                    .Include(i => i.Turnir);
+                query = query.Where(i => i.Datum >= uvjetPocetak && i.Datum <= uvjetKraj);
+                var igre = query.ToList();
+                return Ok(_mapper.Map<List<IgraDTORead>>(igre));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { poruka = e.Message });
             }
         }
 
