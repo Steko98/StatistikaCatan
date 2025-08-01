@@ -71,11 +71,20 @@ async function promjeni(sifra, turnir) {
     })
 }
 
+async function traziTurnir(uvjet) {
+    return await HttpService.get('Turnir/trazi/'+uvjet)
+    .then ((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch ((e)=>{return {greska: true, poruka: "Problem kod traženja turnira"}})
+}
+
 
 export default{
     get,
     dodaj,
     obrisi,
     promjeni,
-    getBySifra
+    getBySifra,
+    traziTurnir
 }
