@@ -181,5 +181,30 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("trazi/{uvjet}")]
+        public ActionResult<List<TurnirDTORead>> TraziTurnir(string uvjet)
+        {
+            if (uvjet == null || uvjet.Length < 3)
+            {
+                return BadRequest(ModelState);
+            }
+            uvjet = uvjet.ToLower();
+            try
+            {
+                IEnumerable<Turnir> query = _context.Turniri;
+                foreach (var s in uvjet.Split(" "))
+                {
+                    query = query.Where(t => t.Naziv.ToLower().Contains(s));
+                }
+                var turniri = query.ToList();
+                return Ok(_mapper.Map<List<TurnirDTORead>>(turniri));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { poruka = e.Message });
+            }
+        }
+
     }
 }
