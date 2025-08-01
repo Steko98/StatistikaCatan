@@ -70,10 +70,19 @@ async function promjeni(sifra, igrac) {
     })
 }
 
+async function traziIgrac(uvjet) {
+    return await HttpService.get('Igrac/trazi/'+uvjet)
+    .then ((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch ((e)=>{return {greska: true, poruka: "Problem kod traženja igrača"}})
+}
+
 export default{
     get,
     getBySifra,
     obrisi,
     dodaj,
-    promjeni
+    promjeni,
+    traziIgrac
 }

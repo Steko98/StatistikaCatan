@@ -72,10 +72,20 @@ async function promjeni(sifra, igra) {
     })
 }
 
+// async function traziIgra(uvjetPocetak, uvjetKraj) {
+//     const uvjeti = new uvjeti;
+//     return await HttpService.get(`Igra/trazi?${uvjeti}`)
+//     .then ((odgovor)=>{
+//         return {greska: false, poruka: odgovor.data}
+//     })
+//     .catch ((e)=>{return {greska: true, poruka: "Problem kod traženja igre"}})
+// }
+
 export default{
     get,
     getBySifra,
     obrisi,
     dodaj,
-    promjeni
+    promjeni,
+    traziIgra
 }
