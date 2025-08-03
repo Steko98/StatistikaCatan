@@ -70,6 +70,30 @@ async function promjeni(sifra, igrac) {
     })
 }
 
+async function getIgre(sifra) {
+    return await HttpService.get('/Igrac/Igre/' + sifra)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch(()=>{return {greska:true, poruka: "Problem kod dohvaćanja igara"}})
+}
+
+async function dodajIgru(igrac, clan) {
+    return await HttpService.post('/Igrac/' + igrac + '/dodaj/' + clan)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch(()=>{return {greska:true, poruka: "Problem kod dodavanja igre"}})
+}
+
+async function obrisiIgru(igrac, igra) {
+    return await HttpService.delete('/Igrac/' + igrac + '/Igra/' + igra)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch(()=>{return {greska:true, poruka: "Problem kod brisanja igre"}})
+}
+
 async function traziIgrac(uvjet) {
     return await HttpService.get('Igrac/trazi/'+uvjet)
     .then ((odgovor)=>{
@@ -84,5 +108,8 @@ export default{
     obrisi,
     dodaj,
     promjeni,
+    getIgre,
+    dodajIgru,
+    obrisiIgru,
     traziIgrac
 }
