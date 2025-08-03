@@ -3,6 +3,7 @@ using BACKEND.Data;
 using BACKEND.Models;
 using BACKEND.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
@@ -149,6 +150,116 @@ namespace BACKEND.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("Igre/{sifraIgraca:int}")]
+        public ActionResult<List<ClanDTORead>> GetIgre(int sifraIgraca)
+        {
+            if (!ModelState.IsValid || sifraIgraca < 1)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var p = _context.Igraci
+                    .Include(i => i.Clanovi)
+                        .ThenInclude(c => c.Igra)
+                    .FirstOrDefault(x => x.Sifra == sifraIgraca);
+                if (p == null)
+                {
+                    return BadRequest("Ne postoji igrač pod šifrom " + sifraIgraca);
+                }
+                return Ok(_mapper.Map<List<ClanDTORead>>(p.Clanovi));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("{sifra:int}/dodaj/{igraSifra:int}")]
+        public IActionResult DodajIgru(int sifra, int igraSifra, int brojBodova, bool pobjeda)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (sifra < 1 || igraSifra < 1)
+            {
+                return BadRequest("Šifra igre ili igrača nije pronađena");
+            }
+            try
+            {
+                var igrac = _context.Igraci
+                    .Include(i => i.Clanovi)
+                        .ThenInclude(c => c.Igra)
+                    .FirstOrDefault(i => i.Sifra == sifra);
+                if (igrac == null)
+                {
+                    return BadRequest("Igra pod odabranom šifrom nije pronađena");
+                }
+                var igra = _context.Igre.Find(igraSifra);
+
+                var clan = new Clan { Igra = igra, Igrac = igrac, BrojBodova = brojBodova, Pobjeda = pobjeda };
+
+                _context.Clanovi.Add(clan);
+                _context.SaveChanges();
+
+                return Ok(new
+                {
+                    poruka = igrac.Ime + " dodan u igru " + igra.Sifra
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{sifra:int}/obrisi/{igraSifra:int}")]
+        public IActionResult ObrisiIgru(int sifra, int igraSifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (sifra < 1 || igraSifra < 1)
+            {
+                return BadRequest("Šifra igre ili igrača nije pronađena");
+            }
+            try
+            {
+                var igrac = _context.Igraci
+                    .Include(i => i.Clanovi)
+                        .ThenInclude(c => c.Igra)
+                    .FirstOrDefault(i => i.Sifra == sifra);
+                if (igrac == null)
+                {
+                    return BadRequest("Igrač pod odabranom šifrom nije pronađen");
+                }
+                var igra = _context.Igraci.Find(igraSifra);
+                if (igrac == null)
+                {
+                    return BadRequest("Igra pod odabranom šifrom nije pronađena");
+                }
+                var clan = _context.Clanovi
+                    .Include(c => c.Igrac)
+                    .Include(c => c.Igra)
+                    .FirstOrDefault(c => c.Igrac.Sifra == sifra && c.Igra.Sifra == igraSifra);
+                igrac.Clanovi.Remove(clan);
+                _context.Igraci.Update(igrac);
+                _context.SaveChanges();
+
+                return Ok(new { poruka = igrac.Ime + " uklonjen iz igre" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpGet]
         [Route("trazi/{uvjet}")]
