@@ -80,8 +80,8 @@ async function getIgraci(sifra) {
     .catch(()=>{return {greska:true, poruka: "Problem kod dohvaćanja igrača"}})
 }
 
-async function dodajIgraca(igra, clan) {
-    return await HttpService.post('/Igra/' + igra + '/dodaj/' + clan)
+async function dodajIgraca(igra, igrac) {
+    return await HttpService.post('/Igra/' + igra + '/dodaj/' + igrac)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
@@ -89,7 +89,7 @@ async function dodajIgraca(igra, clan) {
 }
 
 async function obrisiIgraca(igra, igrac) {
-    return await HttpService.delete('/Igra/' + igra + '/Igrac/' + igrac)
+    return await HttpService.delete('/Igra/' + igra + '/obrisi/' + igrac)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })

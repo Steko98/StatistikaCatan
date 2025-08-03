@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import TurnirService from "../../services/TurnirService";
 import Service from '../../services/IgraService'
+import IgracService from '../../services/IgracService';
 import { RouteNames } from "../../constants";
 import moment from "moment";
-import { Row, Form, Col, Button } from "react-bootstrap";
+import { Row, Form, Col, Button, Table } from "react-bootstrap";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
+import { FaRegTrashAlt } from "react-icons/fa";
+import ClanService from "../../services/ClanService";
 
 export default function IgrePromjena(){
 
@@ -14,9 +18,18 @@ export default function IgrePromjena(){
     const [turniri,setTurniri] = useState([]);
     const [turnirSifra, setTurnirSifra] = useState(0);
     const [igra, setIgra] = useState({});
+    const [igraci, setIgraci] = useState([]);
+    const [pronadeniIgraci, setPronadeniIgraci] = useState([]);
+    const [clanovi, setClanovi] = useState([]);
+
+    const typeaheadRef = useRef(null);
 
     async function dohvatiTurnire() {
         const odgovor = await TurnirService.get();
+        if (odgovor.greska) {
+            alert(odgovor.poruka);
+            return;
+        }
         setTurniri(odgovor.poruka);
     }
 
@@ -32,9 +45,57 @@ export default function IgrePromjena(){
         setTurnirSifra(igra.turnirSifra);
     }
 
+    async function dohvatiIgrace() {
+        const odgovor = await Service.getIgraci(routeParams.sifra)
+        if(odgovor.greska){
+            alert(odgovor.poruka);
+            return;
+        }
+        setIgraci(odgovor.poruka);
+    }
+
+    async function dohvatiClanove() {
+        const odgovor = await ClanService.get();
+        if (odgovor.greska) {
+            alert(odgovor.poruka);
+            return;
+        }
+        setClanovi(odgovor.poruka);
+    }
+
+    async function traziIgraca(uvjet) {
+        const odgovor = await IgracService.traziIgrac(uvjet);
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return;
+        }
+        setPronadeniIgraci(odgovor.poruka);
+    }
+
+    async function dodajIgraca(e) {
+        const odgovor = await Service.dodajIgraca(routeParams.sifra, e[0].sifra);
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return;
+        }
+        await dohvatiIgrace();
+        typeaheadRef.current.clear();
+    }
+
+    async function obrisiIgraca(igrac) {
+        const odgovor = await Service.obrisiIgraca(routeParams.sifra, igrac);
+        if(odgovor.greska){
+            alert(odgovor.poruka);
+            return;
+        }
+            await dohvatiIgrace();
+  }
+
     async function dohvatiInicijalnePodatke() {
         await dohvatiTurnire();
         await dohvatiIgru();
+        await dohvatiIgrace();
+        await dohvatiClanove();
     }
 
     useEffect(()=>{
@@ -63,42 +124,95 @@ export default function IgrePromjena(){
 
     return (
         <>
-            <Form onSubmit={obradiSubmit}>
-                <Form.Group controlId="datum">
-                    <Form.Label>Datum</Form.Label>
-                    <Form.Control type="date" name="datum" 
-                        required defaultValue={igra.datum}/>
-                </Form.Group>
-                <Form.Group className='mb-3' controlId="turnir">
-                    <Form.Label>Turnir</Form.Label>
-                    <Form.Select
-                    value={turnirSifra}
-                    onChange={(e)=>{setTurnirSifra(e.target.value)}}>
-                        {turniri && turniri.map((t, index)=>(
-                            <option key={index} value={t.sifra}>
-                                {t.naziv}
-                            </option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+            <Row>
+                <Col key='1' sm={12} md={6} lg={6}>
+                    <Form onSubmit={obradiSubmit}>
+                        <Form.Group controlId="datum">
+                            <Form.Label>Datum</Form.Label>
+                            <Form.Control type="date" name="datum" 
+                                required defaultValue={igra.datum}/>
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId="turnir">
+                            <Form.Label>Turnir</Form.Label>
+                            <Form.Select
+                            value={turnirSifra}
+                            onChange={(e)=>{setTurnirSifra(e.target.value)}}>
+                                {turniri && turniri.map((t, index)=>(
+                                    <option key={index} value={t.sifra}>
+                                        {t.naziv}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
 
-                <hr />
+                        <hr />
 
-                <Row>
-                    <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-                    <Link to={RouteNames.IGRE_PREGLED}
-                    className="btn btn-danger">
-                        Povratak
-                    </Link>
-                    </Col>
-                    <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-                        <Button variant="primary" type="submit">
-                            Promjeni igru
-                        </Button>
-                    </Col>
-                </Row>
-
-            </Form>
+                        <Row>
+                            <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
+                            <Link to={RouteNames.IGRE_PREGLED}
+                            className="btn btn-danger">
+                                Povratak
+                            </Link>
+                            </Col>
+                            <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
+                                <Button variant="primary" type="submit">
+                                    Promjeni igru
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Col>
+                <Col key='2' sm={12} md={6} lg={6}>
+                    <div style={{overflow: 'auto', maxHeight: '400px'}}>
+                        <Form.Group className="mb-3" controlId="uvjet">
+                            <Form.Label>Traži igrača</Form.Label>
+                            <AsyncTypeahead
+                            className="autocomplete"
+                            id="uvjet"
+                            emptyLabel="Nema rezultata"
+                            searchText="Tražim..."
+                            labelKey={(igrac) => `${igrac.ime}`}
+                            minLength={3}
+                            options={pronadeniIgraci}
+                            onSearch={traziIgraca}
+                            placeholder="ime igrača"
+                            renderMenuItemChildren={(igrac)=>(
+                                <>
+                                <span>
+                                    {igrac.imeIgrac}
+                                </span>
+                                </>
+                            )}
+                            onChange={dodajIgraca}
+                            ref={typeaheadRef}
+                            />
+                        </Form.Group>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Igrači u igri</th>
+                                    <th className="sredina">Akcije</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {igraci && 
+                                igraci.map((igrac, index)=>(
+                                    <tr key={index}>
+                                    <td>{igrac.imeIgrac}</td>
+                                    <td className="sredina">
+                                        <Button variant='danger' onClick={() =>
+                                        obrisiIgraca(igrac.sifraIgrac)
+                                        }>
+                                        <FaRegTrashAlt />
+                                        </Button>
+                                    </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
+                </Col>
+            </Row>
         </>
     );
 
