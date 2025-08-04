@@ -62,7 +62,7 @@ export default function IgrePregled(){
                 <thead>
                     <tr>
                         {/* <th>Redni broj</th> */}
-                        {/* <th>Turnir</th> */}
+                        <th>Turnir</th>
                         <th>Datum</th>
                         {/* <th>Pobjednik</th> */}
                         <th className="sredina">Akcije</th>
@@ -71,6 +71,7 @@ export default function IgrePregled(){
                 <tbody>
                     {igre && igre.map((igra, index)=>(
                         <tr key={index}>
+                            <td>{igra.turnirNaziv}</td>
                             <td>{formatirajDatum(igra.datum)}</td>
                             <td className="sredina">
                                 <Button variant="info" disabled>
