@@ -20,7 +20,6 @@ export default function IgrePromjena(){
     const [igra, setIgra] = useState({});
     const [igraci, setIgraci] = useState([]);
     const [pronadeniIgraci, setPronadeniIgraci] = useState([]);
-    const [clanovi, setClanovi] = useState([]);
 
     const typeaheadRef = useRef(null);
 
@@ -52,15 +51,6 @@ export default function IgrePromjena(){
             return;
         }
         setIgraci(odgovor.poruka);
-    }
-
-    async function dohvatiClanove() {
-        const odgovor = await ClanService.get();
-        if (odgovor.greska) {
-            alert(odgovor.poruka);
-            return;
-        }
-        setClanovi(odgovor.poruka);
     }
 
     async function traziIgraca(uvjet) {
@@ -95,7 +85,6 @@ export default function IgrePromjena(){
         await dohvatiTurnire();
         await dohvatiIgru();
         await dohvatiIgrace();
-        await dohvatiClanove();
     }
 
     useEffect(()=>{
@@ -179,7 +168,7 @@ export default function IgrePromjena(){
                             renderMenuItemChildren={(igrac)=>(
                                 <>
                                 <span>
-                                    {igrac.imeIgrac}
+                                    {igrac.ime}
                                 </span>
                                 </>
                             )}
