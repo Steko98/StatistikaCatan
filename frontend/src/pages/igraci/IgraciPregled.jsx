@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import IgracService from '../../services/IgracService';
-import { Button, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { Link ,useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 
@@ -39,7 +39,7 @@ export default function IgraciPregled(){
     }
 
     return(
-        <>
+        <Container>
         <Link className="btn btn-success"
         to={RouteNames.IGRAC_NOVI}>
             Dodaj igrača
@@ -47,39 +47,41 @@ export default function IgraciPregled(){
 
         <hr />
 
-        <Table striped bordered hover responsive>
-            <thead>
-                <tr>
-                    <th>Ime</th>
-                    <th className="sredina">Akcije</th>
-                </tr>
-            </thead>
-            <tbody>
-                {igraci && igraci.map((igrac,index)=>(
-                    <tr key={index}>
-                        <td>{igrac.ime}</td>
-                        <td className="sredina">
-                            <Button variant="info" disabled>
-                                Detalji
-                            </Button>
-
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Button variant="warning"
-                            onClick={()=>navigate(`/igraci/${igrac.sifra}`)}>
-                                Uredi
-                            </Button>
-                            
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Button variant="danger"
-                            onClick={()=>obrisi(igrac.sifra)}>
-                                Obriši
-                            </Button>
-                        </td>
+        <div style={{maxHeight:'60vh', overflowY:'auto'}}>
+            <Table striped bordered hover responsive>
+                <thead>
+                    <tr>
+                        <th>Ime</th>
+                        <th className="sredina">Akcije</th>
                     </tr>
-                ))}
-            </tbody>
-        </Table>
-        </>
+                </thead>
+                <tbody>
+                    {igraci && igraci.map((igrac,index)=>(
+                        <tr key={index}>
+                            <td>{igrac.ime}</td>
+                            <td className="sredina">
+                                <Button variant="info" disabled>
+                                    Detalji
+                                </Button>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button variant="warning"
+                                onClick={()=>navigate(`/igraci/${igrac.sifra}`)}>
+                                    Uredi
+                                </Button>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button variant="danger"
+                                onClick={()=>obrisi(igrac.sifra)}>
+                                    Obriši
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </div>
+        </Container>
     )
 }
 

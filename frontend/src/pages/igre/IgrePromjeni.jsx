@@ -5,7 +5,7 @@ import Service from '../../services/IgraService'
 import IgracService from '../../services/IgracService';
 import { RouteNames } from "../../constants";
 import moment from "moment";
-import { Row, Form, Col, Button, Table } from "react-bootstrap";
+import { Row, Form, Col, Button, Table, Container } from "react-bootstrap";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { FaRegTrashAlt } from "react-icons/fa";
 
@@ -111,7 +111,7 @@ export default function IgrePromjena(){
     }
 
     return (
-        <>
+        <Container>
             <Row>
                 <Col key='1' sm={12} md={6} lg={6}>
                     <Form onSubmit={obradiSubmit}>
@@ -201,7 +201,7 @@ export default function IgrePromjena(){
                     </div>
                 </Col>
             </Row>
-        </>
-    );
+        </Container>
+    )
 
 }

@@ -14,20 +14,19 @@ export default function NavBarEdunova() {
     }
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-        <Navbar.Brand className='ruka' onClick={()=>navigate(RouteNames.HOME)}>Statistika Catan</Navbar.Brand>
+    <Navbar expand="lg" className="navbar-catan">
+        <Navbar.Brand className='ruka nav-brand' onClick={()=>navigate(RouteNames.HOME)}>CATANCARO</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
 
-            <NavDropdown title="Programi" id="basic-nav-dropdown">
+            <NavDropdown title={<span className="nav-tekst">Programi</span>} id="basic-nav-dropdown" className='nav-tekst'>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.TURNIR_PREGLED)}>Turniri</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.IGRACI_PREGLED)}>Igrači</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.IGRE_PREGLED)}>Igre</NavDropdown.Item>
-              <NavDropdown.Item onClick={()=>navigate(RouteNames.CLAN_PREGLED)}>Članovi</NavDropdown.Item>
             </NavDropdown>
 
-            <Nav.Link onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
+            <Nav.Link onClick={()=>OpenSwaggerURL()} className='nav-tekst'>Swagger</Nav.Link>
 
           </Nav>
         </Navbar.Collapse>
