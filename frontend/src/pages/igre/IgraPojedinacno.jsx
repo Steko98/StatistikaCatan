@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import ClanService from "../../services/ClanService";
-import { Button, Container, Table } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import IgraService from "../../services/IgraService";
 import { RouteNames } from "../../constants";
+import { Button, Table } from "react-bootstrap";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 
-export default function ClanoviPregled(){
-
+export default function IgraPojedinacno(){
     const navigate = useNavigate();
+    const routeParams = useParams();
     const [clanovi, setClanovi] = useState([]);
 
-    async function dohvatiClanove() {
-        const odgovor = await ClanService.get()
+    async function dohvatiDetaljeIgre() {
+        const odgovor = await IgraService.getIgraci(routeParams.sifra)
         if (odgovor.greska) {
             alert(odgovor.poruka)
             return
@@ -21,41 +21,30 @@ export default function ClanoviPregled(){
     }
 
     useEffect(()=>{
-        dohvatiClanove();
+        dohvatiDetaljeIgre();
     },[])
 
-    async function obrisiClana(sifra) {
-        const odgovor = await ClanService.obrisi(sifra);
-        if (odgovor.greska) {
-            alert(odgovor.poruka)
-            return
-        }
-        dohvatiClanove();
-    }
-    function obrisi(sifra){
-        if (!confirm('Sigurno obrisati?')) {
-            return;
-        }
-        obrisiClana(sifra)
-    } 
-
-
-
     return (
-        <Container>
-            <Link to={RouteNames.CLAN_NOVI}
-            className="btn btn-success">
-            Dodaj Člana
-            </Link>
+        <>
+            <Button className="btn btn-success" disabled>
+                Dodaj igrača
+            </Button>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <Button className="btn btn-danger"
+            to={RouteNames.TURNIR_DETALJI}
+            disabled>
+                Povratak
+            </Button>
 
             <hr />
 
-            <Table striped bordered hover responsive>
+            <Table striped bordered responsive hover>
                 <thead>
                     <tr>
                         <th>Igrač</th>
-                        <th className="sredina">Šifra Igre</th>
-                        <th className="sredina">Broj Bodova</th>
+                        <th className="sredina">Broj bodova</th>
                         <th className="sredina">Pobjeda</th>
                         <th className="sredina">Akcije</th>
                     </tr>
@@ -64,7 +53,6 @@ export default function ClanoviPregled(){
                     {clanovi && clanovi.map((clan, index)=>(
                         <tr key={index}>
                             <td>{clan.imeIgrac}</td>
-                            <td className="sredina">{clan.sifraIgra}</td>
                             <td className="sredina">{clan.brojBodova}</td>
                             <td className="sredina">
                                 {clan.pobjeda ? (
@@ -74,7 +62,6 @@ export default function ClanoviPregled(){
                                 )}
                             </td>
                             <td className="sredina">
-
                                 <Button variant="warning" 
                                 onClick={()=>navigate(`/clanovi/${clan.sifra}`)}>
                                     Uredi
@@ -91,6 +78,6 @@ export default function ClanoviPregled(){
                     ))}
                 </tbody>
             </Table>
-        </Container>
-    );
+        </>
+    )
 }

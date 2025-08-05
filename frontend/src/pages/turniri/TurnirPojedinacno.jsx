@@ -58,7 +58,7 @@ export default function TurnirPojedinacno(){
                         <tr key={index}>
                             <td>{formatirajDatum(igra.datum)}</td>
                             <td className="sredina">
-                                <Button variant="info" disabled>
+                                <Button variant="info" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
                                     Detalji
                                 </Button>
 
