@@ -8,7 +8,6 @@ import moment from "moment";
 import { Row, Form, Col, Button, Table } from "react-bootstrap";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { FaRegTrashAlt } from "react-icons/fa";
-import ClanService from "../../services/ClanService";
 
 export default function IgrePromjena(){
 
