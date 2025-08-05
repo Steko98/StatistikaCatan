@@ -83,7 +83,7 @@ export default function TurniriPregled(){
 
                         <td className="sredina">
 
-                            <Button variant="info" disabled>
+                            <Button variant="info" onClick={()=>navigate(`/turnir/${turnir.sifra}`)}>
                                 Detalji
                             </Button>
 

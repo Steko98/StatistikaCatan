@@ -4,6 +4,7 @@ export const RouteNames = {
     TURNIR_PREGLED: '/turniri',
     TURNIR_NOVI: '/turniri/dodaj',
     TURNIR_PROMJENI: '/turniri/:sifra',
+    TURNIR_DETALJI: '/turnir/:sifra',
 
     IGRE_PREGLED: '/igre',
     IGRE_NOVI: '/igre/dodaj',

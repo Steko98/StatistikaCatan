@@ -71,6 +71,14 @@ async function promjeni(sifra, turnir) {
     })
 }
 
+async function getIgre(sifra) {
+    return await HttpService.get('Turnir/Igre/'+sifra)
+    .then ((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch(()=>{return {greska:true, poruka: "Problem kod dohvaćanja igara na turniru"}})
+}
+
 async function traziTurnir(uvjet) {
     return await HttpService.get('Turnir/trazi/'+uvjet)
     .then ((odgovor)=>{
@@ -86,5 +94,6 @@ export default{
     obrisi,
     promjeni,
     getBySifra,
+    getIgre,
     traziTurnir
 }
