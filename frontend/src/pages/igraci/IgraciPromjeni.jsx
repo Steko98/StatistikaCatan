@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button, Col, Row, Form } from "react-bootstrap";
+import { Button, Col, Row, Form, Container } from "react-bootstrap";
 import IgracService from "../../services/IgracService"
 import { RouteNames } from "../../constants";
 
@@ -45,7 +45,7 @@ export default function IgraciPromjena() {
     }
 
     return (
-        <>
+        <Container>
             <Form onSubmit={obradiSubmit}>
                 <Form.Group controlId="ime">
                     <Form.Label>Ime</Form.Label>
@@ -69,6 +69,6 @@ export default function IgraciPromjena() {
                 </Row>
             </Form>
             
-        </>
+        </Container>
     )
 }

@@ -58,42 +58,44 @@ export default function IgrePregled(){
 
             <hr />
 
-            <Table striped bordered hover responsive>
-                <thead>
-                    <tr>
-                        {/* <th>Redni broj</th> */}
-                        <th>Turnir</th>
-                        <th>Datum</th>
-                        {/* <th>Pobjednik</th> */}
-                        <th className="sredina">Akcije</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {igre && igre.map((igra, index)=>(
-                        <tr key={index}>
-                            <td>{igra.turnirNaziv}</td>
-                            <td>{formatirajDatum(igra.datum)}</td>
-                            <td className="sredina">
-                                <Button variant="info" disabled>
-                                    Detalji
-                                </Button>
-                                
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button variant="warning" 
-                                    onClick={()=>navigate(`/igre/${igra.sifra}`)}>
-                                    Uredi
-                                </Button>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button variant="danger"
-                                    onClick={()=>obrisi(igra.sifra)}>
-                                    Obriši
-                                </Button>
-                            </td>
+            <div style={{maxHeight:'60vh', overflowY:'auto'}}>
+                <Table striped bordered hover responsive>
+                    <thead>
+                        <tr>
+                            {/* <th>Redni broj</th> */}
+                            <th>Turnir</th>
+                            <th>Datum</th>
+                            {/* <th>Pobjednik</th> */}
+                            <th className="sredina">Akcije</th>
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                        {igre && igre.map((igra, index)=>(
+                            <tr key={index}>
+                                <td>{igra.turnirNaziv}</td>
+                                <td>{formatirajDatum(igra.datum)}</td>
+                                <td className="sredina">
+                                    <Button variant="info" disabled>
+                                        Detalji
+                                    </Button>
+                                    
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Button variant="warning" 
+                                        onClick={()=>navigate(`/igre/${igra.sifra}`)}>
+                                        Uredi
+                                    </Button>
+
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Button variant="danger"
+                                        onClick={()=>obrisi(igra.sifra)}>
+                                        Obriši
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
         </Container>
 
     );

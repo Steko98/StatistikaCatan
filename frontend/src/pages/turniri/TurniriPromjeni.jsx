@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -55,7 +55,7 @@ export default function TurniriPromjeni(){
 
 
     return (
-        <>
+        <Container>
 
         <Form onSubmit={odradiSubmit}>
 
@@ -92,6 +92,6 @@ export default function TurniriPromjeni(){
 
         </Form>
 
-        </>
+        </Container>
     )
 }

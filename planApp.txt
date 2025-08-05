@@ -9,7 +9,7 @@ Igre, pregled svih igara (mozda, bolje po turniru), pregled pojedine igre (naci 
 
 *******************************************************************
 
-Iz Turnira - Pregled svih turnira, dodavanje turnira, pregled turnira pojedinacno
+Iz Turnira - Pregled svih turnira, dodavanje turnira, pregled turnira pojedinacno, pretraživanje turnira po imenu?
 
 Iz pojedinacnog turnira - pregled svih igara, dodavanje igre, pregled pojedine igre, pregled tko je sve igrao, statistika 
 

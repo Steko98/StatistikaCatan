@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import IgracService from "../../services/IgracService";
 import { RouteNames } from "../../constants";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
 export default function IgraciDodaj(){
 
@@ -27,7 +27,7 @@ export default function IgraciDodaj(){
     }
 
     return (
-        <>
+        <Container>
             <Form onSubmit={obradiSubmit}>
                 <Form.Group controlId="ime">
                     <Form.Label>Ime</Form.Label>
@@ -51,6 +51,6 @@ export default function IgraciDodaj(){
                     </Col>
                 </Row>
             </Form>
-        </>
+        </Container>
     )
 }

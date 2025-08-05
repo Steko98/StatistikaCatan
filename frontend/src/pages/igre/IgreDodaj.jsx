@@ -4,7 +4,7 @@ import Service from '../../services/IgraService';
 import TurnirService from "../../services/TurnirService";
 import { RouteNames } from "../../constants";
 import moment from "moment";
-import { Button, Row, Col, Form } from "react-bootstrap";
+import { Button, Row, Col, Form, Container } from "react-bootstrap";
 
 export default function IgreDodaj(){
     const navigate = useNavigate();
@@ -43,7 +43,7 @@ export default function IgreDodaj(){
     }
 
     return (
-        <>
+        <Container>
 
             <Form onSubmit={obradiSubmit}>
                 <Form.Group controlId="datum">
@@ -80,7 +80,7 @@ export default function IgreDodaj(){
                     </Col>
                 </Row>
             </Form>
-        </>
+        </Container>
     )
 
 }

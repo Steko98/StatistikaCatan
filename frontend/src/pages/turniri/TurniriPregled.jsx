@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ export default function TurniriPregled(){
 
 
     return(
-        <>
+        <Container>
         <Link 
         className="btn btn-success"
         to={RouteNames.TURNIR_NOVI}>
@@ -58,53 +58,54 @@ export default function TurniriPregled(){
         </Link>
 
         <hr />
-
-        <Table striped bordered hover responsive>
-            <thead>
-                <tr>
-                    <th>Naziv</th>
-                    <th>Datum početka</th>
-                    <th>Datum završetka</th>
-                    <th className="sredina">Akcije</th>
-                </tr>
-            </thead>
-            <tbody>
-                {turniri && turniri.map((turnir,index)=>(
-                    <tr key={index}>
-                        <td>
-                            {turnir.naziv}
-                        </td>
-                        <td>
-                            {formatirajDatum(turnir.datumPocetka)}
-                        </td>
-                        <td>
-                            {formatirajDatum(turnir.datumZavrsetka)}
-                        </td>
-
-                        <td className="sredina">
-
-                            <Button variant="info" onClick={()=>navigate(`/turnir/${turnir.sifra}`)}>
-                                Detalji
-                            </Button>
-
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-
-                            <Button variant="warning" 
-                            onClick={()=>navigate(`/turniri/${turnir.sifra}`)}>
-                                Uredi
-                            </Button>
-
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            
-                            <Button variant="danger" 
-                            onClick={()=>obrisi(turnir.sifra)}>
-                                Obriši
-                            </Button>
-                        </td>
+        <div style={{maxHeight:'60vh', overflowY:'auto'}}>
+            <Table striped bordered hover responsive className="tablice">
+                <thead>
+                    <tr>
+                        <th>Naziv</th>
+                        <th>Datum početka</th>
+                        <th>Datum završetka</th>
+                        <th className="sredina">Akcije</th>
                     </tr>
-                ))}
-            </tbody>
-        </Table>
-        </>
+                </thead>
+                <tbody>
+                    {turniri && turniri.map((turnir,index)=>(
+                        <tr key={index}>
+                            <td>
+                                {turnir.naziv}
+                            </td>
+                            <td>
+                                {formatirajDatum(turnir.datumPocetka)}
+                            </td>
+                            <td>
+                                {formatirajDatum(turnir.datumZavrsetka)}
+                            </td>
+
+                            <td className="sredina">
+
+                                <Button variant="info" onClick={()=>navigate(`/turnir/${turnir.sifra}`)}>
+                                    Detalji
+                                </Button>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <Button variant="warning" 
+                                onClick={()=>navigate(`/turniri/${turnir.sifra}`)}>
+                                    Uredi
+                                </Button>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                
+                                <Button variant="danger" 
+                                onClick={()=>obrisi(turnir.sifra)}>
+                                    Obriši
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </div>
+        </Container>
     )
 }

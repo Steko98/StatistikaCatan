@@ -25,7 +25,7 @@ function App() {
 
 
   return (
-    <Container>
+    <div>
       <NavBarEdunova />
       <Container className='app'>
         <Routes>
@@ -54,7 +54,7 @@ function App() {
 
       &copy;Ivan Šteko
 
-    </Container>    
+    </div>    
   )
 }
 

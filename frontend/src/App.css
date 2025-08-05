@@ -1,9 +1,9 @@
-.ruka {
-    cursor: pointer;
-}
-
 .app {
-    min-height: 600px;
+    min-height: 100vh;
+    min-width: 100%;
+    margin: 0px;
+    padding-top: 10px;
+    background-color: #471396;
 }
 
 .sredina {
@@ -12,4 +12,55 @@
 
 .desno {
     text-align: right;
+}
+
+.navbar-catan {
+    background-color: #090040;
+    width: 100%;
+    border-bottom: 2px solid #FFCC00;
+    /* margin-bottom: 10px; */
+}
+
+.nav-brand {
+    cursor: pointer;
+    margin-left: 20px;
+    color: #B13BFF;
+    font-family: "Nova Mono", monospace;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.nav-tekst {
+    cursor: pointer;
+    color: #B13BFF;
+    font-family: "Nova Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+.nav-brand:hover {
+    color: #FFCC00;
+    text-shadow: 2px 2px 4px #AF47D2;
+    transform: translateY(-3px);
+}
+
+.nav-tekst:hover {
+    color: #FFCC00;
+}
+
+.navbar .dropdown-toggle::after {
+  border-top-color: #B13BFF !important;
+}
+
+.tablice {
+    background-color: #FFCC00;
+    border-color: #090040;
+}
+
+.tablice td {
+    background-color: transparent;
+
+}
+.tablice th {
+    background-color: transparent;
+
 }

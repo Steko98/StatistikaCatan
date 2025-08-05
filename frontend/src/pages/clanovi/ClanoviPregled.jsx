@@ -50,47 +50,49 @@ export default function ClanoviPregled(){
 
             <hr />
 
-            <Table striped bordered hover responsive>
-                <thead>
-                    <tr>
-                        <th>Igrač</th>
-                        <th className="sredina">Šifra Igre</th>
-                        <th className="sredina">Broj Bodova</th>
-                        <th className="sredina">Pobjeda</th>
-                        <th className="sredina">Akcije</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {clanovi && clanovi.map((clan, index)=>(
-                        <tr key={index}>
-                            <td>{clan.imeIgrac}</td>
-                            <td className="sredina">{clan.sifraIgra}</td>
-                            <td className="sredina">{clan.brojBodova}</td>
-                            <td className="sredina">
-                                {clan.pobjeda ? (
-                                    <GiPodiumWinner size={35} color="green" />
-                                ) : (
-                                    <FaSadTear size={25} color="red"/>
-                                )}
-                            </td>
-                            <td className="sredina">
-
-                                <Button variant="warning" 
-                                onClick={()=>navigate(`/clanovi/${clan.sifra}`)}>
-                                    Uredi
-                                </Button>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                <Button variant="danger" 
-                                onClick={()=>obrisi(clan.sifra)}>
-                                    Obriši
-                                </Button>
-                            </td>
+            <div style={{maxHeight:'60vh', overflowY:'auto'}}>
+                <Table striped bordered hover responsive>
+                    <thead>
+                        <tr>
+                            <th>Igrač</th>
+                            <th className="sredina">Šifra Igre</th>
+                            <th className="sredina">Broj Bodova</th>
+                            <th className="sredina">Pobjeda</th>
+                            <th className="sredina">Akcije</th>
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                        {clanovi && clanovi.map((clan, index)=>(
+                            <tr key={index}>
+                                <td>{clan.imeIgrac}</td>
+                                <td className="sredina">{clan.sifraIgra}</td>
+                                <td className="sredina">{clan.brojBodova}</td>
+                                <td className="sredina">
+                                    {clan.pobjeda ? (
+                                        <GiPodiumWinner size={35} color="green" />
+                                    ) : (
+                                        <FaSadTear size={25} color="red"/>
+                                    )}
+                                </td>
+                                <td className="sredina">
+
+                                    <Button variant="warning" 
+                                    onClick={()=>navigate(`/clanovi/${clan.sifra}`)}>
+                                        Uredi
+                                    </Button>
+
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    
+                                    <Button variant="danger" 
+                                    onClick={()=>obrisi(clan.sifra)}>
+                                        Obriši
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
         </Container>
     );
 }
