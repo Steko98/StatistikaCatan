@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RouteNames } from "../../constants";
 import { Button, Container, Table } from "react-bootstrap";
 import moment from "moment";
+import IgraService from "../../services/IgraService";
 
 export default function TurnirPojedinacno(){
     const navigate = useNavigate();
@@ -23,12 +24,27 @@ export default function TurnirPojedinacno(){
         dohvatiIgreTurnira();
     },[])
 
-        function formatirajDatum(datum){
-            if (datum==null) {
-                return 'Nije definirano'
-            }
-            return moment.utc(datum).format('DD.MM.YYYY.')
+    function formatirajDatum(datum){
+        if (datum==null) {
+            return 'Nije definirano'
         }
+        return moment.utc(datum).format('DD.MM.YYYY.')
+    }
+
+    async function obrisiIgru(sifra) {
+        const odgovor = await IgraService.obrisi(sifra);
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
+        dohvatiIgreTurnira();
+    }
+    function obrisi(sifra) {
+        if (!confirm('Sigurno obrisati?')) {
+            return
+        }
+        obrisiIgru(sifra)
+    }
 
     return (
         <Container>
@@ -51,14 +67,14 @@ export default function TurnirPojedinacno(){
                     <thead>
                         <tr>
                             <th>Datum</th>
-                            <th className="sredina">Akcije</th>
+                            <th className="sredina akcije">Akcije</th>
                         </tr>
                     </thead>
                     <tbody>
                         {igre && igre.map((igra,index)=>(
                             <tr key={index}>
                                 <td>{formatirajDatum(igra.datum)}</td>
-                                <td className="sredina">
+                                <td className="sredina akcije">
                                     <Button variant="info" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
                                         Detalji
                                     </Button>

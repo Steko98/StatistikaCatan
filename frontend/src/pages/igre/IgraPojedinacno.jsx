@@ -5,6 +5,7 @@ import { RouteNames } from "../../constants";
 import { Button, Container, Table } from "react-bootstrap";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
+import ClanService from "../../services/ClanService";
 
 export default function IgraPojedinacno(){
     const navigate = useNavigate();
@@ -23,6 +24,23 @@ export default function IgraPojedinacno(){
     useEffect(()=>{
         dohvatiDetaljeIgre();
     },[])
+
+    async function obrisiClana(sifra) {
+        const odgovor = await ClanService.obrisi(sifra)
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
+        dohvatiDetaljeIgre();
+    }
+    function obrisi(sifra){
+        if (!confirm('Sigurno obrisati?')) {
+            return
+        }
+        obrisiClana(sifra)
+    }
+
+    
 
     return (
         <Container>
@@ -47,7 +65,7 @@ export default function IgraPojedinacno(){
                             <th>Igrač</th>
                             <th className="sredina">Broj bodova</th>
                             <th className="sredina">Pobjeda</th>
-                            <th className="sredina">Akcije</th>
+                            <th className="sredina akcije">Akcije</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +80,7 @@ export default function IgraPojedinacno(){
                                         <FaSadTear size={25} color="red"/>
                                     )}
                                 </td>
-                                <td className="sredina">
+                                <td className="sredina akcije">
                                     <Button variant="warning" 
                                     onClick={()=>navigate(`/clanovi/${clan.sifra}`)}>
                                         Uredi

@@ -16,16 +16,18 @@ import IgrePregled from './pages/igre/IgrePregled'
 import IgreDodaj from './pages/igre/IgreDodaj'
 import IgraPojedinacno from './pages/igre/IgraPojedinacno'
 import IgrePromjeni from './pages/igre/IgrePromjeni'
+import IgracPojedinacno from './pages/igraci/IgracPojedinacno'
 import ClanoviPregled from './pages/clanovi/ClanoviPregled'
 import ClanoviDodaj from './pages/clanovi/ClanoviDodaj'
 import ClanoviPromjeni from './pages/clanovi/ClanoviPromjeni'
+
 
 
 function App() {
 
 
   return (
-    <div>
+    <Container>
       <NavBarEdunova />
       <Container className='app'>
         <Routes>
@@ -44,6 +46,7 @@ function App() {
           <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />}/>
           <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj/>}/>
           <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni/>}/>
+          <Route path={RouteNames.IGRAC_POJEDINACNO} element={<IgracPojedinacno/>}/>
 
           <Route path={RouteNames.CLAN_PREGLED} element={<ClanoviPregled/>}/>
           <Route path={RouteNames.CLAN_NOVI} element={<ClanoviDodaj/>}/>
@@ -54,7 +57,7 @@ function App() {
 
       &copy;Ivan Šteko
 
-    </div>    
+    </Container>    
   )
 }
 

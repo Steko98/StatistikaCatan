@@ -15,7 +15,7 @@ export default function NavBarEdunova() {
 
   return (
     <Navbar expand="lg" className="navbar-catan">
-        <Navbar.Brand className='ruka nav-brand' onClick={()=>navigate(RouteNames.HOME)}>CATANCARO</Navbar.Brand>
+        <Navbar.Brand className='ruka nav-brand' onClick={()=>navigate(RouteNames.HOME)}>CATAN</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

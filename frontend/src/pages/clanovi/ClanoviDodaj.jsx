@@ -37,7 +37,7 @@ export default function ClanoviDodaj(){
             alert(odgovor.poruka)
             return
         }
-        navigate(RouteNames.CLAN_PREGLED)
+        navigate(-1)
     }
 
     function obradiSubmit(e) {
@@ -94,9 +94,10 @@ export default function ClanoviDodaj(){
 
             <Row>
                 <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-                    <Link className="btn btn-danger" to={RouteNames.CLAN_PREGLED}>
+                    <Button className="btn btn-danger"
+                    onClick={()=>navigate(-1)}>
                         Povratak
-                    </Link>
+                    </Button>
                 </Col>
                 <Col xs={6} sm={6} md={9} lg={10} xl={6} xxl={6}>
                     <Button variant="success" type="submit">

@@ -66,7 +66,7 @@ export default function IgrePregled(){
                             <th>Turnir</th>
                             <th>Datum</th>
                             {/* <th>Pobjednik</th> */}
-                            <th className="sredina">Akcije</th>
+                            <th className="sredina akcije">Akcije</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,8 +74,8 @@ export default function IgrePregled(){
                             <tr key={index}>
                                 <td>{igra.turnirNaziv}</td>
                                 <td>{formatirajDatum(igra.datum)}</td>
-                                <td className="sredina">
-                                    <Button variant="info" disabled>
+                                <td className="sredina akcije">
+                                    <Button variant="info" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
                                         Detalji
                                     </Button>
                                     
