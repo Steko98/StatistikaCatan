@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import ClanService from "../../services/ClanService";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import IgracService from '../../services/IgracService'
 import { Button, Container, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
+import ClanService from "../../services/ClanService";
 
-export default function ClanoviPregled(){
-
+export default function IgracPojedinacno(){
     const navigate = useNavigate();
+    const routeParams = useParams();
     const [clanovi, setClanovi] = useState([]);
 
-    async function dohvatiClanove() {
-        const odgovor = await ClanService.get()
+    async function dohvatiIgreIgraca() {
+        const odgovor = await IgracService.getIgre(routeParams.sifra)
         if (odgovor.greska) {
             alert(odgovor.poruka)
             return
@@ -21,7 +22,7 @@ export default function ClanoviPregled(){
     }
 
     useEffect(()=>{
-        dohvatiClanove();
+        dohvatiIgreIgraca();
     },[])
 
     async function obrisiClana(sifra) {
@@ -30,60 +31,54 @@ export default function ClanoviPregled(){
             alert(odgovor.poruka)
             return
         }
-        dohvatiClanove();
+        dohvatiIgreIgraca();
     }
     function obrisi(sifra){
         if (!confirm('Sigurno obrisati?')) {
-            return;
+            return
         }
         obrisiClana(sifra)
-    } 
-
-
+    }
 
     return (
-        <Container>
-            <Link to={RouteNames.CLAN_NOVI}
-            className="btn btn-success">
-            Dodaj Člana
+        <Container >
+
+            <Link className="btn btn-danger"
+            to={RouteNames.IGRACI_PREGLED}>
+                Povratak
             </Link>
 
             <hr />
 
             <div style={{maxHeight:'60vh', overflowY:'auto'}}>
-                <Table striped bordered hover responsive>
+                <Table bordered hover responsive striped>
                     <thead>
-                        <tr>
-                            <th>Igrač</th>
-                            <th className="sredina">Šifra Igre</th>
-                            <th className="sredina">Broj Bodova</th>
-                            <th className="sredina">Pobjeda</th>
-                            <th className="sredina akcije">Akcije</th>
-                        </tr>
+                        <td className="sredina">Šifra igre</td>
+                        <td className="sredina">Broj bodova</td>
+                        <td className="sredina">Pobjeda</td>
+                        <td className="sredina akcije">Akcije</td>
                     </thead>
                     <tbody>
                         {clanovi && clanovi.map((clan, index)=>(
                             <tr key={index}>
-                                <td>{clan.imeIgrac}</td>
                                 <td className="sredina">{clan.sifraIgra}</td>
                                 <td className="sredina">{clan.brojBodova}</td>
                                 <td className="sredina">
                                     {clan.pobjeda ? (
-                                        <GiPodiumWinner size={35} color="green" />
+                                    <GiPodiumWinner size={35} color="green" />
                                     ) : (
-                                        <FaSadTear size={25} color="red"/>
+                                    <FaSadTear size={25} color="red"/>
                                     )}
                                 </td>
                                 <td className="sredina akcije">
-
-                                    <Button variant="warning" 
+                                    <Button className="btn btn-warning"
                                     onClick={()=>navigate(`/clanovi/${clan.sifra}`)}>
                                         Uredi
                                     </Button>
 
                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                    
-                                    <Button variant="danger" 
+
+                                    <Button className="btn btn-danger"
                                     onClick={()=>obrisi(clan.sifra)}>
                                         Obriši
                                     </Button>
@@ -94,5 +89,5 @@ export default function ClanoviPregled(){
                 </Table>
             </div>
         </Container>
-    );
+    )
 }

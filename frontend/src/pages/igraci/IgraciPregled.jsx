@@ -52,15 +52,16 @@ export default function IgraciPregled(){
                 <thead>
                     <tr>
                         <th>Ime</th>
-                        <th className="sredina">Akcije</th>
+                        <th className="sredina akcije">Akcije</th>
                     </tr>
                 </thead>
                 <tbody>
                     {igraci && igraci.map((igrac,index)=>(
                         <tr key={index}>
                             <td>{igrac.ime}</td>
-                            <td className="sredina">
-                                <Button variant="info" disabled>
+                            <td className="sredina akcije">
+                                <Button variant="info"
+                                onClick={()=>navigate(`/igrac/${igrac.sifra}`)}>
                                     Detalji
                                 </Button>
 

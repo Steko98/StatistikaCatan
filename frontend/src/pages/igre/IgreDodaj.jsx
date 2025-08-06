@@ -28,7 +28,7 @@ export default function IgreDodaj(){
             alert(odgovor.poruka);
             return;
         }
-        navigate(RouteNames.IGRE_PREGLED);
+        navigate(-1);
     }
 
     function obradiSubmit(e){

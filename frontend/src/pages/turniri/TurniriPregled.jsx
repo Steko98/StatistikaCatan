@@ -65,7 +65,7 @@ export default function TurniriPregled(){
                         <th>Naziv</th>
                         <th>Datum početka</th>
                         <th>Datum završetka</th>
-                        <th className="sredina">Akcije</th>
+                        <th className="sredina akcije">Akcije</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,7 +81,7 @@ export default function TurniriPregled(){
                                 {formatirajDatum(turnir.datumZavrsetka)}
                             </td>
 
-                            <td className="sredina">
+                            <td className="sredina akcije">
 
                                 <Button variant="info" onClick={()=>navigate(`/turnir/${turnir.sifra}`)}>
                                     Detalji
