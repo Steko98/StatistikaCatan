@@ -87,6 +87,14 @@ async function traziTurnir(uvjet) {
     .catch ((e)=>{return {greska: true, poruka: "Problem kod traženja turnira"}})
 }
 
+async function getDetaljiTurnir(sifra) {
+    return await HttpService.get('Turnir/' + sifra + '/detalji')
+    .then ((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch (()=>{return {greska: true, poruka: "Problem kod dohvaćanja detalja turnira"}})
+}
+
 
 export default{
     get,
@@ -95,5 +103,6 @@ export default{
     promjeni,
     getBySifra,
     getIgre,
-    traziTurnir
+    traziTurnir,
+    getDetaljiTurnir
 }

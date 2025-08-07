@@ -10,6 +10,7 @@ export default function TurnirPojedinacno(){
     const navigate = useNavigate();
     const routeParams = useParams();
     const [igre, setIgre] = useState([]);
+    const [turnir, setTurnir] = useState({});
 
     async function dohvatiIgreTurnira() {
         const odgovor = await TurnirService.getIgre(routeParams.sifra)
@@ -20,8 +21,18 @@ export default function TurnirPojedinacno(){
         setIgre(odgovor.poruka)
     }
 
+    async function dohvatiDetaljeTurnira() {
+        const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra)
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
+        setTurnir(odgovor.poruka)
+    }
+
+
     useEffect(()=>{
-        dohvatiIgreTurnira();
+        dohvatiDetaljeTurnira();
     },[])
 
     function formatirajDatum(datum){
@@ -66,23 +77,22 @@ export default function TurnirPojedinacno(){
                 <Table striped hover responsive bordered>
                     <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Pobjednik</th>
+                            <th>Igrači</th>
                             <th>Datum</th>
                             <th className="sredina akcije">Akcije</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {igre && igre.map((igra,index)=>(
+                        {turnir && turnir.igre && turnir.igre.map((igra, index) =>(
                             <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{igra.clanovi && igra.clanovi.find(c => c.pobjeda)?.imeIgrac}</td>
+                                <td>{igra.clanovi && igra.clanovi.map(c => c.imeIgrac).join(', ')}</td>
                                 <td>{formatirajDatum(igra.datum)}</td>
                                 <td className="sredina akcije">
-                                    <Button variant="info" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
-                                        Detalji
-                                    </Button>
-
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-
-                                    <Button variant="warning" 
-                                    onClick={()=>navigate(`/igre/${igra.sifra}`)}>
+                                    <Button variant="warning" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
                                         Uredi
                                     </Button>
 
@@ -99,6 +109,11 @@ export default function TurnirPojedinacno(){
                 
                 </Table>
             </div>
+
+            <hr />
+
+            
+
         </Container>
     )
 }
