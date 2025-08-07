@@ -35,6 +35,15 @@ namespace BACKEND.Mapping
                 .ForCtorParam("SifraIgrac", opt => opt.MapFrom(src => src.Igrac.Sifra))
                 .ForCtorParam("SifraIgra", opt => opt.MapFrom(src => src.Igra.Sifra)
                 );
+
+            CreateMap<Turnir, DetaljiTurnirDTORead>()
+                .ForMember(dest => dest.Sifra, opt => opt.MapFrom(src => src.Sifra))
+                .ForMember(dest => dest.Naziv, opt => opt.MapFrom(src => src.Naziv));
+            CreateMap<Igra, DetaljiIgraDTORead>()
+                .ForMember(dest => dest.Sifra, opt => opt.MapFrom(src => src.Sifra));
+            
+
+
         }
     }
 }
