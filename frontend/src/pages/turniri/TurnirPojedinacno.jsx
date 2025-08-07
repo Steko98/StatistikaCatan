@@ -5,21 +5,14 @@ import { RouteNames } from "../../constants";
 import { Button, Container, Table } from "react-bootstrap";
 import moment from "moment";
 import IgraService from "../../services/IgraService";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function TurnirPojedinacno(){
     const navigate = useNavigate();
     const routeParams = useParams();
-    const [igre, setIgre] = useState([]);
     const [turnir, setTurnir] = useState({});
-
-    async function dohvatiIgreTurnira() {
-        const odgovor = await TurnirService.getIgre(routeParams.sifra)
-        if (odgovor.greska) {
-                alert(odgovor.poruka)
-                return
-        }
-        setIgre(odgovor.poruka)
-    }
+    const [grafPodaci, setGrafPodaci] = useState([]);
+    const [igraci, setIgraci] = useState([]);
 
     async function dohvatiDetaljeTurnira() {
         const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra)
@@ -28,6 +21,11 @@ export default function TurnirPojedinacno(){
             return
         }
         setTurnir(odgovor.poruka)
+
+        const igre = odgovor.poruka.igre || [];
+        const {podaci, igraci} = pripremiPodatke(igre);
+        setGrafPodaci(podaci)
+        setIgraci(igraci)
     }
 
 
@@ -48,13 +46,46 @@ export default function TurnirPojedinacno(){
             alert(odgovor.poruka)
             return
         }
-        dohvatiIgreTurnira();
+        dohvatiDetaljeTurnira();
     }
     function obrisi(sifra) {
         if (!confirm('Sigurno obrisati?')) {
             return
         }
         obrisiIgru(sifra)
+    }
+
+    function pripremiPodatke(igre){
+        const igraciSet = new Set();
+        igre.forEach(igra => {
+            igra.clanovi.forEach(clan => {
+                igraciSet.add(clan.imeIgrac)
+            })
+        });
+
+        const igraci = Array.from(igraciSet)
+        const zbirBodova = {}
+        igraci.forEach(igrac => {
+            zbirBodova[igrac] = 0;
+        })
+
+        const podaci = igre.map((igra, index) => {
+            const brojIgre = index + 1;
+            igra.clanovi.forEach((clan)=>{
+                const igracIme = clan.imeIgrac;
+                const bodovi = clan.brojBodova || 0;
+                zbirBodova[igracIme] += bodovi;
+            })
+
+            const igraPodaci = {igra: brojIgre};
+            igraci.forEach((igrac)=>{
+                igraPodaci[igrac] = zbirBodova[igrac]
+            })
+
+            return igraPodaci
+        })
+
+        return {podaci, igraci}
     }
 
     return (
@@ -111,7 +142,32 @@ export default function TurnirPojedinacno(){
             </div>
 
             <hr />
-
+            
+            {grafPodaci.length > 0 && (
+                <>
+                <div style={{ width: '100%', height: 400 }}>
+                <ResponsiveContainer>
+                    <LineChart data={grafPodaci}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="igra" label={{ value: 'Broj igre', position: 'insideBottom', offset: -5 }} />
+                    <YAxis label={{ value: 'Bodovi', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip />
+                    <Legend />
+                        {igraci.map((ime, i) => (
+                            <Line
+                                key={ime}
+                                type="monotone"
+                                dataKey={ime}
+                                stroke={`hsl(${i * 60}, 70%, 50%)`}
+                                dot={false}
+                            />
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+                </div>
+                </>
+            )}
             
 
         </Container>
