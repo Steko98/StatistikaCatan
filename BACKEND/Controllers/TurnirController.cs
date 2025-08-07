@@ -206,5 +206,33 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{sifra:int}/detalji")]
+        public ActionResult<List<DetaljiTurnirDTORead>> GetDetalji(int sifra)
+        {
+            if (!ModelState.IsValid || sifra < 1)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var turnir = _context.Turniri
+                    .Include(t => t.Igre)
+                        .ThenInclude(i => i.Clanovi)
+                            .ThenInclude(c => c.Igrac)
+                    .FirstOrDefault(t => t.Sifra == sifra);
+                if (turnir == null)
+                {
+                    return BadRequest("Turnir nije pronađen");
+                }
+                var turnirDetalji = _mapper.Map<DetaljiTurnirDTORead>(turnir);
+                return Ok(turnirDetalji);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
     }
 }
