@@ -2,7 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import TurnirService from "../../services/TurnirService";
 import { useEffect, useState } from "react";
 import { RouteNames } from "../../constants";
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import moment from "moment";
 import IgraService from "../../services/IgraService";
 import ZbirBodovaGraf from '../../components/grafovi/ZbirBodovaGraf';
@@ -87,8 +87,8 @@ export default function TurnirPojedinacno(){
                                 <td>{igra.clanovi && igra.clanovi.map(c => c.imeIgrac).join(', ')}</td>
                                 <td>{formatirajDatum(igra.datum)}</td>
                                 <td className="sredina akcije">
-                                    <Button variant="warning" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
-                                        Uredi
+                                    <Button variant="info" onClick={()=>navigate(`/igra/${igra.sifra}`)}>
+                                        Detalji
                                     </Button>
 
                                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -106,15 +106,66 @@ export default function TurnirPojedinacno(){
 
             <hr />
 
-            <div className="container mt-4" style={{width:'50%' }}>
+            {/* <div className="container mt-4" style={{width:'50%' }}> */}
                 <h2>Statistika</h2>
-                <GrafTabovi onChange={setOdabraniGraf}/>
-                <div className="mt-4">
-                    {odabraniGraf === "Postotak" && <PostotakGraf/> }
-                    {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf/>}
-                    {odabraniGraf === "Broj odigranih" && <OdigraneGraf/>}
-                </div>
-            </div>
+                <Row>
+                    <Col key='1' sm={12} md={6} lg={6}>
+                        <GrafTabovi onChange={setOdabraniGraf}/>
+                        <div className="mt-4">
+                            {odabraniGraf === "Postotak" && <PostotakGraf/> }
+                            {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf/>}
+                            {odabraniGraf === "Broj odigranih" && <OdigraneGraf/>}   
+                        </div>
+                    </Col>
+
+                    <Col Col key='2' sm={12} md={6} lg={6}>
+                        <Table striped hover responsive bordered>
+                            <thead>
+                                <tr>
+                                    <td>Rekord</td>
+                                    <td>Rezultat</td>                                    
+                                    <td>Igrač</td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Najviše odigranih</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Najviše pobjeda</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Najbolji postotak</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Najduži niz pobjeda</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Najviše bodova</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Najveći prosjek bodova po igri</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Col>                                         
+                </Row>
+
+
+            {/* </div> */}
         </Container>
     )
 }
