@@ -112,7 +112,7 @@ export default function IgrePromjena() {
   return (
     <Container>
       <Row>
-        <Col key="1" sm={12} md={6} lg={6}>
+        {/* <Col key="1" sm={12} md={6} lg={6}> */}
           <Form onSubmit={obradiSubmit}>
             <Form.Group controlId="datum">
               <Form.Label>Datum</Form.Label>
@@ -155,8 +155,8 @@ export default function IgrePromjena() {
               </Col>
             </Row>
           </Form>
-        </Col>
-        <Col key="2" sm={12} md={6} lg={6}>
+        {/* </Col> */}
+        {/* <Col key="2" sm={12} md={6} lg={6}>
           <div style={{ overflow: "auto", maxHeight: "400px" }}>
             <Form.Group className="mb-3" controlId="uvjet">
               <Form.Label>Traži igrača</Form.Label>
@@ -204,7 +204,7 @@ export default function IgrePromjena() {
               </tbody>
             </Table>
           </div>
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );

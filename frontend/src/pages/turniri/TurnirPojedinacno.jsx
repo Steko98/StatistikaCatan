@@ -53,6 +53,7 @@ export default function TurnirPojedinacno() {
 
   return (
     <Container>
+      <h2 className="sredina">{turnir.naziv}</h2>
       <Link className="btn btn-success" to={RouteNames.IGRE_NOVI}>
         Dodaj igru
       </Link>
@@ -119,7 +120,7 @@ export default function TurnirPojedinacno() {
           </div>
         </Col>
 
-        <Col Col key="2" sm={12} md={6} lg={6}>
+        <Col key="2" sm={12} md={6} lg={6}>
           <Table striped hover responsive bordered>
             <thead>
               <tr>

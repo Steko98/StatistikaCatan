@@ -37,9 +37,9 @@ export default function IgraciDodaj() {
 
         <Row>
           <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-            <Link to={RouteNames.IGRACI_PREGLED} className="btn btn-danger">
+            <Button onClick={() => navigate(-1)} className="btn btn-danger">
               Povratak
-            </Link>
+            </Button>
           </Col>
           <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
             <Button variant="primary" type="submit">

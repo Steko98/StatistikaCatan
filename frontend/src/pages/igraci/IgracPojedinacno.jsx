@@ -51,10 +51,13 @@ export default function IgracPojedinacno() {
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Table bordered hover responsive striped>
           <thead>
-            <td className="sredina">Šifra igre</td>
-            <td className="sredina">Broj bodova</td>
-            <td className="sredina">Pobjeda</td>
-            <td className="sredina akcije">Akcije</td>
+            <tr>
+              <td className="sredina">Šifra igre</td>
+              <td className="sredina">Broj bodova</td>
+              <td className="sredina">Pobjeda</td>
+              <td className="sredina akcije">Akcije</td>
+            </tr>
+
           </thead>
           <tbody>
             {clanovi &&
