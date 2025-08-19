@@ -7,97 +7,89 @@ import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 import ClanService from "../../services/ClanService";
 
-export default function IgraPojedinacno(){
-    const navigate = useNavigate();
-    const routeParams = useParams();
-    const [clanovi, setClanovi] = useState([]);
+export default function IgraPojedinacno() {
+  const navigate = useNavigate();
+  const routeParams = useParams();
+  const [clanovi, setClanovi] = useState([]);
 
-    async function dohvatiDetaljeIgre() {
-        const odgovor = await IgraService.getIgraci(routeParams.sifra)
-        if (odgovor.greska) {
-            alert(odgovor.poruka)
-            return
-        }
-        setClanovi(odgovor.poruka)
+  async function dohvatiDetaljeIgre() {
+    const odgovor = await IgraService.getIgraci(routeParams.sifra);
+    if (odgovor.greska) {
+      alert(odgovor.poruka);
+      return;
     }
+    setClanovi(odgovor.poruka);
+  }
 
-    useEffect(()=>{
-        dohvatiDetaljeIgre();
-    },[])
+  useEffect(() => {
+    dohvatiDetaljeIgre();
+  }, []);
 
-    async function obrisiClana(sifra) {
-        const odgovor = await ClanService.obrisi(sifra)
-        if (odgovor.greska) {
-            alert(odgovor.poruka)
-            return
-        }
-        dohvatiDetaljeIgre();
+  async function obrisiClana(sifra) {
+    const odgovor = await ClanService.obrisi(sifra);
+    if (odgovor.greska) {
+      alert(odgovor.poruka);
+      return;
     }
-    function obrisi(sifra){
-        if (!confirm('Sigurno obrisati?')) {
-            return
-        }
-        obrisiClana(sifra)
+    dohvatiDetaljeIgre();
+  }
+  function obrisi(sifra) {
+    if (!confirm("Sigurno obrisati?")) {
+      return;
     }
+    obrisiClana(sifra);
+  }
 
-    
-
-    return (
-        <Container>
-            <Link className="btn btn-success"
-            to={RouteNames.CLAN_NOVI}>
-                Dodaj igrača
-            </Link>
-
-            &nbsp;&nbsp;&nbsp;&nbsp;
-
-            <Button className="btn btn-danger"
-            onClick={()=>navigate(-1)}>
-                Povratak
-            </Button>
-
-            <hr />
-
-            <div style={{maxHeight:'60vh', overflowY:'auto'}}>
-                <Table striped bordered responsive hover>
-                    <thead>
-                        <tr>
-                            <th>Igrač</th>
-                            <th className="sredina">Broj bodova</th>
-                            <th className="sredina">Pobjeda</th>
-                            <th className="sredina akcije">Akcije</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {clanovi && clanovi.map((clan, index)=>(
-                            <tr key={index}>
-                                <td>{clan.imeIgrac}</td>
-                                <td className="sredina">{clan.brojBodova}</td>
-                                <td className="sredina">
-                                    {clan.pobjeda ? (
-                                        <GiPodiumWinner size={35} color="green" />
-                                    ) : (
-                                        <FaSadTear size={25} color="red"/>
-                                    )}
-                                </td>
-                                <td className="sredina akcije">
-                                    <Button variant="warning" 
-                                    onClick={()=>navigate(`/clanovi/${clan.sifra}`)}>
-                                        Uredi
-                                    </Button>
-
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    
-                                    <Button variant="danger" 
-                                    onClick={()=>obrisi(clan.sifra)}>
-                                        Obriši
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </div>
-        </Container>
-    )
+  return (
+    <Container>
+      <Link className="btn btn-success" to={RouteNames.CLAN_NOVI}>
+        Dodaj igrača
+      </Link>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <Button className="btn btn-danger" onClick={() => navigate(-1)}>
+        Povratak
+      </Button>
+      <hr />
+      <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
+        <Table striped bordered responsive hover>
+          <thead>
+            <tr>
+              <th>Igrač</th>
+              <th className="sredina">Broj bodova</th>
+              <th className="sredina">Pobjeda</th>
+              <th className="sredina akcije">Akcije</th>
+            </tr>
+          </thead>
+          <tbody>
+            {clanovi &&
+              clanovi.map((clan, index) => (
+                <tr key={index}>
+                  <td>{clan.imeIgrac}</td>
+                  <td className="sredina">{clan.brojBodova}</td>
+                  <td className="sredina">
+                    {clan.pobjeda ? (
+                      <GiPodiumWinner size={35} color="green" />
+                    ) : (
+                      <FaSadTear size={25} color="red" />
+                    )}
+                  </td>
+                  <td className="sredina akcije">
+                    <Button
+                      variant="warning"
+                      onClick={() => navigate(`/clanovi/${clan.sifra}`)}
+                    >
+                      Uredi
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Button variant="danger" onClick={() => obrisi(clan.sifra)}>
+                      Obriši
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </div>
+    </Container>
+  );
 }

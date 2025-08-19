@@ -5,107 +5,97 @@ import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 
-export default function TurniriPregled(){
+export default function TurniriPregled() {
+  const navigate = useNavigate();
+  const [turniri, setTurniri] = useState([]);
 
-    const navigate = useNavigate();
-    const[turniri, setTurniri] = useState([]);
-    
-
-    async function dohvatiTurnire(){
-       const odgovor = await TurnirService.get()
-        if (odgovor.greska) {
-            alert(odgovor.poruka)
-            return
-        }
-       setTurniri(odgovor.poruka)
+  async function dohvatiTurnire() {
+    const odgovor = await TurnirService.get();
+    if (odgovor.greska) {
+      alert(odgovor.poruka);
+      return;
     }
+    setTurniri(odgovor.poruka);
+  }
 
+  useEffect(() => {
+    dohvatiTurnire();
+  }, []);
 
-    useEffect(()=>{
-        dohvatiTurnire();
-    },[])
-
-    function formatirajDatum(datum){
-        if (datum==null) {
-            return 'Nije definirano'
-        }
-        return moment.utc(datum).format('DD.MM.YYYY.')
+  function formatirajDatum(datum) {
+    if (datum == null) {
+      return "Nije definirano";
     }
+    return moment.utc(datum).format("DD.MM.YYYY.");
+  }
 
-    async function obrisiTurnir(sifra) {
-        const odgovor = await TurnirService.obrisi(sifra);
-        if (odgovor.greska) {
-            alert(odgovor.poruka)
-            return
-        }
-        dohvatiTurnire();
+  async function obrisiTurnir(sifra) {
+    const odgovor = await TurnirService.obrisi(sifra);
+    if (odgovor.greska) {
+      alert(odgovor.poruka);
+      return;
     }
-    function obrisi(sifra){
-        if (!confirm('Sigurno obrisati?')) {
-            return;
-        }
-        obrisiTurnir(sifra)
+    dohvatiTurnire();
+  }
+  function obrisi(sifra) {
+    if (!confirm("Sigurno obrisati?")) {
+      return;
     }
+    obrisiTurnir(sifra);
+  }
 
+  return (
+    <Container>
+      <Link className="btn btn-success" to={RouteNames.TURNIR_NOVI}>
+        Dodavanje novog turnira
+      </Link>
 
+      <hr />
+      <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
+        <Table striped bordered hover responsive className="tablice">
+          <thead>
+            <tr>
+              <th>Naziv</th>
+              <th>Datum početka</th>
+              <th>Datum završetka</th>
+              <th className="sredina akcije">Akcije</th>
+            </tr>
+          </thead>
+          <tbody>
+            {turniri &&
+              turniri.map((turnir, index) => (
+                <tr key={index}>
+                  <td>{turnir.naziv}</td>
+                  <td>{formatirajDatum(turnir.datumPocetka)}</td>
+                  <td>{formatirajDatum(turnir.datumZavrsetka)}</td>
 
-    return(
-        <Container>
-        <Link 
-        className="btn btn-success"
-        to={RouteNames.TURNIR_NOVI}>
-            Dodavanje novog turnira
-        </Link>
-
-        <hr />
-        <div style={{maxHeight:'60vh', overflowY:'auto'}}>
-            <Table striped bordered hover responsive className="tablice">
-                <thead>
-                    <tr>
-                        <th>Naziv</th>
-                        <th>Datum početka</th>
-                        <th>Datum završetka</th>
-                        <th className="sredina akcije">Akcije</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {turniri && turniri.map((turnir,index)=>(
-                        <tr key={index}>
-                            <td>
-                                {turnir.naziv}
-                            </td>
-                            <td>
-                                {formatirajDatum(turnir.datumPocetka)}
-                            </td>
-                            <td>
-                                {formatirajDatum(turnir.datumZavrsetka)}
-                            </td>
-
-                            <td className="sredina akcije">
-
-                                <Button variant="info" onClick={()=>navigate(`/turnir/${turnir.sifra}`)}>
-                                    Detalji
-                                </Button>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-
-                                <Button variant="warning" 
-                                onClick={()=>navigate(`/turniri/${turnir.sifra}`)}>
-                                    Uredi
-                                </Button>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                <Button variant="danger" 
-                                onClick={()=>obrisi(turnir.sifra)}>
-                                    Obriši
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        </div>
-        </Container>
-    )
+                  <td className="sredina akcije">
+                    <Button
+                      variant="info"
+                      onClick={() => navigate(`/turnir/${turnir.sifra}`)}
+                    >
+                      Detalji
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Button
+                      variant="warning"
+                      onClick={() => navigate(`/turniri/${turnir.sifra}`)}
+                    >
+                      Uredi
+                    </Button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Button
+                      variant="danger"
+                      onClick={() => obrisi(turnir.sifra)}
+                    >
+                      Obriši
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </div>
+    </Container>
+  );
 }
