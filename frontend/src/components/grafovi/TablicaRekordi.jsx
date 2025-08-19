@@ -1,9 +1,13 @@
 import { Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import TurnirService from "../../services/TurnirService"
+import { useEffect, useState } from "react";
 
-export default function tablicaRekordi() {
+export default function TablicaRekordi() {
   const routeParams = useParams();
   const [turnir, setTurnir] = useState({});
+  const [rekordi, setRekordi] = useState({});
+
 
   async function dohvatiDetaljeTurnira() {
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
@@ -12,6 +16,10 @@ export default function tablicaRekordi() {
       return;
     }
     setTurnir(odgovor.poruka);
+
+    const podaci = pripremiPodatke(odgovor.poruka.igre)
+    const sviRekordi = izvuciRekorde(podaci)
+    setRekordi(sviRekordi)
   }
 
   useEffect(() => {
@@ -62,6 +70,18 @@ export default function tablicaRekordi() {
     return podaci;
   }
 
+  function izvuciRekorde(podaci){
+    const igraci = Object.values(podaci)
+    return {
+      najviseOdigranih: igraci.reduce((a,b) => a.odigrano > b.odigrano ? a : b),
+      najvisePobjeda: igraci.reduce((a,b) => a.pobjeda > b.pobjeda ? a : b),
+      najboljiPostotak: igraci.reduce((a,b) => a.postotakPobjeda > b.postotakPobjeda ? a : b),
+      najduziNizPobjeda: igraci.reduce((a,b) => a.najduziNiz > b.najduziNiz ? a : b),
+      najviseBodova: igraci.reduce((a,b) => a.bodovi > b.bodovi ? a : b),
+      najveciProsjek: igraci.reduce((a,b) => a.prosjekBodova > b.prosjekBodova ? a : b)
+    }
+  }
+
   return (
     <Table striped hover responsive bordered>
       <thead>
@@ -75,7 +95,7 @@ export default function tablicaRekordi() {
         <tr>
           <td>Najviše odigranih</td>
           <td></td>
-          <td>{najviseOdigranih}</td>
+          <td></td>
         </tr>
         <tr>
           <td>Najviše pobjeda</td>
