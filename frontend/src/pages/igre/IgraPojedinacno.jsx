@@ -6,11 +6,13 @@ import { Button, Container, Table } from "react-bootstrap";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 import ClanService from "../../services/ClanService";
+import moment from "moment";
 
 export default function IgraPojedinacno() {
   const navigate = useNavigate();
   const routeParams = useParams();
   const [clanovi, setClanovi] = useState([]);
+  const [igra, setIgra] = useState({});
 
   async function dohvatiDetaljeIgre() {
     const odgovor = await IgraService.getIgraci(routeParams.sifra);
@@ -21,8 +23,19 @@ export default function IgraPojedinacno() {
     setClanovi(odgovor.poruka);
   }
 
+  async function dohvatiIgru() {
+    const odgovor = await IgraService.getBySifra(routeParams.sifra);
+    if (odgovor.greska) {
+      alert(odgovor.poruka);
+      return;
+    }
+    console.log("odgovor", odgovor);
+    setIgra(odgovor.poruka);
+  }
+
   useEffect(() => {
     dohvatiDetaljeIgre();
+    dohvatiIgru();
   }, []);
 
   async function obrisiClana(sifra) {
@@ -38,6 +51,13 @@ export default function IgraPojedinacno() {
       return;
     }
     obrisiClana(sifra);
+  }
+
+  function formatirajDatum(datum) {
+    if (datum == null) {
+      return "Nije definirano";
+    }
+    return moment.utc(datum).format("DD.MM.YYYY.");
   }
 
   return (
@@ -88,6 +108,21 @@ export default function IgraPojedinacno() {
                 </tr>
               ))}
           </tbody>
+
+
+
+          <tfoot>
+            <tr>
+              <td>Datum</td>
+              <td className="sredina" colSpan={2}>{formatirajDatum(igra.datum)}</td>
+              <td className="sredina">
+                <Button className="btn btn-warning"
+                  onClick={() => navigate(`/igre/${igra.sifra}`)}>
+                   Promijeni datum
+                </Button>
+              </td>
+            </tr>
+          </tfoot>
         </Table>
       </div>
     </Container>

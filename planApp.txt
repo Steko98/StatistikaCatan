@@ -1,21 +1,34 @@
-Turniri, pregled turnira sve, pregled turnira pojedinacno, dodavanje turnira
+Pregled turnira - sve radi
 
-U dodavanju turnira: dodavanje igre
-U dodavanju igre: dodavanje igraca, dodijeljivanje bodova, pobjeda
+Turnir pojedinacno
+- tablice i statistike rade
+- povratak radi
+- obriši radi ako nema FK, tj ako je turnir prazan
+- detalji rade
+- Dodaj igru - treba biti default value ime turnira u koji se dodaje
+             - odabir datuma ok
+             - povratak datuma ok
+             - submit ok
+	     - dodati odmah dodavanje igraca i clanova
+Igra pojedinacno
+- povratak radi
+- obriši radi
+- uredi radi
+- Dodaj igrača - Šifra igre default value mora biti sifra one igra koja je odabrana
+               - sve ostalo ok
+- Promjeni datum - datum default value mora biti datum one igre koja je odabrana
+                 - turnir default value mora biti ime onog turnira koji je odabran
+		 - povratak radi
+                 - Promjeni igru (submit) ne radi
 
+Igrači pregled
+- dodaj igrača - submit radi
+	       - povratak radi
+- obriši radi
+- detalji (igrač pojedinačno) tipka radi
+- uredi radi sve
 
-Igraci, pregled svih igraca(mozda), pregled pojedinacnog igraca(statistika, u kojim je turnirima, sudjelovanje)
-Igre, pregled svih igara (mozda, bolje po turniru), pregled pojedine igre (naci po sifri turnira pa igre)
-
-*******************************************************************
-
-Iz Turnira - Pregled svih turnira, dodavanje turnira, pregled turnira pojedinacno, pretraživanje turnira po imenu?
-
-Iz pojedinacnog turnira - pregled svih igara, dodavanje igre, pregled pojedine igre, pregled tko je sve igrao, statistika 
-
-Iz dodavanja igre - dodavanje igraca (+ dodavanje novog igraca), dodijeljivanje bodova, pobjeda
-
-Iz pojedine igre - pregled tko je igrao, tko je pobjedio, tko koliko bodova
-
-Pregled po igracima - popis svih igraca, pregled pojedinacno
-Pregled igraca pojedinacno - mozda popis u kojim je turnirima sve, statistika 
+Igrač pojedinačno
+- povratak radi
+- uredi radi
+- promjeni radi
