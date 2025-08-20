@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Service from "../../services/IgraService";
 import TurnirService from "../../services/TurnirService";
 import { RouteNames } from "../../constants";
@@ -7,6 +7,7 @@ import moment from "moment";
 import { Button, Row, Col, Form, Container } from "react-bootstrap";
 
 export default function IgreDodaj() {
+  const {sifra, sifraTurnira} = useParams()
   const navigate = useNavigate();
 
   const [turniri, setTurniri] = useState([]);
@@ -14,13 +15,18 @@ export default function IgreDodaj() {
 
   async function dohvatiTurnire() {
     const odgovor = await TurnirService.get();
-    setTurniri(odgovor.poruka);
-    setTurnirSifra(odgovor.poruka[0].sifra);
+    if (odgovor.greska) {
+      alert(odgovor.poruka);
+      return;
+    }
+    const ucitaniTurniri = odgovor.poruka
+    setTurniri(ucitaniTurniri)
   }
 
   useEffect(() => {
     dohvatiTurnire();
   }, []);
+
 
   async function dodaj(e) {
     const odgovor = await Service.dodaj(e);
@@ -38,7 +44,7 @@ export default function IgreDodaj() {
 
     dodaj({
       datum: moment.utc(podaci.get("datum")),
-      turnirSifra: parseInt(turnirSifra),
+      turnirSifra: parseInt(sifra),
     });
   }
 
@@ -47,12 +53,18 @@ export default function IgreDodaj() {
       <Form onSubmit={obradiSubmit}>
         <Form.Group controlId="datum">
           <Form.Label>Datum</Form.Label>
-          <Form.Control type="date" name="datum" required />
+          <Form.Control
+            type="date"
+            name="datum"
+            defaultValue={moment().format("YYYY-MM-DD")}
+            required
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="turnir">
           <Form.Label>Turnir</Form.Label>
           <Form.Select
+            value={sifra}
             onChange={(e) => {
               setTurnirSifra(e.target.value);
             }}

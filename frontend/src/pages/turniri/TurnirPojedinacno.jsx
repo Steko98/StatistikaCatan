@@ -55,7 +55,7 @@ export default function TurnirPojedinacno() {
   return (
     <Container>
       <h2 className="sredina">{turnir.naziv}</h2>
-      <Link className="btn btn-success" to={RouteNames.IGRE_NOVI}>
+      <Link className="btn btn-success" to={`/igre/dodaj/${turnir.sifra}`}>
         Dodaj igru
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;

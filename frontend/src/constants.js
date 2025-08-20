@@ -7,7 +7,7 @@ export const RouteNames = {
     TURNIR_DETALJI: '/turnir/:sifra',
 
     IGRE_PREGLED: '/igre',
-    IGRE_NOVI: '/igre/dodaj',
+    IGRE_NOVI: '/igre/dodaj/:sifra',
     IGRE_PROMJENI: '/igre/:sifra',
     IGRA_POJEDINACNO: '/igra/:sifra',
 
