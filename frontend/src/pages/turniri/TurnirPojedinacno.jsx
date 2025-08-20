@@ -9,6 +9,7 @@ import ZbirBodovaGraf from "../../components/grafovi/ZbirBodovaGraf";
 import GrafTabovi from "../../components/grafovi/Tabovi";
 import PostotakGraf from "../../components/grafovi/PostotakGraf";
 import OdigraneGraf from "../../components/grafovi/OdigraneGraf";
+import TablicaRekordi from "../../components/grafovi/TablicaRekordi";
 
 export default function TurnirPojedinacno() {
   const navigate = useNavigate();
@@ -113,55 +114,15 @@ export default function TurnirPojedinacno() {
       <Row>
         <Col key="1" sm={12} md={6} lg={6}>
           <GrafTabovi onChange={setOdabraniGraf} />
-          <div className="mt-4">
+          <div className="mt-4 d-flex align-items-center">
             {odabraniGraf === "Postotak" && <PostotakGraf />}
             {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf />}
             {odabraniGraf === "Broj odigranih" && <OdigraneGraf />}
           </div>
         </Col>
 
-        <Col key="2" sm={12} md={6} lg={6}>
-          <Table striped hover responsive bordered>
-            <thead>
-              <tr>
-                <td>Rekord</td>
-                <td>Rezultat</td>
-                <td>Igrač</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Najviše odigranih</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Najviše pobjeda</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Najbolji postotak</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Najduži niz pobjeda</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Najviše bodova</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Najveći prosjek bodova po igri</td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </Table>
+        <Col key="2" sm={12} md={6} lg={6} className="d-flex align-items-center justify-content-center">
+          <TablicaRekordi/>
         </Col>
       </Row>
     </Container>

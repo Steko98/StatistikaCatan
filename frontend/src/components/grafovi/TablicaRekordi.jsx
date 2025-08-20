@@ -1,13 +1,12 @@
 import { Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import TurnirService from "../../services/TurnirService"
+import TurnirService from "../../services/TurnirService";
 import { useEffect, useState } from "react";
 
 export default function TablicaRekordi() {
   const routeParams = useParams();
-  const [turnir, setTurnir] = useState({});
-  const [rekordi, setRekordi] = useState({});
-
+  // const [turnir, setTurnir] = useState({});
+  const [rekordi, setRekordi] = useState(null);
 
   async function dohvatiDetaljeTurnira() {
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
@@ -15,11 +14,9 @@ export default function TablicaRekordi() {
       alert(odgovor.poruka);
       return;
     }
-    setTurnir(odgovor.poruka);
-
-    const podaci = pripremiPodatke(odgovor.poruka.igre)
-    const sviRekordi = izvuciRekorde(podaci)
-    setRekordi(sviRekordi)
+    const podaci = pripremiPodatke(odgovor.poruka.igre);
+    const sviRekordi = izvuciRekorde(podaci);
+    setRekordi(sviRekordi);
   }
 
   useEffect(() => {
@@ -63,65 +60,83 @@ export default function TablicaRekordi() {
     });
 
     Object.values(podaci).forEach((igrac) => {
-      igrac.postotakPobjeda = igrac.pobjeda / igrac.odigrano;
-      igrac.prosjekBodova = igrac.bodovi / igrac.odigrano;
+      igrac.postotakPobjeda =
+        Math.round((igrac.pobjeda / igrac.odigrano) * 10000) / 100;
+      igrac.prosjekBodova =
+        Math.round((igrac.bodovi / igrac.odigrano) * 100) / 100;
     });
 
     return podaci;
   }
 
-  function izvuciRekorde(podaci){
-    const igraci = Object.values(podaci)
+  function izvuciRekorde(podaci) {
+    const igraci = Object.values(podaci);
     return {
-      najviseOdigranih: igraci.reduce((a,b) => a.odigrano > b.odigrano ? a : b),
-      najvisePobjeda: igraci.reduce((a,b) => a.pobjeda > b.pobjeda ? a : b),
-      najboljiPostotak: igraci.reduce((a,b) => a.postotakPobjeda > b.postotakPobjeda ? a : b),
-      najduziNizPobjeda: igraci.reduce((a,b) => a.najduziNiz > b.najduziNiz ? a : b),
-      najviseBodova: igraci.reduce((a,b) => a.bodovi > b.bodovi ? a : b),
-      najveciProsjek: igraci.reduce((a,b) => a.prosjekBodova > b.prosjekBodova ? a : b)
-    }
+      najviseOdigranih: igraci.reduce((a, b) =>
+        a.odigrano > b.odigrano ? a : b
+      ),
+      najvisePobjeda: igraci.reduce((a, b) => (a.pobjeda > b.pobjeda ? a : b)),
+      najboljiPostotak: igraci.reduce((a, b) =>
+        a.postotakPobjeda > b.postotakPobjeda ? a : b
+      ),
+      najduziNizPobjeda: igraci.reduce((a, b) =>
+        a.najduziNiz > b.najduziNiz ? a : b
+      ),
+      najviseBodova: igraci.reduce((a, b) => (a.bodovi > b.bodovi ? a : b)),
+      najveciProsjek: igraci.reduce((a, b) =>
+        a.prosjekBodova > b.prosjekBodova ? a : b
+      ),
+    };
   }
 
   return (
-    <Table striped hover responsive bordered>
+    <Table className="centar" striped hover responsive bordered>
       <thead>
         <tr>
           <td>Rekord</td>
-          <td>Rezultat</td>
+          <td className="sredina">Rezultat</td>
           <td>Igrač</td>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Najviše odigranih</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Najviše pobjeda</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Najbolji postotak</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Najduži niz pobjeda</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Najviše bodova</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Najveći prosjek bodova po igri</td>
-          <td></td>
-          <td></td>
-        </tr>
+        {rekordi ? (
+          <>
+            <tr>
+              <td>Najviše odigranih</td>
+              <td className="sredina">{rekordi.najviseOdigranih.odigrano}</td>
+              <td>{rekordi.najviseOdigranih.ime}</td>
+            </tr>
+            <tr>
+              <td>Najviše pobjeda</td>
+              <td className="sredina">{rekordi.najvisePobjeda.pobjeda}</td>
+              <td>{rekordi.najvisePobjeda.ime}</td>
+            </tr>
+            <tr>
+              <td>Najbolji postotak</td>
+              <td className="sredina">{rekordi.najboljiPostotak.postotakPobjeda}</td>
+              <td>{rekordi.najboljiPostotak.ime}</td>
+            </tr>
+            <tr>
+              <td>Najduži niz pobjeda</td>
+              <td className="sredina">{rekordi.najduziNizPobjeda.najduziNiz}</td>
+              <td>{rekordi.najduziNizPobjeda.ime}</td>
+            </tr>
+            <tr>
+              <td>Najviše bodova</td>
+              <td className="sredina">{rekordi.najviseBodova.bodovi}</td>
+              <td>{rekordi.najviseBodova.ime}</td>
+            </tr>
+            <tr>
+              <td>Najveći prosjek bodova po igri</td>
+              <td className="sredina">{rekordi.najveciProsjek.prosjekBodova}</td>
+              <td>{rekordi.najveciProsjek.ime}</td>
+            </tr>
+          </>
+        ) : (
+          <tr>
+            <td>Učitavanje</td>
+          </tr>
+        )}
       </tbody>
     </Table>
   );
