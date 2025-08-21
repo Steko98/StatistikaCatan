@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import Service from "../../services/ClanService";
 import IgracService from "../../services/IgracService";
@@ -7,12 +7,15 @@ import IgraService from "../../services/IgraService";
 import { RouteNames } from "../../constants";
 
 export default function ClanoviDodaj() {
+  const routeParams = useParams();
+  const sifra = parseInt(routeParams.sifra);
   const navigate = useNavigate();
 
   const [igraci, setIgraci] = useState([]);
-  const [igracSifra, setIgracSifra] = useState(0);
+  // const [igracSifra, setIgracSifra] = useState(0);
   const [igre, setIgre] = useState([]);
-  const [sifraIgra, setIgraSifra] = useState(0);
+  const [sifraIgra, setIgraSifra] = useState(sifra);
+
 
   async function dohvatiIgrace() {
     const odgovor = await IgracService.get();
@@ -23,7 +26,6 @@ export default function ClanoviDodaj() {
   async function dohvatiIgre() {
     const odgovor = await IgraService.get();
     setIgre(odgovor.poruka);
-    setIgraSifra(odgovor.poruka[0].sifra);
   }
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function ClanoviDodaj() {
       alert(odgovor.poruka);
       return;
     }
-    navigate(-1);
+    navigate(`/igra/${sifra}`);
   }
 
   function obradiSubmit(e) {
@@ -50,7 +52,7 @@ export default function ClanoviDodaj() {
       pobjeda: podaci.get("pobjeda") == "on" ? true : false,
       imeIgraca: podaci.get("imeIgraca"),
       sifraIgrac: parseInt(podaci.get("sifraIgrac")),
-      sifraIgra: parseInt(sifraIgra),
+      sifraIgra: sifraIgra,
     });
   }
 
@@ -77,8 +79,9 @@ export default function ClanoviDodaj() {
         <Form.Group controlId="igra">
           <Form.Label>Šifra igre</Form.Label>
           <Form.Select
+            value={sifraIgra}
             onChange={(e) => {
-              setIgraSifra(e.target.value);
+              setIgraSifra(parseInt(e.target.value));
             }}
           >
             {igre &&
@@ -103,7 +106,7 @@ export default function ClanoviDodaj() {
 
         <Row>
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-            <Button className="btn btn-danger" onClick={() => navigate(-1)}>
+            <Button className="btn btn-danger" onClick={() => navigate(`/igra/${sifra}`)}>
               Povratak
             </Button>
           </Col>

@@ -17,7 +17,7 @@ export const RouteNames = {
     IGRAC_POJEDINACNO: '/igrac/:sifra',
 
     CLAN_PREGLED: '/clanovi',
-    CLAN_NOVI: '/clan/dodaj',
+    CLAN_NOVI: '/clan/dodaj/:sifra',
     CLAN_PROMJENI: '/clanovi/:sifra'
 }
 

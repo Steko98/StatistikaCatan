@@ -60,24 +60,24 @@ export default function IgrePromjena() {
     setPronadeniIgraci(odgovor.poruka);
   }
 
-  async function dodajIgraca(e) {
-    const odgovor = await Service.dodajIgraca(routeParams.sifra, e[0].sifra);
-    if (odgovor.greska) {
-      alert(odgovor.poruka);
-      return;
-    }
-    await dohvatiIgrace();
-    typeaheadRef.current.clear();
-  }
+  // async function dodajIgraca(e) {
+  //   const odgovor = await Service.dodajIgraca(routeParams.sifra, e[0].sifra);
+  //   if (odgovor.greska) {
+  //     alert(odgovor.poruka);
+  //     return;
+  //   }
+  //   await dohvatiIgrace();
+  //   typeaheadRef.current.clear();
+  // }
 
-  async function obrisiIgraca(igrac) {
-    const odgovor = await Service.obrisiIgraca(routeParams.sifra, igrac);
-    if (odgovor.greska) {
-      alert(odgovor.poruka);
-      return;
-    }
-    await dohvatiIgrace();
-  }
+  // async function obrisiIgraca(igrac) {
+  //   const odgovor = await Service.obrisiIgraca(routeParams.sifra, igrac);
+  //   if (odgovor.greska) {
+  //     alert(odgovor.poruka);
+  //     return;
+  //   }
+  //   await dohvatiIgrace();
+  // }
 
   async function dohvatiInicijalnePodatke() {
     await dohvatiTurnire();
@@ -95,7 +95,7 @@ export default function IgrePromjena() {
       alert(odgovor.poruka);
       return;
     }
-    navigate(RouteNames.IGRE_PREGLED);
+    navigate(`/igra/${routeParams.sifra}`);
   }
 
   function obradiSubmit(e) {
@@ -144,7 +144,7 @@ export default function IgrePromjena() {
 
             <Row>
               <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-                <Button className="btn btn-danger" onClick={() => navigate(-1)}>
+                <Button className="btn btn-danger" onClick={() => navigate(`/igra/${routeParams.sifra}`)}>
                   Povratak
                 </Button>
               </Col>

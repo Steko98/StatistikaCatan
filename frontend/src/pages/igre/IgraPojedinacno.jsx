@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import IgraService from "../../services/IgraService";
 import { RouteNames } from "../../constants";
 import { Button, Container, Table } from "react-bootstrap";
@@ -11,6 +11,11 @@ import moment from "moment";
 export default function IgraPojedinacno() {
   const navigate = useNavigate();
   const routeParams = useParams();
+
+  const location = useLocation();
+  const turnirSifra = location.state?.sifra
+
+
   const [clanovi, setClanovi] = useState([]);
   const [igra, setIgra] = useState({});
 
@@ -29,7 +34,6 @@ export default function IgraPojedinacno() {
       alert(odgovor.poruka);
       return;
     }
-    console.log("odgovor", odgovor);
     setIgra(odgovor.poruka);
   }
 
@@ -62,11 +66,11 @@ export default function IgraPojedinacno() {
 
   return (
     <Container>
-      <Link className="btn btn-success" to={RouteNames.CLAN_NOVI}>
+      <Link className="btn btn-success" to={`/clan/dodaj/${routeParams.sifra}`}>
         Dodaj igrača
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <Button className="btn btn-danger" onClick={() => navigate(-1)}>
+      <Button className="btn btn-danger" onClick={() => navigate(`/turnir/${igra.turnirSifra}`)}>
         Povratak
       </Button>
       <hr />
@@ -117,7 +121,7 @@ export default function IgraPojedinacno() {
               <td className="sredina" colSpan={2}>{formatirajDatum(igra.datum)}</td>
               <td className="sredina">
                 <Button className="btn btn-warning"
-                  onClick={() => navigate(`/igre/${igra.sifra}`)}>
+                  onClick={() => navigate(`/igre/${routeParams.sifra}`)}>
                    Promijeni datum
                 </Button>
               </td>

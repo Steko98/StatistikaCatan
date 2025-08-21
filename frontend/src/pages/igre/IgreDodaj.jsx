@@ -34,7 +34,7 @@ export default function IgreDodaj() {
       alert(odgovor.poruka);
       return;
     }
-    navigate(-1);
+    navigate(`/turnir/${sifra}`);
   }
 
   function obradiSubmit(e) {
@@ -82,7 +82,7 @@ export default function IgreDodaj() {
 
         <Row className="akcije">
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-            <Button onClick={() => navigate(-1)} className="btn btn-danger">
+            <Button onClick={() => navigate(`/turnir/${sifra}`)} className="btn btn-danger">
               Povratak
             </Button>
           </Col>

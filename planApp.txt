@@ -1,34 +1,11 @@
-Pregled turnira - sve radi
+BITNO - sredit navigiranje stranicom (GOTOVO MOZDA)
 
 Turnir pojedinacno
-- tablice i statistike rade
-- povratak radi
 - obriši radi ako nema FK, tj ako je turnir prazan
-- detalji rade
-- Dodaj igru - treba biti default value ime turnira u koji se dodaje
-             - odabir datuma ok
-             - povratak datuma ok
-             - submit ok
-	     - dodati odmah dodavanje igraca i clanova
-Igra pojedinacno
-- povratak radi
-- obriši radi
-- uredi radi
-- Dodaj igrača - Šifra igre default value mora biti sifra one igra koja je odabrana
-               - sve ostalo ok
-- Promjeni datum - datum default value mora biti datum one igre koja je odabrana
-                 - turnir default value mora biti ime onog turnira koji je odabran
-		 - povratak radi
-                 - Promjeni igru (submit) ne radi
-
-Igrači pregled
-- dodaj igrača - submit radi
-	       - povratak radi
-- obriši radi
-- detalji (igrač pojedinačno) tipka radi
-- uredi radi sve
+- Dodaj igru - dodati odmah dodavanje igraca i clanova
 
 Igrač pojedinačno
-- povratak radi
-- uredi radi
-- promjeni radi
+- Napravit GET metodu (ako uopce treba) u IgracController koja dohvaca sve Clanove povezane s Igracem a onda i sve Igre
+- iskoristit podatke za grafove i statistiku u IgracPojedinacno
+
+- Napravit u TurniriPregled, TurnirPojedinacno, IgraciPregled koja na stranici pokazuje samo one objekte(turnire, igre, igrace) koji odgovaraju onome sto je upisano u trazilici (po imenu, datumu)

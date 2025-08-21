@@ -57,7 +57,7 @@ export default function ClanoviPromjeni() {
       alert(odgovor.poruka);
       return;
     }
-    navigate(-1);
+    navigate(`/igra/${clan.sifraIgra}`);
   }
 
   function obradiSubmit(e) {
@@ -136,7 +136,7 @@ export default function ClanoviPromjeni() {
 
         <Row>
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-            <Button className="btn btn-danger" onClick={() => navigate(-1)}>
+            <Button className="btn btn-danger" onClick={() => navigate(`/igra/${clan.sifraIgra}`)}>
               Povratak
             </Button>
           </Col>
