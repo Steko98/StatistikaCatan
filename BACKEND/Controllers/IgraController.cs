@@ -148,7 +148,7 @@ namespace BACKEND.Controllers
 
         //[HttpPatch]
         //[Route("promjeni/{sifra:int}")]
-        //public IActionResult Patch(IgraDTOInsertUpdate dto)
+        //public IActionResult Patch(int sifra, IgraDTOInsertUpdate dto)
         //{
         //    if (!ModelState.IsValid)
         //    {
@@ -157,8 +157,9 @@ namespace BACKEND.Controllers
         //    Igra? e;
         //    try
         //    {
-        //        e = _context.Igre.Find()
-        //    } catch (Exception ex)
+        //        e = _context.Igre.Find(sifra)
+        //    }
+        //    catch (Exception ex)
         //    {
         //        return BadRequest(new { poruka = ex.Message });
         //    }
@@ -166,6 +167,8 @@ namespace BACKEND.Controllers
         //    {
         //        return NotFound(new { poruka = "Igra nije pronađena" });
         //    }
+
+            
 
         //}
 
