@@ -3,14 +3,20 @@ import { RouteNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function TurniriDodaj() {
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   async function dodaj(turnir) {
+    showLoading();
     const odgovor = await TurnirService.dodaj(turnir);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     navigate(RouteNames.TURNIR_PREGLED);

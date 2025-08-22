@@ -11,16 +11,22 @@ import {
 } from "recharts";
 import TurnirService from "../../services/TurnirService";
 import { useEffect, useState } from "react";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function OdigraneGraf() {
   const routeParams = useParams();
   const [grafPodaci, setGrafPodaci] = useState([]);
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
   const [turnir, setTurnir] = useState({});
 
   async function dohvatiDetaljeTurnira() {
+    showLoading();
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikazi(odgovor.poruka);
       return;
     }
     setTurnir(odgovor.poruka);

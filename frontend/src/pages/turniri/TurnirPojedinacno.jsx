@@ -10,17 +10,25 @@ import GrafTabovi from "../../components/grafovi/Tabovi";
 import PostotakGraf from "../../components/grafovi/PostotakGraf";
 import OdigraneGraf from "../../components/grafovi/OdigraneGraf";
 import TablicaRekordi from "../../components/grafovi/TablicaRekordi";
+import useLoading from "../../hooks/useLoading";
+import useError from "../../hooks/useError";
 
 export default function TurnirPojedinacno() {
   const navigate = useNavigate();
+  const { showLoading, hideLoading} = useLoading();
+  const {prikaziError} = useError();
+
+
   const routeParams = useParams();
   const [turnir, setTurnir] = useState({});
   const [odabraniGraf, setOdabraniGraf] = useState("Postotak");
 
   async function dohvatiDetaljeTurnira() {
+    showLoading();
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setTurnir(odgovor.poruka);
@@ -38,9 +46,11 @@ export default function TurnirPojedinacno() {
   }
 
   async function obrisiIgru(sifra) {
+    showLoading();
     const odgovor = await IgraService.obrisi(sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     dohvatiDetaljeTurnira();

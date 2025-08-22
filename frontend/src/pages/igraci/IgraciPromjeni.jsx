@@ -3,17 +3,23 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Col, Row, Form, Container } from "react-bootstrap";
 import IgracService from "../../services/IgracService";
 import { RouteNames } from "../../constants";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function IgraciPromjena() {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   const [igrac, setIgrac] = useState({});
 
   async function dohvatiIgrac() {
+    showLoading()
     const odgovor = await IgracService.getBySifra(routeParams.sifra);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setIgrac(odgovor.poruka);
@@ -24,9 +30,11 @@ export default function IgraciPromjena() {
   }, []);
 
   async function promjeni(igrac) {
+    showLoading()
     const odgovor = await IgracService.promjeni(routeParams.sifra, igrac);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     navigate(RouteNames.IGRACI_PREGLED);

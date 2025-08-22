@@ -11,17 +11,23 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function PostotakGraf() {
   const routeParams = useParams();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
   const [grafPodaci, setGrafPodaci] = useState([]);
   const [igraci, setIgraci] = useState([]);
   const [turnir, setTurnir] = useState({});
 
   async function dohvatiDetaljeTurnira() {
+    showLoading()
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setTurnir(odgovor.poruka);

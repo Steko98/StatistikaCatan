@@ -4,17 +4,23 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function TurniriPromjeni() {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   const [turnir, setTurnir] = useState({});
 
   async function ucitajTurnir() {
+    showLoading();
     const odgovor = await TurnirService.getBySifra(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     let s = odgovor.poruka;
@@ -28,9 +34,11 @@ export default function TurniriPromjeni() {
   }, []);
 
   async function promjeni(turnir) {
+    showLoading();
     const odgovor = await TurnirService.promjeni(routeParams.sifra, turnir);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     navigate(RouteNames.TURNIR_PREGLED);

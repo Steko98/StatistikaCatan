@@ -2,16 +2,22 @@ import { Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import TurnirService from "../../services/TurnirService";
 import { useEffect, useState } from "react";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function TablicaRekordi() {
   const routeParams = useParams();
   // const [turnir, setTurnir] = useState({});
   const [rekordi, setRekordi] = useState(null);
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   async function dohvatiDetaljeTurnira() {
+    showLoading();
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     const podaci = pripremiPodatke(odgovor.poruka.igre);
@@ -113,12 +119,16 @@ export default function TablicaRekordi() {
             </tr>
             <tr>
               <td>Najbolji postotak</td>
-              <td className="sredina">{rekordi.najboljiPostotak.postotakPobjeda}</td>
+              <td className="sredina">
+                {rekordi.najboljiPostotak.postotakPobjeda}
+              </td>
               <td>{rekordi.najboljiPostotak.ime}</td>
             </tr>
             <tr>
               <td>Najduži niz pobjeda</td>
-              <td className="sredina">{rekordi.najduziNizPobjeda.najduziNiz}</td>
+              <td className="sredina">
+                {rekordi.najduziNizPobjeda.najduziNiz}
+              </td>
               <td>{rekordi.najduziNizPobjeda.ime}</td>
             </tr>
             <tr>
@@ -128,7 +138,9 @@ export default function TablicaRekordi() {
             </tr>
             <tr>
               <td>Najveći prosjek bodova po igri</td>
-              <td className="sredina">{rekordi.najveciProsjek.prosjekBodova}</td>
+              <td className="sredina">
+                {rekordi.najveciProsjek.prosjekBodova}
+              </td>
               <td>{rekordi.najveciProsjek.ime}</td>
             </tr>
           </>

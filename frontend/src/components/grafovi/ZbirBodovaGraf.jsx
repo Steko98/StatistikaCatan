@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import TurnirService from "../../services/TurnirService";
+import useError from "../../hooks/useError"
+import useLoading from "../../hooks/useLoading"
 import {
   LineChart,
   Line,
@@ -15,13 +17,18 @@ import {
 export default function ZbirBodovaGraf() {
   const routeParams = useParams();
   const [grafPodaci, setGrafPodaci] = useState([]);
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
+
   const [igraci, setIgraci] = useState([]);
   const [turnir, setTurnir] = useState({});
 
   async function dohvatiDetaljeTurnira() {
+    showLoading();
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setTurnir(odgovor.poruka);

@@ -20,12 +20,20 @@ import IgracPojedinacno from "./pages/igraci/IgracPojedinacno";
 import ClanoviPregled from "./pages/clanovi/ClanoviPregled";
 import ClanoviDodaj from "./pages/clanovi/ClanoviDodaj";
 import ClanoviPromjeni from "./pages/clanovi/ClanoviPromjeni";
+import useError from "./hooks/useError";
+import ErrorModal from './components/ErrorModal'
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
+
+  const {errors, prikaziErrorModal, sakrijError} = useError();
+
   return (
-    <Container>
-      <NavBarEdunova />
+    <>
+      <LoadingSpinner/>
+      <ErrorModal show={prikaziErrorModal} errors={errors} onHide={sakrijError}/>
       <Container className="app">
+        <NavBarEdunova />
         <Routes>
           <Route path={RouteNames.HOME} element={<Pocetna />} />
 
@@ -52,7 +60,7 @@ function App() {
       </Container>
       <hr />
       &copy;Ivan Šteko
-    </Container>
+    </>
   );
 }
 

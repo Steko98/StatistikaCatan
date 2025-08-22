@@ -5,10 +5,14 @@ import IgraService from "../../services/IgraService";
 import IgracService from "../../services/IgracService";
 import { RouteNames } from "../../constants";
 import { Form, Button, Col, Row } from "react-bootstrap";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function ClanoviPromjeni() {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   const [clan, setClan] = useState({});
   const [pobjeda, setPobjeda] = useState(false);
@@ -19,19 +23,33 @@ export default function ClanoviPromjeni() {
   const [sifraIgra, setIgraSifra] = useState(0);
 
   async function dohvatiIgre() {
+    showLoading();
     const odgovor = await IgraService.get();
+    hideLoading()
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
     setIgre(odgovor.poruka);
   }
 
   async function dohvatiIgrace() {
+    showLoading()
     const odgovor = await IgracService.get();
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
     setIgraci(odgovor.poruka);
   }
 
   async function ucitajClan() {
+    showLoading();
     const odgovor = await ClanService.getBySifra(routeParams.sifra);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     let s = odgovor.poruka;
@@ -52,9 +70,11 @@ export default function ClanoviPromjeni() {
   }, []);
 
   async function promjeni(clan) {
+    showLoading()
     const odgovor = await ClanService.promjeni(routeParams.sifra, clan);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     navigate(`/igra/${clan.sifraIgra}`);
@@ -136,7 +156,10 @@ export default function ClanoviPromjeni() {
 
         <Row>
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-            <Button className="btn btn-danger" onClick={() => navigate(`/igra/${clan.sifraIgra}`)}>
+            <Button
+              className="btn btn-danger"
+              onClick={() => navigate(`/igra/${clan.sifraIgra}`)}
+            >
               Povratak
             </Button>
           </Col>

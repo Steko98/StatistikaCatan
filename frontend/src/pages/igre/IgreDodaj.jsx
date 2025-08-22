@@ -6,19 +6,25 @@ import { RouteNames } from "../../constants";
 import moment from "moment";
 import { Button, Row, Col, Form, Container, Table } from "react-bootstrap";
 import IgracService from "../../services/IgracService";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function IgreDodaj() {
   const { sifra, sifraTurnira } = useParams();
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   const [turniri, setTurniri] = useState([]);
   // const [igraci, setIgraci] = useState([]);
   // const [sudionici, setSudionici] = useState([]);
 
   async function dohvatiTurnire() {
+    showLoading();
     const odgovor = await TurnirService.get();
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     const ucitaniTurniri = odgovor.poruka;
@@ -40,9 +46,11 @@ export default function IgreDodaj() {
   }, []);
 
   async function dodajIgru(e) {
+    showLoading();
     const odgovor = await Service.dodaj(e);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
   }

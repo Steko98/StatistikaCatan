@@ -6,16 +6,22 @@ import { RouteNames } from "../../constants";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 import ClanService from "../../services/ClanService";
+import useError from "../../hooks/useError"
+import useLoading from "../../hooks/useLoading"
 
 export default function IgracPojedinacno() {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
   const [clanovi, setClanovi] = useState([]);
 
   async function dohvatiIgreIgraca() {
+    showLoading()
     const odgovor = await IgracService.getIgre(routeParams.sifra);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setClanovi(odgovor.poruka);
@@ -26,9 +32,11 @@ export default function IgracPojedinacno() {
   }, []);
 
   async function obrisiClana(sifra) {
+    showLoading()
     const odgovor = await ClanService.obrisi(sifra);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     dohvatiIgreIgraca();
@@ -57,7 +65,6 @@ export default function IgracPojedinacno() {
               <td className="sredina">Pobjeda</td>
               <td className="sredina akcije">Akcije</td>
             </tr>
-
           </thead>
           <tbody>
             {clanovi &&

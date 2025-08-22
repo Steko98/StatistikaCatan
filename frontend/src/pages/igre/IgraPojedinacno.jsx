@@ -7,31 +7,38 @@ import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 import ClanService from "../../services/ClanService";
 import moment from "moment";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function IgraPojedinacno() {
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
   const routeParams = useParams();
 
   const location = useLocation();
-  const turnirSifra = location.state?.sifra
-
+  const turnirSifra = location.state?.sifra;
 
   const [clanovi, setClanovi] = useState([]);
   const [igra, setIgra] = useState({});
 
   async function dohvatiDetaljeIgre() {
+    showLoading();
     const odgovor = await IgraService.getIgraci(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setClanovi(odgovor.poruka);
   }
 
   async function dohvatiIgru() {
+    showLoading();
     const odgovor = await IgraService.getBySifra(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setIgra(odgovor.poruka);
@@ -43,9 +50,11 @@ export default function IgraPojedinacno() {
   }, []);
 
   async function obrisiClana(sifra) {
+    showLoading();
     const odgovor = await ClanService.obrisi(sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     dohvatiDetaljeIgre();
@@ -70,7 +79,10 @@ export default function IgraPojedinacno() {
         Dodaj igrača
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <Button className="btn btn-danger" onClick={() => navigate(`/turnir/${igra.turnirSifra}`)}>
+      <Button
+        className="btn btn-danger"
+        onClick={() => navigate(`/turnir/${igra.turnirSifra}`)}
+      >
         Povratak
       </Button>
       <hr />
@@ -113,16 +125,18 @@ export default function IgraPojedinacno() {
               ))}
           </tbody>
 
-
-
           <tfoot>
             <tr>
               <td>Datum</td>
-              <td className="sredina" colSpan={2}>{formatirajDatum(igra.datum)}</td>
+              <td className="sredina" colSpan={2}>
+                {formatirajDatum(igra.datum)}
+              </td>
               <td className="sredina">
-                <Button className="btn btn-warning"
-                  onClick={() => navigate(`/igre/${routeParams.sifra}`)}>
-                   Promijeni datum
+                <Button
+                  className="btn btn-warning"
+                  onClick={() => navigate(`/igre/${routeParams.sifra}`)}
+                >
+                  Promijeni datum
                 </Button>
               </td>
             </tr>

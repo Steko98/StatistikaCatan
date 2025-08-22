@@ -3,15 +3,21 @@ import IgracService from "../../services/IgracService";
 import { Button, Container, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function IgraciPregled() {
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
   const [igraci, setIgraci] = useState([]);
 
   async function dohvatiIgrace() {
+    showLoading();
     const odgovor = await IgracService.get();
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setIgraci(odgovor.poruka);
@@ -22,9 +28,11 @@ export default function IgraciPregled() {
   }, []);
 
   async function obrisiIgraca(sifra) {
+    showLoading()
     const odgovor = await IgracService.obrisi(sifra);
+    hideLoading()
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     dohvatiIgrace();

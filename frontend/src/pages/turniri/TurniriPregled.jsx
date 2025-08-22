@@ -4,15 +4,25 @@ import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import useLoading from "../../hooks/useLoading";
+import useError from "../../hooks/useError";
 
 export default function TurniriPregled() {
   const navigate = useNavigate();
+  const {showLoading, hideLoading} = useLoading();
+  const {prikaziError} = useError();
+
+
+
+
   const [turniri, setTurniri] = useState([]);
 
   async function dohvatiTurnire() {
+    showLoading();
     const odgovor = await TurnirService.get();
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setTurniri(odgovor.poruka);
@@ -30,9 +40,11 @@ export default function TurniriPregled() {
   }
 
   async function obrisiTurnir(sifra) {
+    showLoading();
     const odgovor = await TurnirService.obrisi(sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     dohvatiTurnire();

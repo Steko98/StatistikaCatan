@@ -8,10 +8,14 @@ import moment from "moment";
 import { Row, Form, Col, Button, Table, Container } from "react-bootstrap";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { FaRegTrashAlt } from "react-icons/fa";
+import useError from "../../hooks/useError";
+import useLoading from "../../hooks/useLoading";
 
 export default function IgrePromjena() {
   const navigate = useNavigate();
   const routeParams = useParams();
+  const { showLoading, hideLoading } = useLoading();
+  const { prikaziError } = useError();
 
   const [turniri, setTurniri] = useState([]);
   const [turnirSifra, setTurnirSifra] = useState(0);
@@ -22,18 +26,22 @@ export default function IgrePromjena() {
   const typeaheadRef = useRef(null);
 
   async function dohvatiTurnire() {
+    showLoading();
     const odgovor = await TurnirService.get();
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setTurniri(odgovor.poruka);
   }
 
   async function dohvatiIgru() {
+    showLoading();
     const odgovor = await Service.getBySifra(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     let igra = odgovor.poruka;
@@ -43,9 +51,11 @@ export default function IgrePromjena() {
   }
 
   async function dohvatiIgrace() {
+    showLoading();
     const odgovor = await Service.getIgraci(routeParams.sifra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     setIgraci(odgovor.poruka);
@@ -90,9 +100,11 @@ export default function IgrePromjena() {
   }, []);
 
   async function promjeni(igra) {
+    showLoading();
     const odgovor = await Service.promjeni(routeParams.sifra, igra);
+    hideLoading();
     if (odgovor.greska) {
-      alert(odgovor.poruka);
+      prikaziError(odgovor.poruka);
       return;
     }
     navigate(`/igra/${routeParams.sifra}`);
@@ -113,48 +125,51 @@ export default function IgrePromjena() {
     <Container>
       <Row>
         {/* <Col key="1" sm={12} md={6} lg={6}> */}
-          <Form onSubmit={obradiSubmit}>
-            <Form.Group controlId="datum">
-              <Form.Label>Datum</Form.Label>
-              <Form.Control
-                type="date"
-                name="datum"
-                required
-                defaultValue={igra.datum}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="turnir">
-              <Form.Label>Turnir</Form.Label>
-              <Form.Select
-                value={turnirSifra}
-                onChange={(e) => {
-                  setTurnirSifra(e.target.value);
-                }}
+        <Form onSubmit={obradiSubmit}>
+          <Form.Group controlId="datum">
+            <Form.Label>Datum</Form.Label>
+            <Form.Control
+              type="date"
+              name="datum"
+              required
+              defaultValue={igra.datum}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="turnir">
+            <Form.Label>Turnir</Form.Label>
+            <Form.Select
+              value={turnirSifra}
+              onChange={(e) => {
+                setTurnirSifra(e.target.value);
+              }}
+            >
+              {turniri &&
+                turniri.map((t, index) => (
+                  <option key={index} value={t.sifra}>
+                    {t.naziv}
+                  </option>
+                ))}
+            </Form.Select>
+          </Form.Group>
+
+          <hr />
+
+          <Row>
+            <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
+              <Button
+                className="btn btn-danger"
+                onClick={() => navigate(`/igra/${routeParams.sifra}`)}
               >
-                {turniri &&
-                  turniri.map((t, index) => (
-                    <option key={index} value={t.sifra}>
-                      {t.naziv}
-                    </option>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-
-            <hr />
-
-            <Row>
-              <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-                <Button className="btn btn-danger" onClick={() => navigate(`/igra/${routeParams.sifra}`)}>
-                  Povratak
-                </Button>
-              </Col>
-              <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-                <Button variant="primary" type="submit">
-                  Promjeni igru
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+                Povratak
+              </Button>
+            </Col>
+            <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
+              <Button variant="primary" type="submit">
+                Promjeni igru
+              </Button>
+            </Col>
+          </Row>
+        </Form>
         {/* </Col> */}
         {/* <Col key="2" sm={12} md={6} lg={6}>
           <div style={{ overflow: "auto", maxHeight: "400px" }}>
