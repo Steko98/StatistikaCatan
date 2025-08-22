@@ -5,7 +5,7 @@ export default function ErrorModal({show, onHide, errors}){
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Ne znam sta je ovo</Modal.Title>
+                <Modal.Title>Pogreška!</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {errors}

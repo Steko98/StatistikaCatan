@@ -145,6 +145,30 @@ namespace BACKEND.Controllers
             }
         }
 
+
+        //[HttpPatch]
+        //[Route("promjeni/{sifra:int}")]
+        //public IActionResult Patch(IgraDTOInsertUpdate dto)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(new { poruka = ModelState });
+        //    }
+        //    Igra? e;
+        //    try
+        //    {
+        //        e = _context.Igre.Find()
+        //    } catch (Exception ex)
+        //    {
+        //        return BadRequest(new { poruka = ex.Message });
+        //    }
+        //    if (e == null)
+        //    {
+        //        return NotFound(new { poruka = "Igra nije pronađena" });
+        //    }
+
+        //}
+
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]

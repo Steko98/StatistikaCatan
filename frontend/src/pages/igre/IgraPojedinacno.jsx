@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import IgraService from "../../services/IgraService";
 import { RouteNames } from "../../constants";
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Container, Table, Form } from "react-bootstrap";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 import ClanService from "../../services/ClanService";
@@ -41,7 +41,9 @@ export default function IgraPojedinacno() {
       prikaziError(odgovor.poruka);
       return;
     }
-    setIgra(odgovor.poruka);
+    let igra = odgovor.poruka;
+    igra.datum = moment.utc(igra.datum).format("YYYY-MM-DD");
+    setIgra(igra);
   }
 
   useEffect(() => {
@@ -66,12 +68,18 @@ export default function IgraPojedinacno() {
     obrisiClana(sifra);
   }
 
-  function formatirajDatum(datum) {
-    if (datum == null) {
-      return "Nije definirano";
-    }
-    return moment.utc(datum).format("DD.MM.YYYY.");
-  }
+
+  // async function promjeniDatum(igra) {
+  //   showLoading();
+  //   const odgovor = await IgraService.promjeni(routeParams.sifra, igra);
+  //   hideLoading();
+  //   if (odgovor.greska) {
+  //     prikaziError(odgovor.poruka);
+  //     return;
+  //   }
+
+  // }
+
 
   return (
     <Container>
@@ -129,14 +137,19 @@ export default function IgraPojedinacno() {
             <tr>
               <td>Datum</td>
               <td className="sredina" colSpan={2}>
-                {formatirajDatum(igra.datum)}
+                <Form.Group controlId="datum">
+                  <Form.Control
+                    type="date"
+                    name="datum"
+                    required
+                    defaultValue={igra.datum}
+                  />
+          </Form.Group>
               </td>
               <td className="sredina">
                 <Button
-                  className="btn btn-warning"
-                  onClick={() => navigate(`/igre/${routeParams.sifra}`)}
-                >
-                  Promijeni datum
+                  className="btn btn-warning">
+                  Promjeni
                 </Button>
               </td>
             </tr>
