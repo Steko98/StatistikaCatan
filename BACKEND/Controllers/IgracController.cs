@@ -30,6 +30,33 @@ namespace BACKEND.Controllers
         }
 
         [HttpGet]
+        [Route("IgraciZaIgru/{sifraIgra:int}")]
+        public ActionResult<List<IgracDTORead>> GetIgraciZaIgru(int sifraIgra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                // Execute raw SQL: select * from igraci where sifra not in (select distinct igrac from clanovi where igra = @sifraIgra);
+                var igraci = _context.Igraci
+                    .FromSqlRaw(
+                        "SELECT * FROM Igraci WHERE Sifra NOT IN (SELECT DISTINCT Igrac FROM Clanovi WHERE Igra = {0})",
+                        sifraIgra
+                    )
+                    .ToList();
+
+                return Ok(_mapper.Map<List<IgracDTORead>>(igraci));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+
+        [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<IgracDTOInsertUpdate> GetBySifra(int sifra)
         {

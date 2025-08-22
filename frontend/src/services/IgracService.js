@@ -10,6 +10,16 @@ async function get() {
     });
 }
 
+async function getIgraciZaIgru(sifra) {
+  return await HttpService.get("/Igrac/IgraciZaIgru/" + sifra)
+    .then((odgovor) => {
+      return { greska: false, poruka: odgovor.data };
+    })
+    .catch((e) => {
+      return { greska: true, poruka: "Problem kod dohvaćanja igrača" };
+    });
+}
+
 async function getBySifra(sifra) {
   return await HttpService.get("/Igrac/" + sifra)
     .then((odgovor) => {
@@ -120,4 +130,5 @@ export default {
   dodajIgru,
   obrisiIgru,
   traziIgrac,
+  getIgraciZaIgru
 };

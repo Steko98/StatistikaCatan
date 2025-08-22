@@ -17,13 +17,13 @@ export default function ClanoviDodaj() {
 
 
   const [igraci, setIgraci] = useState([]);
-  // const [igracSifra, setIgracSifra] = useState(0);
+  const [igracSifra, setIgracSifra] = useState(0);
   const [igre, setIgre] = useState([]);
   const [sifraIgra, setIgraSifra] = useState(sifra);
 
   async function dohvatiIgrace() {
     showLoading();
-    const odgovor = await IgracService.get();
+    const odgovor = await IgracService.getIgraciZaIgru(sifra);
     hideLoading();
         if (odgovor.greska) {
       prikaziError(odgovor.poruka)
@@ -33,20 +33,10 @@ export default function ClanoviDodaj() {
     setIgracSifra(odgovor.poruka[0].sifra);
   }
 
-  async function dohvatiIgre() {
-    showLoading();
-    const odgovor = await IgraService.get();
-    hideLoading();    
-    if (odgovor.greska) {
-      prikaziError(odgovor.poruka)
-      return
-    }
-    setIgre(odgovor.poruka);
-  }
+  
 
   useEffect(() => {
     dohvatiIgrace();
-    dohvatiIgre();
   }, []);
 
   async function dodaj(e) {
@@ -68,9 +58,8 @@ export default function ClanoviDodaj() {
     dodaj({
       brojBodova: parseInt(podaci.get("brojBodova")),
       pobjeda: podaci.get("pobjeda") == "on" ? true : false,
-      imeIgraca: podaci.get("imeIgraca"),
-      sifraIgrac: parseInt(podaci.get("sifraIgrac")),
-      sifraIgra: sifraIgra,
+      sifraIgrac: igracSifra,
+      sifraIgra: sifra,
     });
   }
 
@@ -94,22 +83,6 @@ export default function ClanoviDodaj() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group controlId="igra">
-          <Form.Label>Šifra igre</Form.Label>
-          <Form.Select
-            value={sifraIgra}
-            onChange={(e) => {
-              setIgraSifra(parseInt(e.target.value));
-            }}
-          >
-            {igre &&
-              igre.map((i, index) => (
-                <option key={index} value={i.sifra}>
-                  {i.sifra}
-                </option>
-              ))}
-          </Form.Select>
-        </Form.Group>
 
         <Form.Group controlId="brojBodova">
           <Form.Label>Broj bodova</Form.Label>
