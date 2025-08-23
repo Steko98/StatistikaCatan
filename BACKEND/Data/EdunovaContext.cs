@@ -14,7 +14,7 @@ namespace BACKEND.Data
         public DbSet<Igrac> Igraci { get; set; }
         public DbSet<Igra> Igre { get; set; }
         public DbSet<Clan> Clanovi { get; set; }
-
+        public DbSet<Operater> Operateri { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Igra>().HasOne(t => t.Turnir);

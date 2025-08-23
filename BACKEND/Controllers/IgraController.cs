@@ -146,31 +146,40 @@ namespace BACKEND.Controllers
         }
 
 
-        //[HttpPatch]
-        //[Route("promjeni/{sifra:int}")]
-        //public IActionResult Patch(int sifra, IgraDTOInsertUpdate dto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(new { poruka = ModelState });
-        //    }
-        //    Igra? e;
-        //    try
-        //    {
-        //        e = _context.Igre.Find(sifra)
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new { poruka = ex.Message });
-        //    }
-        //    if (e == null)
-        //    {
-        //        return NotFound(new { poruka = "Igra nije pronađena" });
-        //    }
+        [HttpPatch]
+        [Route("{sifra:int}")]
+        public IActionResult Patch(int sifra, DateTime datum)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
 
-            
+            try
+            {
+                Igra? e;
+                try
+                {
+                    e = _context.Igre.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Igra nije pronađena" });
+                }
 
-        //}
+                e.Datum = datum;
+                _context.Igre.Update(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Uspješno promijenjen datum" });
+            } catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
 
         [HttpDelete]
         [Route("{sifra:int}")]
