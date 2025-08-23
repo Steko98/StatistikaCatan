@@ -18,7 +18,9 @@ export const RouteNames = {
 
     CLAN_PREGLED: '/clanovi',
     CLAN_NOVI: '/clan/dodaj/:sifra',
-    CLAN_PROMJENI: '/clanovi/:sifra'
+    CLAN_PROMJENI: '/clanovi/:sifra',
+
+    LOGIN: '/login'
 }
 
 export const BACKEND_URL='https://steko98-001-site1.ntempurl.com';

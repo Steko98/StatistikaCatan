@@ -20,46 +20,62 @@ import IgracPojedinacno from "./pages/igraci/IgracPojedinacno";
 import ClanoviPregled from "./pages/clanovi/ClanoviPregled";
 import ClanoviDodaj from "./pages/clanovi/ClanoviDodaj";
 import ClanoviPromjeni from "./pages/clanovi/ClanoviPromjeni";
+
 import useError from "./hooks/useError";
-import ErrorModal from './components/ErrorModal'
+import ErrorModal from "./components/ErrorModal";
 import LoadingSpinner from "./components/LoadingSpinner";
+import useAuth from "./hooks/useAuth";
+import Login from "./pages/Login";
 
 function App() {
-
-  const {errors, prikaziErrorModal, sakrijError} = useError();
+  const { isLoggedIn } = useAuth();
+  const { errors, prikaziErrorModal, sakrijError } = useError();
 
   return (
     <>
-      <LoadingSpinner/>
-      <ErrorModal show={prikaziErrorModal} errors={errors} onHide={sakrijError}/>
+      <LoadingSpinner />
+      <ErrorModal
+        show={prikaziErrorModal}
+        errors={errors}
+        onHide={sakrijError}
+      />
       <Container className="app">
         <NavBarEdunova />
         <Routes>
           <Route path={RouteNames.HOME} element={<Pocetna />} />
 
-          <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
-          <Route path={RouteNames.TURNIR_NOVI} element={<TurniriDodaj />} />
-          <Route path={RouteNames.TURNIR_PROMJENI} element={<TurniriPromjeni />}/>
-          <Route path={RouteNames.TURNIR_DETALJI} element={<TurnirPojedinacno />}/>
+          {isLoggedIn ? (
+            <>
+              <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
+              <Route path={RouteNames.TURNIR_NOVI} element={<TurniriDodaj />}/>
+              <Route path={RouteNames.TURNIR_PROMJENI} element={<TurniriPromjeni />}/>
+              <Route path={RouteNames.TURNIR_DETALJI} element={<TurnirPojedinacno />}/>
 
-          <Route path={RouteNames.IGRE_PREGLED} element={<IgrePregled />} />
-          <Route path={RouteNames.IGRE_NOVI} element={<IgreDodaj />} />
-          <Route path={RouteNames.IGRE_PROMJENI} element={<IgrePromjeni />} />
-          <Route path={RouteNames.IGRA_POJEDINACNO} element={<IgraPojedinacno />}/>
+              <Route path={RouteNames.IGRE_PREGLED} element={<IgrePregled />}/>
+              <Route path={RouteNames.IGRE_NOVI} element={<IgreDodaj />}/>
+              <Route path={RouteNames.IGRE_PROMJENI} element={<IgrePromjeni />}/>
+              <Route path={RouteNames.IGRA_POJEDINACNO} element={<IgraPojedinacno />}/>
 
-          <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />} />
-          <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj />} />
-          <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni />}/>        
-          <Route path={RouteNames.IGRAC_POJEDINACNO} element={<IgracPojedinacno />}/>
+              <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />} />
+              <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj />} />
+              <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni />} />
+              <Route path={RouteNames.IGRAC_POJEDINACNO} element={<IgracPojedinacno />}/>
 
-          <Route path={RouteNames.CLAN_PREGLED} element={<ClanoviPregled />} />
-          <Route path={RouteNames.CLAN_NOVI} element={<ClanoviDodaj />} />
-          <Route path={RouteNames.CLAN_PROMJENI} element={<ClanoviPromjeni />}/>
-          
+              <Route path={RouteNames.CLAN_PREGLED} element={<ClanoviPregled />}/>
+              <Route path={RouteNames.CLAN_NOVI} element={<ClanoviDodaj />} />
+              <Route path={RouteNames.CLAN_PROMJENI} element={<ClanoviPromjeni />}/>
+            </>
+          ) : (
+            <>
+              <Route path={RouteNames.LOGIN} element={<Login />} />
+            </>
+          )}
         </Routes>
       </Container>
+      <Container>
       <hr />
       &copy;Ivan Šteko
+      </Container>
     </>
   );
 }

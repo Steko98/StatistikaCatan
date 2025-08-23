@@ -184,6 +184,43 @@ namespace BACKEND.Controllers
             }
         }
 
+        [HttpPatch]
+        [Route("clan")]
+        public IActionResult Patch(int sifraIgrac, int sifraIgra, int bodovi)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+
+            try
+            {
+                Clan? e;
+                try
+                {
+                    e = _context.Clanovi
+                        .FirstOrDefault(c => c.Igra.Sifra == sifraIgra && c.Igrac.Sifra == sifraIgrac);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Član nije pronađena" });
+                }
+
+                e.BrojBodova = bodovi;
+                _context.Clanovi.Update(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Uspješno promijenjeni bodovi" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]

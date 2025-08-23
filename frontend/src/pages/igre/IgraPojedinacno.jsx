@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import IgraService from "../../services/IgraService";
-import { RouteNames } from "../../constants";
 import { Button, Container, Table, Form } from "react-bootstrap";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
+import IgraService from "../../services/IgraService";
 import ClanService from "../../services/ClanService";
+import { RouteNames } from "../../constants";
 import moment from "moment";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
@@ -22,6 +22,7 @@ export default function IgraPojedinacno() {
   const [clanovi, setClanovi] = useState([]);
   const [igra, setIgra] = useState({});
   const [datum, setDatum] = useState(igra.datum);
+  const [bodovi, setBodovi] = useState(clan.bodovi)
 
   async function dohvatiDetaljeIgre() {
     showLoading();
@@ -79,6 +80,16 @@ export default function IgraPojedinacno() {
       return;
     }
   }
+
+  // async function promjenaBodova() {
+  //   showLoading();
+  //   const odgovor = await ClanService.promjeniBodove(routeParams.sifra, , bodovi)
+  //   hideLoading();
+  //   if (odgovor.greska) {
+  //     prikaziError(odgovor.poruka);
+  //     return;
+  //   }
+  // }
 
 
   return (
