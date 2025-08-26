@@ -14,34 +14,36 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function ZbirBodovaGraf() {
-  const routeParams = useParams();
+export default function ZbirBodovaGraf({igre}) {
+  // const routeParams = useParams();
   const [grafPodaci, setGrafPodaci] = useState([]);
-  const { showLoading, hideLoading } = useLoading();
-  const { prikaziError } = useError();
+  // const { showLoading, hideLoading } = useLoading();
+  // const { prikaziError } = useError();
 
   const [igraci, setIgraci] = useState([]);
-  const [turnir, setTurnir] = useState({});
+  // const [turnir, setTurnir] = useState({});
 
-  async function dohvatiDetaljeTurnira() {
-    showLoading();
-    const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
-    hideLoading();
-    if (odgovor.greska) {
-      prikaziError(odgovor.poruka);
-      return;
-    }
-    setTurnir(odgovor.poruka);
+  // async function dohvatiDetaljeTurnira() {
+  //   // showLoading();
+  //   const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+  //   // hideLoading();
+  //   if (odgovor.greska) {
+  //     prikaziError(odgovor.poruka);
+  //     return;
+  //   }
+  //   setTurnir(odgovor.poruka);
 
-    const igre = odgovor.poruka.igre || [];
+  //   const igre = odgovor.poruka.igre || [];
+  //   const { podaci, igraci } = pripremiPodatke(igre);
+  //   setGrafPodaci(podaci);
+  //   setIgraci(igraci);
+  // }
+
+  useEffect(() => {
     const { podaci, igraci } = pripremiPodatke(igre);
     setGrafPodaci(podaci);
     setIgraci(igraci);
-  }
-
-  useEffect(() => {
-    dohvatiDetaljeTurnira();
-  }, []);
+  }, [igre]);
 
   function pripremiPodatke(igre) {
     const igraciSet = new Set();

@@ -14,31 +14,32 @@ import { useEffect, useState } from "react";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
 
-export default function OdigraneGraf() {
-  const routeParams = useParams();
+export default function OdigraneGraf({igre}) {
+  // const routeParams = useParams();
   const [grafPodaci, setGrafPodaci] = useState([]);
-  const { showLoading, hideLoading } = useLoading();
-  const { prikaziError } = useError();
-  const [turnir, setTurnir] = useState({});
+  // const { showLoading, hideLoading } = useLoading();
+  // const { prikaziError } = useError();
+  // const [turnir, setTurnir] = useState({});
 
-  async function dohvatiDetaljeTurnira() {
-    showLoading();
-    const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
-    hideLoading();
-    if (odgovor.greska) {
-      prikazi(odgovor.poruka);
-      return;
-    }
-    setTurnir(odgovor.poruka);
+  // async function dohvatiDetaljeTurnira() {
+  //   // showLoading();
+  //   const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+  //   // hideLoading();
+  //   if (odgovor.greska) {
+  //     prikazi(odgovor.poruka);
+  //     return;
+  //   }
+  //   setTurnir(odgovor.poruka);
 
-    const igre = odgovor.poruka.igre || [];
-    const podaci = pripremiPodatke(igre);
-    setGrafPodaci(podaci);
-  }
+  //   const igre = odgovor.poruka.igre || [];
+  //   const podaci = pripremiPodatke(igre);
+  //   setGrafPodaci(podaci);
+  // }
 
   useEffect(() => {
-    dohvatiDetaljeTurnira();
-  }, []);
+    const podaci = pripremiPodatke(igre);
+    setGrafPodaci(podaci);
+  }, [igre]);
 
   function pripremiPodatke(igre) {
     const podaci = {};

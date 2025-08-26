@@ -12,35 +12,39 @@ import {
   YAxis,
 } from "recharts";
 import useError from "../../hooks/useError";
-import useLoading from "../../hooks/useLoading";
+// import useLoading from "../../hooks/useLoading";
 
-export default function PostotakGraf() {
-  const routeParams = useParams();
-  const { showLoading, hideLoading } = useLoading();
-  const { prikaziError } = useError();
+export default function PostotakGraf({igre}) {
+  // const routeParams = useParams();
+  // const { showLoading, hideLoading } = useLoading();
+  // const { prikaziError } = useError();
   const [grafPodaci, setGrafPodaci] = useState([]);
   const [igraci, setIgraci] = useState([]);
-  const [turnir, setTurnir] = useState({});
 
-  async function dohvatiDetaljeTurnira() {
-    showLoading()
-    const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
-    hideLoading()
-    if (odgovor.greska) {
-      prikaziError(odgovor.poruka);
+  // async function dohvatiDetaljeTurnira() {
+  //   const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
+  //   if (odgovor.greska) {
+  //     prikaziError(odgovor.poruka);
+  //     return;
+  //   }
+  //   setTurnir(odgovor.poruka);
+
+  //   const igre = odgovor.poruka.igre || [];
+  //   const { podaci, igraci } = pripremiPodatke(igre);
+  //   setGrafPodaci(podaci);
+  //   setIgraci(igraci);
+  // }
+
+  useEffect(() => {
+    if (!igre || igre.length === 0) {
+      setGrafPodaci([]);
+      setIgraci([]);
       return;
     }
-    setTurnir(odgovor.poruka);
-
-    const igre = odgovor.poruka.igre || [];
     const { podaci, igraci } = pripremiPodatke(igre);
     setGrafPodaci(podaci);
     setIgraci(igraci);
-  }
-
-  useEffect(() => {
-    dohvatiDetaljeTurnira();
-  }, []);
+  }, [igre]);
 
   function pripremiPodatke(igre) {
     const igraciSet = new Set();

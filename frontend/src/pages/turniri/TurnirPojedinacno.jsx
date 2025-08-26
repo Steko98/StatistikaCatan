@@ -125,9 +125,9 @@ export default function TurnirPojedinacno() {
         <Col key="1" sm={12} md={6} lg={6}>
           <GrafTabovi onChange={setOdabraniGraf} />
           <div className="mt-4 d-flex align-items-center">
-            {odabraniGraf === "Postotak" && <PostotakGraf />}
-            {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf />}
-            {odabraniGraf === "Broj odigranih" && <OdigraneGraf />}
+            {odabraniGraf === "Postotak" && <PostotakGraf igre={turnir.igre}/>}
+            {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf igre={turnir.igre}/>}
+            {odabraniGraf === "Broj odigranih" && <OdigraneGraf igre={turnir.igre}/>}
           </div>
         </Col>
 

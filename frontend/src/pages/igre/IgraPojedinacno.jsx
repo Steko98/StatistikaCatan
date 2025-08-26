@@ -21,8 +21,8 @@ export default function IgraPojedinacno() {
 
   const [clanovi, setClanovi] = useState([]);
   const [igra, setIgra] = useState({});
-  const [datum, setDatum] = useState(igra.datum);
-  const [bodovi, setBodovi] = useState(clan.bodovi)
+  const [datum, setDatum] = useState("");
+  // const [bodovi, setBodovi] = useState(clan.bodovi)
 
   async function dohvatiDetaljeIgre() {
     showLoading();
@@ -45,6 +45,7 @@ export default function IgraPojedinacno() {
     }
     let igra = odgovor.poruka;
     igra.datum = moment.utc(igra.datum).format("YYYY-MM-DD");
+    setDatum(igra.datum)
     setIgra(igra);
   }
 
@@ -70,7 +71,6 @@ export default function IgraPojedinacno() {
     obrisiClana(sifra);
   }
 
-
   async function promjenaDatuma() {
     showLoading();
     const odgovor = await IgraService.promjeniDatum(routeParams.sifra, datum);
@@ -90,7 +90,6 @@ export default function IgraPojedinacno() {
   //     return;
   //   }
   // }
-
 
   return (
     <Container>
@@ -154,15 +153,16 @@ export default function IgraPojedinacno() {
                     name="datum"
                     value={datum}
                     required
-                    defaultValue={igra.datum}
+                    // defaultValue={igra.datum}
                     onChange={(e) => setDatum(e.target.value)}
                   />
-          </Form.Group>
+                </Form.Group>
               </td>
               <td className="sredina">
                 <Button
                   className="btn btn-warning"
-                  onClick={() => promjenaDatuma()}>
+                  onClick={() => promjenaDatuma()}
+                >
                   Promjeni
                 </Button>
               </td>

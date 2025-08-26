@@ -9,13 +9,13 @@ export default function TablicaRekordi() {
   const routeParams = useParams();
   // const [turnir, setTurnir] = useState({});
   const [rekordi, setRekordi] = useState(null);
-  const { showLoading, hideLoading } = useLoading();
+  // const { showLoading, hideLoading } = useLoading();
   const { prikaziError } = useError();
 
   async function dohvatiDetaljeTurnira() {
-    showLoading();
+    // showLoading();
     const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
-    hideLoading();
+    // hideLoading();
     if (odgovor.greska) {
       prikaziError(odgovor.poruka);
       return;

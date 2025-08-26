@@ -11,7 +11,6 @@ export default function GrafTabovi({ onChange }) {
       {GrafTipovi.map((tip) => (
         <Button
           key={tip}
-          type="button"
           onClick={() => {
             setAktivan(tip);
             onChange(tip);
