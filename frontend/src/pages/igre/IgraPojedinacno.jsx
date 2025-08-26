@@ -5,6 +5,7 @@ import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
 import IgraService from "../../services/IgraService";
 import ClanService from "../../services/ClanService";
+import TurnirService from "../../services/TurnirService";
 import { RouteNames } from "../../constants";
 import moment from "moment";
 import useError from "../../hooks/useError";
@@ -16,13 +17,11 @@ export default function IgraPojedinacno() {
   const { prikaziError } = useError();
   const routeParams = useParams();
 
-  const location = useLocation();
-  const turnirSifra = location.state?.sifra;
-
   const [clanovi, setClanovi] = useState([]);
   const [igra, setIgra] = useState({});
   const [datum, setDatum] = useState("");
-  // const [bodovi, setBodovi] = useState(clan.bodovi)
+  // const [turniri, setTurniri] = useState([]);
+  const [bodovi, setBodovi] = useState(0)
 
   async function dohvatiDetaljeIgre() {
     showLoading();
@@ -49,9 +48,22 @@ export default function IgraPojedinacno() {
     setIgra(igra);
   }
 
+  // async function dohvatiTurnire() {
+  //   showLoading();
+  //   const odgovor = await TurnirService.get();
+  //   hideLoading();
+  //   if (odgovor.greska) {
+  //     prikaziError(odgovor.poruka);
+  //     return;
+  //   }
+  //   setTurniri(odgovor.poruka);
+  //   console.log(turniri);
+  // }
+
   useEffect(() => {
     dohvatiDetaljeIgre();
     dohvatiIgru();
+    // dohvatiTurnire();
   }, []);
 
   async function obrisiClana(sifra) {
@@ -81,9 +93,9 @@ export default function IgraPojedinacno() {
     }
   }
 
-  // async function promjenaBodova() {
+  // async function promjenaBodova(igrSifra) {
   //   showLoading();
-  //   const odgovor = await ClanService.promjeniBodove(routeParams.sifra, , bodovi)
+  //   const odgovor = await ClanService.promjeniBodove(igrSifra, routeParams.sifra, bodovi);
   //   hideLoading();
   //   if (odgovor.greska) {
   //     prikaziError(odgovor.poruka);
@@ -91,8 +103,14 @@ export default function IgraPojedinacno() {
   //   }
   // }
 
+  function spremiPromjene() {
+    // promjenaBodova();
+    promjenaDatuma();
+  }
+
   return (
     <Container>
+      {/* <h2 className="sredina">{turnir.naziv}Neki tekst</h2> */}
       <Link className="btn btn-success" to={`/clan/dodaj/${routeParams.sifra}`}>
         Dodaj igrača
       </Link>
@@ -119,7 +137,18 @@ export default function IgraPojedinacno() {
               clanovi.map((clan, index) => (
                 <tr key={index}>
                   <td>{clan.imeIgrac}</td>
-                  <td className="sredina">{clan.brojBodova}</td>
+                  <td className="sredina">
+                    <Form.Group controlId="bodovi">
+                      <Form.Control
+                        type="number"
+                        name="bodovi"
+                        defaultValue={clan.brojBodova}
+                        required
+                        // onChange={() => promjenaBodova(clan.sifraIgrac)}
+                        step={1}
+                      />
+                    </Form.Group>
+                  </td>
                   <td className="sredina">
                     {clan.pobjeda ? (
                       <GiPodiumWinner size={35} color="green" />
@@ -153,7 +182,6 @@ export default function IgraPojedinacno() {
                     name="datum"
                     value={datum}
                     required
-                    // defaultValue={igra.datum}
                     onChange={(e) => setDatum(e.target.value)}
                   />
                 </Form.Group>
@@ -161,7 +189,7 @@ export default function IgraPojedinacno() {
               <td className="sredina">
                 <Button
                   className="btn btn-warning"
-                  onClick={() => promjenaDatuma()}
+                  onClick={() => spremiPromjene()}
                 >
                   Promjeni
                 </Button>

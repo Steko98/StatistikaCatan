@@ -97,4 +97,5 @@ export default {
   obrisi,
   dodaj,
   promjeni,
+  promjeniBodove
 };
