@@ -36,6 +36,7 @@ export default function TurniriDodaj() {
 
   return (
     <Container>
+      <h2 className="sredina">Dodavanje turnira</h2>
       <Form onSubmit={odradiSubmit}>
         <Form.Group controlId="naziv">
           <Form.Label>Naziv</Form.Label>

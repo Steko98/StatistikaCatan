@@ -120,6 +120,12 @@ async function traziIgrac(uvjet) {
     });
 }
 
+async function postaviSliku(sifra, slika) {
+  return await HttpService.put('/Igrac/postaviSliku/' + sifra, slika)
+  .then((odgovor)=>{return {greska: false, poruka: odgovor.data};})
+  .catch((e)=>{return {greska:true, poruka:'Problem kod postavljanja slike'}})
+}
+
 export default {
   get,
   getBySifra,
@@ -130,5 +136,6 @@ export default {
   dodajIgru,
   obrisiIgru,
   traziIgrac,
-  getIgraciZaIgru
+  getIgraciZaIgru,
+  postaviSliku
 };

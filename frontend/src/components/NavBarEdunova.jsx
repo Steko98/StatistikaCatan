@@ -39,6 +39,8 @@ export default function NavBarEdunova() {
                 Swagger
               </Nav.Link>
 
+              <Nav.Link onClick={()=>navigate(RouteNames.ERA)}>ERA dijagram</Nav.Link>
+
               <Nav.Link onClick={logout}>Odjava</Nav.Link>
             </>
           ) : (

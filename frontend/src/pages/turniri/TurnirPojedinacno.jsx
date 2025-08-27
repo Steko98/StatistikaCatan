@@ -119,11 +119,13 @@ export default function TurnirPojedinacno() {
         </Table>
       </div>
       <hr />
-      <h2>Statistika</h2>
+      <h2 className="sredina">Statistika</h2>
       <br />
       <Row>
         <Col key="1" sm={12} md={6} lg={6}>
-          <GrafTabovi onChange={setOdabraniGraf} />
+          <div className="d-flex justify-content-center">
+            <GrafTabovi onChange={setOdabraniGraf}/>            
+          </div>
           <div className="mt-4 d-flex align-items-center">
             {odabraniGraf === "Postotak" && <PostotakGraf igre={turnir.igre}/>}
             {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf igre={turnir.igre}/>}

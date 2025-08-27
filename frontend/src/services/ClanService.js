@@ -91,11 +91,32 @@ async function promjeniBodove(sifraIgra, sifraIgrac, bodovi)
     });
 }
 
+async function promjeniPobjeda(sifraIgra, sifraIgrac, pobjeda) {
+  return await HttpService.patch(`/Clan/pobjeda?sifraIgrac=${sifraIgrac}&sifraIgra=${sifraIgra}&pobjeda=${pobjeda}`)
+      .then((odgovor) => {
+      return { greska: false, poruka: odgovor.data };
+    })
+    .catch((e) => {
+      switch (e.status) {
+        case 400:
+          let poruke = "";
+          for (const kljuc in e.response.data.errors) {
+            poruke += kljuc + ": " + e.response.data.errors[kljuc][0] + "\n";
+          }
+          console.log(poruke);
+          return { greska: true, poruka: poruke };
+        default:
+          return { greska: true, poruka: "Status pobjede se ne mogu promjeniti" };
+      }
+    });
+}
+
 export default {
   get,
   getBySifra,
   obrisi,
   dodaj,
   promjeni,
-  promjeniBodove
+  promjeniBodove,
+  promjeniPobjeda
 };

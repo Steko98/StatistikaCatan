@@ -1,16 +1,13 @@
-Turnir pojedinacno
-- obriši radi ako nema FK, tj ako je turnir prazan
-- Dodaj igru - dodati odmah dodavanje igraca i clanova
-
-Igrač pojedinačno
-- Napravit GET metodu (ako uopce treba) u IgracController koja dohvaca sve Clanove povezane s Igracem a onda i sve Igre
-- iskoristit podatke za grafove i statistiku u IgracPojedinacno
-
-- Napravit u TurniriPregled, TurnirPojedinacno, IgraciPregled koja na stranici pokazuje samo one objekte(turnire, igre, igrace) koji odgovaraju onome sto je upisano u trazilici (po imenu, datumu)
-_____________________________________________________________________-
-
 - bodovi patch u IgraPojedinacno,
-- automatski mijenjanje pobjednika po bodovima?
+- pobjeda patch u IgraPojedinacno
 - grafove namjestit da ne dohvacaju podatke ponovno (GOTOVO)
-- Za svaku igru h1 element npr. "Catan 2025 - #005"
+- Za svaku igru h1 element npr. "Catan 2025 - #005" - (DJELOMICNO GOTOVO)
 - Pop-up success kada se spremi igra
+- slika za svakog igraca
+- SwaggerExample na backendu
+
+
+
+
+- bodovi patch
+- pobjeda patch

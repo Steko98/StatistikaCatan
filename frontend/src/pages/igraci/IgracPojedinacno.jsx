@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import IgracService from "../../services/IgracService";
-import { Button, Container, Table } from "react-bootstrap";
-import { RouteNames } from "../../constants";
+import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
+import { BACKEND_URL, RouteNames } from "../../constants";
 import { GiPodiumWinner } from "react-icons/gi";
 import { FaSadTear } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
 import ClanService from "../../services/ClanService";
 import useError from "../../hooks/useError"
 import useLoading from "../../hooks/useLoading"
+import profilna from '../../assets/profilna.png'
 
 export default function IgracPojedinacno() {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export default function IgracPojedinacno() {
   const { showLoading, hideLoading } = useLoading();
   const { prikaziError } = useError();
   const [clanovi, setClanovi] = useState([]);
+  const [igrac, setIgrac] = useState({});
 
   async function dohvatiIgreIgraca() {
     showLoading()
@@ -27,11 +30,24 @@ export default function IgracPojedinacno() {
     setClanovi(odgovor.poruka);
   }
 
+  async function dohvatiIgraca() {
+    showLoading();
+    const odgovor = await IgracService.getBySifra(routeParams.sifra);
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
+    console.log(odgovor.poruka)    
+    setIgrac(odgovor.poruka);
+  }
+
   useEffect(() => {
     dohvatiIgreIgraca();
+    dohvatiIgraca();
   }, []);
 
-  async function obrisiClana(sifra) {
+  async function asyncObrisiClana(sifra) {
     showLoading()
     const odgovor = await ClanService.obrisi(sifra);
     hideLoading()
@@ -41,18 +57,37 @@ export default function IgracPojedinacno() {
     }
     dohvatiIgreIgraca();
   }
-  function obrisi(sifra) {
+  function obrisiClana(sifra) {
     if (!confirm("Sigurno obrisati?")) {
       return;
     }
-    obrisiClana(sifra);
+    asyncObrisiClana(sifra);
+  }
+
+  function slika(igrac){
+    if (igrac.slika!=null) {
+      return BACKEND_URL + igrac.slika + `?${Date.now()}`;
+    }
+    return profilna
   }
 
   return (
     <Container>
-      <Link className="btn btn-danger" to={RouteNames.IGRACI_PREGLED}>
+      <Link className="btn btn-danger" to={-1}>
         Povratak
       </Link>
+
+      <hr />
+
+      <Col sm={12} lg={3} md={3}>
+        <Card style={{marginTop: '1rem'}}>
+          <Card.Img variant="top" src={slika(igrac)} className="slika"/>
+            <Card.Body>
+                <Card.Title className="sredina">{igrac.ime}</Card.Title>
+                <Link className="btn btn-warning" to={`/igraci/${routeParams.sifra}`}><FaUserEdit /></Link>
+            </Card.Body>
+        </Card>
+      </Col>
 
       <hr />
 
@@ -89,7 +124,7 @@ export default function IgracPojedinacno() {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button
                       className="btn btn-danger"
-                      onClick={() => obrisi(clan.sifra)}
+                      onClick={() => obrisiClana(clan.sifra)}
                     >
                       Obriši
                     </Button>

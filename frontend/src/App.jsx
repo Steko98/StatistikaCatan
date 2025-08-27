@@ -26,10 +26,20 @@ import ErrorModal from "./components/ErrorModal";
 import LoadingSpinner from "./components/LoadingSpinner";
 import useAuth from "./hooks/useAuth";
 import Login from "./pages/Login";
+import EraDijagram from "./pages/EraDijagram";
 
 function App() {
   const { isLoggedIn } = useAuth();
   const { errors, prikaziErrorModal, sakrijError } = useError();
+
+  function godina(){
+    const pocetna = 2025;
+    const trenutna = new Date().getFullYear();
+    if(pocetna===trenutna){
+      return trenutna;
+    }
+    return pocetna + ' - ' + trenutna;
+  }
 
   return (
     <>
@@ -64,6 +74,8 @@ function App() {
               <Route path={RouteNames.CLAN_PREGLED} element={<ClanoviPregled />}/>
               <Route path={RouteNames.CLAN_NOVI} element={<ClanoviDodaj />} />
               <Route path={RouteNames.CLAN_PROMJENI} element={<ClanoviPromjeni />}/>
+
+              <Route path={RouteNames.ERA} element={<EraDijagram/>}/>
             </>
           ) : (
             <>
@@ -74,7 +86,7 @@ function App() {
       </Container>
       <Container>
       <hr />
-      &copy;Ivan Šteko
+      Ivan Šteko &copy; {godina()}
       </Container>
     </>
   );

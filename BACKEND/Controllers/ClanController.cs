@@ -207,13 +207,49 @@ namespace BACKEND.Controllers
                 }
                 if (e == null)
                 {
-                    return NotFound(new { poruka = "Član nije pronađena" });
+                    return NotFound(new { poruka = "Član nije pronađen" });
                 }
 
                 e.BrojBodova = bodovi;
                 _context.Clanovi.Update(e);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Uspješno promijenjeni bodovi" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+        [HttpPatch("pobjeda")]
+        public IActionResult PatchPobjeda(int sifraIgrac, int sifraIgra, bool pobjeda)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+
+            try
+            {
+                Clan? e;
+                try
+                {
+                    e = _context.Clanovi
+                        .FirstOrDefault(c => c.Igra.Sifra == sifraIgra && c.Igrac.Sifra == sifraIgrac);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Član nije pronađen" });
+                }
+
+                e.Pobjeda = pobjeda;
+                _context.Clanovi.Update(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Promjena uspješna" });
             }
             catch (Exception ex)
             {

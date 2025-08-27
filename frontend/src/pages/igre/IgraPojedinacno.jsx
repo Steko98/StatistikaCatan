@@ -20,7 +20,7 @@ export default function IgraPojedinacno() {
   const [clanovi, setClanovi] = useState([]);
   const [igra, setIgra] = useState({});
   const [datum, setDatum] = useState("");
-  // const [turniri, setTurniri] = useState([]);
+  const [turnir, setTurnir] = useState({});
   const [bodovi, setBodovi] = useState(0)
 
   async function dohvatiDetaljeIgre() {
@@ -46,24 +46,23 @@ export default function IgraPojedinacno() {
     igra.datum = moment.utc(igra.datum).format("YYYY-MM-DD");
     setDatum(igra.datum)
     setIgra(igra);
+    dohvatiTurnir(igra.turnirSifra);
   }
 
-  // async function dohvatiTurnire() {
-  //   showLoading();
-  //   const odgovor = await TurnirService.get();
-  //   hideLoading();
-  //   if (odgovor.greska) {
-  //     prikaziError(odgovor.poruka);
-  //     return;
-  //   }
-  //   setTurniri(odgovor.poruka);
-  //   console.log(turniri);
-  // }
+  async function dohvatiTurnir(sifraTurnira) {
+    showLoading();
+    const odgovor = await TurnirService.getBySifra(sifraTurnira);
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
+    setTurnir(odgovor.poruka);
+  }
 
   useEffect(() => {
+    dohvatiIgru();    
     dohvatiDetaljeIgre();
-    dohvatiIgru();
-    // dohvatiTurnire();
   }, []);
 
   async function obrisiClana(sifra) {
@@ -93,9 +92,9 @@ export default function IgraPojedinacno() {
     }
   }
 
-  // async function promjenaBodova(igrSifra) {
+  // async function promjenaBodova() {
   //   showLoading();
-  //   const odgovor = await ClanService.promjeniBodove(igrSifra, routeParams.sifra, bodovi);
+  //   const odgovor = await ClanService.promjeniBodove(routeParams.sifra, bodovi);
   //   hideLoading();
   //   if (odgovor.greska) {
   //     prikaziError(odgovor.poruka);
@@ -110,7 +109,7 @@ export default function IgraPojedinacno() {
 
   return (
     <Container>
-      {/* <h2 className="sredina">{turnir.naziv}Neki tekst</h2> */}
+      <h2 className="sredina">{turnir.naziv} - Igra#{routeParams.sifra}</h2>
       <Link className="btn btn-success" to={`/clan/dodaj/${routeParams.sifra}`}>
         Dodaj igrača
       </Link>
@@ -137,15 +136,18 @@ export default function IgraPojedinacno() {
               clanovi.map((clan, index) => (
                 <tr key={index}>
                   <td>{clan.imeIgrac}</td>
-                  <td className="sredina">
+                  <td style={{ display: 'flex', justifyContent: 'center' }}>
                     <Form.Group controlId="bodovi">
                       <Form.Control
                         type="number"
                         name="bodovi"
                         defaultValue={clan.brojBodova}
+                        // value={clan.brojBodova}
+                        // onChange={(e) => setBodovi(e.target.value)}
                         required
-                        // onChange={() => promjenaBodova(clan.sifraIgrac)}
                         step={1}
+                        style={{width:'fit-content'}}
+                        className="sredina"
                       />
                     </Form.Group>
                   </td>
@@ -178,6 +180,7 @@ export default function IgraPojedinacno() {
               <td className="sredina" colSpan={2}>
                 <Form.Group controlId="datum">
                   <Form.Control
+                    className="sredina"
                     type="date"
                     name="datum"
                     value={datum}

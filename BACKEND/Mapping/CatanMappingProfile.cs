@@ -22,7 +22,12 @@ namespace BACKEND.Mapping
                 opt => opt.MapFrom(src => src.Turnir.Sifra)
                 );
 
-            CreateMap<Igrac, IgracDTORead>();
+            CreateMap<Igrac, IgracDTORead>()
+                .ConstructUsing(entitet =>
+                new IgracDTORead(
+                    entitet.Sifra ?? 0,
+                    entitet.Ime ?? "",
+                    PutanjaDatoteke(entitet)));
             CreateMap<IgracDTOInsertUpdate, Igrac>();
             CreateMap<Igrac, IgracDTOInsertUpdate>();
 
@@ -44,6 +49,21 @@ namespace BACKEND.Mapping
             
 
 
+        }
+
+        private static string? PutanjaDatoteke(Igrac e)
+        {
+            try
+            {
+                var ds = Path.DirectorySeparatorChar;
+                string slika = Path.Combine(Directory.GetCurrentDirectory()
+                    + ds + "wwwroot" + ds + "slike" + ds + "igraci" + ds + e.Sifra + ".png");
+                return File.Exists(slika) ? "/slike/igraci/" + e.Sifra + ".png" : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

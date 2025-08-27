@@ -16,8 +16,6 @@ export default function IgreDodaj() {
   const { prikaziError } = useError();
 
   const [turniri, setTurniri] = useState([]);
-  // const [igraci, setIgraci] = useState([]);
-  // const [sudionici, setSudionici] = useState([]);
 
   async function dohvatiTurnire() {
     showLoading();
@@ -27,22 +25,11 @@ export default function IgreDodaj() {
       prikaziError(odgovor.poruka);
       return;
     }
-    const ucitaniTurniri = odgovor.poruka;
-    setTurniri(ucitaniTurniri);
+    setTurniri(odgovor.poruka);
   }
-
-  // async function dohvatiIgrace() {
-  //   const odgovor = await IgracService.get();
-  //   if (odgovor.greska) {
-  //     alert(odgovor.poruka);
-  //     return;
-  //   }
-  //   setIgraci(odgovor.poruka);
-  // }
 
   useEffect(() => {
     dohvatiTurnire();
-    // dohvatiIgrace();
   }, []);
 
   async function dodajIgru(e) {
@@ -70,6 +57,7 @@ export default function IgreDodaj() {
 
   return (
     <Container>
+      <h2 className="sredina">Dodavanje igre</h2>
       <Form onSubmit={obradiSubmit}>
         <Row>
           <Col sm={12} md={4} lg={3}>

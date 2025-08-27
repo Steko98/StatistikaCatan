@@ -58,6 +58,8 @@ export default function TurniriPregled() {
 
   return (
     <Container>
+      <h2 className="sredina">Pregled turnira</h2>
+
       <Link className="btn btn-success" to={RouteNames.TURNIR_NOVI}>
         Dodavanje novog turnira
       </Link>

@@ -96,6 +96,7 @@ export default function ClanoviPromjeni() {
 
   return (
     <>
+      <h2 className="sredina">Uređivanje igrača</h2>
       <Form onSubmit={obradiSubmit}>
         <Form.Group className="mb-3" controlId="igrac">
           <Form.Label>Igrač</Form.Label>

@@ -65,6 +65,7 @@ export default function ClanoviDodaj() {
 
   return (
     <>
+      <h2 className="sredina">Dodavanje igrača</h2>
       <Form onSubmit={obradiSubmit}>
         <Form.Group className="mb-3" controlId="igrac">
           <Form.Label>Igrač</Form.Label>

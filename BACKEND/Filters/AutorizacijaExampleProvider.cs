@@ -7,7 +7,7 @@ namespace BACKEND.Filters
     {
         public OperaterDTO GetExamples() => new
             (
-            "ime.prezime@email.com", "lozinka"
+            "ivan.steko5@gmail.com", "edunovawp8"
             );
     }
 }

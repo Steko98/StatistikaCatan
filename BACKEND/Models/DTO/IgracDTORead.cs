@@ -2,6 +2,7 @@
 {
     public record IgracDTORead(
         int Sifra,
-        string Ime
+        string Ime,
+        string? Slika
         );
 }
