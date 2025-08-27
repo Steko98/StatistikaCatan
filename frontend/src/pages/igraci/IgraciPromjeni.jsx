@@ -91,7 +91,7 @@ export default function IgraciPromjena() {
   async function spremiSliku() {
     showLoading();
     const base64 = slikaZaServer;
-    const odgovor = await IgracService.postaviSliku(routeParams.sifra, {Base64: base64.replace('data:image/png;base64', '')});
+    const odgovor = await IgracService.postaviSliku(routeParams.sifra, {Base64: base64.replace('data:image/png;base64,', '')});
     hideLoading();
     if (odgovor.greska) {
       prikaziError(odgovor.podaci)

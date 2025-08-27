@@ -4,6 +4,7 @@ import { RouteNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
+import { useEffect } from "react";
 
 export default function IgraciDodaj() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export default function IgraciDodaj() {
     });
   }
 
+
   return (
     <Container>
       <Form onSubmit={obradiSubmit}>
@@ -43,12 +45,12 @@ export default function IgraciDodaj() {
 
         <Row>
           <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-            <Button onClick={() => navigate(-1)} className="btn btn-danger">
+            <Button onClick={() => navigate(-1)} className="btn btn-danger siroko">
               Povratak
             </Button>
           </Col>
           <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="siroko">
               Dodaj igrača
             </Button>
           </Col>

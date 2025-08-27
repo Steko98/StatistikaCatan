@@ -58,7 +58,7 @@ namespace BACKEND.Controllers
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public ActionResult<IgracDTOInsertUpdate> GetBySifra(int sifra)
+        public ActionResult<IgracDTORead> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace BACKEND.Controllers
                 return NotFound(new { poruka = "Igrač nije pronađen" });
             }
 
-            return Ok(_mapper.Map<IgracDTOInsertUpdate>(e));
+            return Ok(_mapper.Map<IgracDTORead>(e));
         }
 
         [HttpPost]
@@ -342,7 +342,7 @@ namespace BACKEND.Controllers
                 }
                 var putanja = Path.Combine(dir + ds + sifra + ".png");
                 System.IO.File.WriteAllBytes(putanja, Convert.FromBase64String(slika.Base64));
-                return Ok("Uspješno pohranje slika");
+                return Ok("Uspješno pohranjena slika");
             }
             catch (Exception e)
             {

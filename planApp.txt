@@ -1,9 +1,6 @@
-- bodovi patch u IgraPojedinacno,
-- pobjeda patch u IgraPojedinacno
 - grafove namjestit da ne dohvacaju podatke ponovno (GOTOVO)
 - Za svaku igru h1 element npr. "Catan 2025 - #005" - (DJELOMICNO GOTOVO)
 - Pop-up success kada se spremi igra
-- slika za svakog igraca
 - SwaggerExample na backendu
 
 
