@@ -25,3 +25,4 @@ export const RouteNames = {
 }
 
 export const BACKEND_URL='https://steko98-001-site1.ntempurl.com';
+// export const BACKEND_URL='https://localhost:7141';

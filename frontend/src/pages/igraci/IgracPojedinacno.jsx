@@ -37,8 +37,7 @@ export default function IgracPojedinacno() {
     if (odgovor.greska) {
       prikaziError(odgovor.poruka);
       return;
-    }
-    console.log(odgovor.poruka)    
+    } 
     setIgrac(odgovor.poruka);
   }
 

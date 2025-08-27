@@ -14,8 +14,22 @@ export default function IgreDodaj() {
   const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoading();
   const { prikaziError } = useError();
+  const [igraci, setIgraci] = useState([]);
+  const [redovi, setRedovi] = useState([]);
+  const [sudionici, setSudionici] = useState([]);
+  const [sifraIgrac, setIgracSifra] = useState(0);
 
   const [turniri, setTurniri] = useState([]);
+
+  function dodajRed() {
+    redovi.push({ igrac: "", brojBodova: 0, pobjeda: false });
+    setRedovi([...redovi]);
+  }
+
+  function obrisiRed(index) {
+    redovi.splice(index, 1);
+    setRedovi([...redovi]);
+  }
 
   async function dohvatiTurnire() {
     showLoading();
@@ -28,8 +42,19 @@ export default function IgreDodaj() {
     setTurniri(odgovor.poruka);
   }
 
+  async function dohvatiIgrace() {
+    showLoading();
+    const odgovor = await IgracService.get();
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    } setIgraci(odgovor.poruka);
+  }
+
   useEffect(() => {
     dohvatiTurnire();
+    dohvatiIgrace();
   }, []);
 
   async function dodajIgru(e) {
@@ -42,22 +67,39 @@ export default function IgreDodaj() {
     }
   }
 
+  // //funkcija za dodat clanovu u igru
+  // async function dodajClanove(){
+  //   showLoading();
+  //   redovi.forEach(red => {
+  //     const odgovor = Service.dodajClan(red);
+  //     if (odgovor.greska) {
+  //       prikaziError(odgovor.poruka);
+  //       return;
+  //     }
+  //   });
+
+  // }
+
   function obradiSubmit(e) {
     e.preventDefault();
 
     const podaci = new FormData(e.target);
+    console.log(podaci)
 
     dodajIgru({
       datum: moment.utc(podaci.get("datum")),
       turnirSifra: parseInt(sifra),
     });
 
-    navigate(`/turnir/${sifra}`);
+    // navigate(`/turnir/${sifra}`);
   }
 
   return (
     <Container>
       <h2 className="sredina">Dodavanje igre</h2>
+
+      <br />
+
       <Form onSubmit={obradiSubmit}>
         <Row>
           <Col sm={12} md={4} lg={3}>
@@ -90,52 +132,90 @@ export default function IgreDodaj() {
               </Form.Select>
             </Form.Group>
           </Col>
-          {/* <Col sm={12} md={8} lg={9}>
-            <Table bordered responsive striped hover>
+          <Col sm={12} md={8} lg={9}>
+            <Table striped bordered hover responsive>
               <thead>
                 <tr>
                   <th>Igrač</th>
-                  <th className="sredina">Bodovi</th>
+                  <th className="sredina">Broj bodova</th>
                   <th className="sredina">Pobjeda</th>
                   <th className="sredina">Akcije</th>
                 </tr>
               </thead>
               <tbody>
-                  {sudionici.map(s => (
-                    <tr key={s.sifra}>
-                      <td><Form.Control type="text" name="ime" required /></td>
-                      <td><Form.Control type="number" name="brojBodova" /></td>
-                      <td><Form.Check label="Pobjeda" name="pobjeda" /></td>
-                      <td>
-                        <Button className="btn btn-danger">Obriši</Button>
+                {redovi && redovi.map((r, index) => (
+                  <tr key={index}>
+                    
+                    <td>                
+                      <Form.Group controlId="igrac">
+                          <Form.Select name="sifraIgrac"
+                            onChange={(e) => {
+                            setIgracSifra(e.target.value);
+                            }}>
+                              {igraci &&
+                                igraci.map((i, index) => (
+                                  <option key={index} value={i.sifra}>
+                                    {i.ime}
+                                  </option>
+                                ))}
+                          </Form.Select>
+                        </Form.Group>
                       </td>
-                    </tr>
-                  ))}
+
+                      <td style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Form.Group controlId="brojBodova" >
+                          <Form.Control 
+                            type="number" 
+                            name="brojBodova" 
+                            style={{width:'fit-content'}}
+                            className="sredina"
+                            />
+                        </Form.Group>
+                      </td>
+
+                      <td>
+                        <Form.Group controlId="pobjeda" className="sredina">
+                          <Form.Check name="pobjeda" 
+                          value={r.pobjeda}/>
+                        </Form.Group>
+                      </td>
+
+                      <td className="sredina">
+                        <Button variant="danger" onClick={() => obrisiRed(index)}>
+                          Obriši
+                        </Button>
+                      </td>
+
+                  </tr>
+                ))}
               </tbody>
+
               <tfoot>
                 <tr>
-                  <td colSpan="4" className="sredina">
-                    <Button >Dodaj igrača</Button>
+                  <td colSpan={4} className="sredina">
+                    <Button variant="success" onClick={dodajRed}>
+                      Dodaj sudionika
+                    </Button>
                   </td>
                 </tr>
               </tfoot>
             </Table>
-          </Col> */}
+          </Col>
         </Row>
 
         <hr style={{ marginTop: "50px" }} />
 
-        <Row className="akcije">
+        <Row>
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
             <Button
               onClick={() => navigate(`/turnir/${sifra}`)}
-              className="btn btn-danger"
+              className="btn btn-danger siroko"
             >
               Povratak
             </Button>
           </Col>
           <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
-            <Button variant="success" type="submit">
+            <Button variant="success" type="submit" className="siroko">
               Dodaj igru
             </Button>
           </Col>
