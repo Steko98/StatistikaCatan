@@ -51,6 +51,7 @@ function App() {
       />
       <Container className="app">
         <NavBarEdunova />
+        <br />
         <Routes>
           <Route path={RouteNames.HOME} element={<Pocetna />} />
 

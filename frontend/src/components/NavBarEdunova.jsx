@@ -14,10 +14,11 @@ export default function NavBarEdunova() {
   }
 
   return (
-    <Navbar expand="lg" className="navbar-catan">
+    <Navbar expand="lg" data-bs-theme="dark" bg="dark" >
       <Navbar.Brand
         className="ruka nav-brand"
         onClick={() => navigate(RouteNames.HOME)}
+        style={{marginLeft: '20px'}}
       >
         CATAN
       </Navbar.Brand>
