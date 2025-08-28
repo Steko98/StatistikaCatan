@@ -115,10 +115,10 @@ export default function IgracPojedinacno() {
                   </td>
                   <td className="sredina akcije">
                     <Button
-                      className="btn btn-warning"
-                      onClick={() => navigate(`/clanovi/${clan.sifra}`)}
+                      className="btn btn-info"
+                      onClick={() => navigate(`/igra/${clan.sifraIgra}`)}
                     >
-                      Uredi
+                      Detalji igre
                     </Button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button

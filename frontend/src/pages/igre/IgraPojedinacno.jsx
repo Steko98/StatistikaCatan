@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button, Container, Table, Form } from "react-bootstrap";
-import { GiPodiumWinner } from "react-icons/gi";
+import {
+  Button,
+  Container,
+  Table,
+  Form,
+  Alert,
+  AlertHeading,
+} from "react-bootstrap";
+import { FaFaceSmileWink } from "react-icons/fa6";
 import { FaSadTear } from "react-icons/fa";
 import IgraService from "../../services/IgraService";
 import ClanService from "../../services/ClanService";
@@ -21,7 +28,7 @@ export default function IgraPojedinacno() {
   const [igra, setIgra] = useState({});
   const [datum, setDatum] = useState("");
   const [turnir, setTurnir] = useState({});
-  const [bodovi, setBodovi] = useState(0)
+  const [show, setShow] = useState(false);
 
   async function dohvatiDetaljeIgre() {
     showLoading();
@@ -44,7 +51,7 @@ export default function IgraPojedinacno() {
     }
     let igra = odgovor.poruka;
     igra.datum = moment.utc(igra.datum).format("YYYY-MM-DD");
-    setDatum(igra.datum)
+    setDatum(igra.datum);
     setIgra(igra);
     dohvatiTurnir(igra.turnirSifra);
   }
@@ -61,7 +68,7 @@ export default function IgraPojedinacno() {
   }
 
   useEffect(() => {
-    dohvatiIgru();    
+    dohvatiIgru();
     dohvatiDetaljeIgre();
   }, []);
 
@@ -90,34 +97,46 @@ export default function IgraPojedinacno() {
       prikaziError(odgovor.poruka);
       return;
     }
+    setShow(true);
   }
 
-  // async function promjenaBodova() {
-  //   showLoading();
-  //   const odgovor = await ClanService.promjeniBodove(routeParams.sifra, bodovi);
-  //   hideLoading();
-  //   if (odgovor.greska) {
-  //     prikaziError(odgovor.poruka);
-  //     return;
-  //   }
-  // }
+  async function promjenaBodova(idIgra, idIgrac, bodovi) {
+    const odgovor = await ClanService.promjeniBodove(idIgra, idIgrac, bodovi);
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
+  }
 
-  function spremiPromjene() {
-    // promjenaBodova();
-    promjenaDatuma();
+  async function promjenaPobjede(idIgra, idIgrac, pobjeda) {
+    const odgovor = await ClanService.promjeniPobjeda(idIgra, idIgrac, pobjeda);
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
+    dohvatiDetaljeIgre();
+  }
+
+  function popupAlert() {
+    if (show) {
+      return (
+        <Alert variant="success" onClose={() => setShow(false)} dismissible>
+          <Alert.Heading>Datum uspješno promijenjen</Alert.Heading>
+        </Alert>
+      );
+    }
   }
 
   return (
     <Container>
-      <h2 className="sredina">{turnir.naziv} - Igra#{routeParams.sifra}</h2>
+      <h2 className="sredina">
+        {turnir.naziv} - Igra#{routeParams.sifra}
+      </h2>
       <Link className="btn btn-success" to={`/clan/dodaj/${routeParams.sifra}`}>
         Dodaj igrača
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <Button
-        className="btn btn-danger"
-        onClick={() => navigate(`/turnir/${igra.turnirSifra}`)}
-      >
+      <Button className="btn btn-danger" onClick={() => navigate(-1)}>
         Povratak
       </Button>
       <hr />
@@ -136,38 +155,58 @@ export default function IgraPojedinacno() {
               clanovi.map((clan, index) => (
                 <tr key={index}>
                   <td>{clan.imeIgrac}</td>
-                  <td style={{ display: 'flex', justifyContent: 'center' }}>
+
+                  <td style={{ display: "flex", justifyContent: "center" }}>
                     <Form.Group controlId="bodovi">
                       <Form.Control
                         type="number"
                         name="bodovi"
                         defaultValue={clan.brojBodova}
-                        // value={clan.brojBodova}
-                        // onChange={(e) => setBodovi(e.target.value)}
+                        onChange={(e) =>
+                          promjenaBodova(
+                            clan.sifraIgra,
+                            clan.sifraIgrac,
+                            e.target.value
+                          )
+                        }
                         required
                         step={1}
-                        style={{width:'fit-content'}}
+                        style={{ width: "fit-content" }}
                         className="sredina"
                       />
                     </Form.Group>
                   </td>
+
                   <td className="sredina">
-                    {clan.pobjeda ? (
-                      <GiPodiumWinner size={35} color="green" />
-                    ) : (
-                      <FaSadTear size={25} color="red" />
-                    )}
-                  </td>
-                  <td className="sredina akcije">
-                    <Button
-                      variant="warning"
-                      onClick={() => navigate(`/clanovi/${clan.sifra}`)}
+                    <span
+                      style={{ display: "inline-block", marginRight: "5px" }}
                     >
-                      Uredi
-                    </Button>
+                      <FaSadTear color="red" />
+                    </span>
+                    <span
+                      style={{ display: "inline-block", marginRight: "5px" }}
+                    >
+                      <Form.Check
+                        type="switch"
+                        checked={clan.pobjeda}
+                        onChange={(e) =>
+                          promjenaPobjede(
+                            clan.sifraIgra,
+                            clan.sifraIgrac,
+                            e.target.checked
+                          )
+                        }
+                      />
+                    </span>
+                    <span>
+                      <FaFaceSmileWink color="green" />
+                    </span>
+                  </td>
+
+                  <td className="sredina akcije">
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button variant="danger" onClick={() => obrisi(clan.sifra)}>
-                      Obriši
+                      Obriši igrača
                     </Button>
                   </td>
                 </tr>
@@ -176,7 +215,7 @@ export default function IgraPojedinacno() {
 
           <tfoot>
             <tr>
-              <td>Datum</td>
+              <th>Datum</th>
               <td className="sredina" colSpan={2}>
                 <Form.Group controlId="datum">
                   <Form.Control
@@ -192,14 +231,19 @@ export default function IgraPojedinacno() {
               <td className="sredina">
                 <Button
                   className="btn btn-warning"
-                  onClick={() => spremiPromjene()}
+                  onClick={() => promjenaDatuma()}
                 >
-                  Promjeni
+                  Promjeni datum
                 </Button>
               </td>
             </tr>
           </tfoot>
         </Table>
+        {show && (
+          <Alert variant="success" onClose={() => setShow(false)} dismissible>
+            <p>Datum uspješno promijenjen!</p>
+          </Alert>
+        )}
       </div>
     </Container>
   );

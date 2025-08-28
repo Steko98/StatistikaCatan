@@ -106,7 +106,7 @@ async function promjeniPobjeda(sifraIgra, sifraIgrac, pobjeda) {
           console.log(poruke);
           return { greska: true, poruka: poruke };
         default:
-          return { greska: true, poruka: "Status pobjede se ne mogu promjeniti" };
+          return { greska: true, poruka: "Status pobjede se ne može promjeniti" };
       }
     });
 }

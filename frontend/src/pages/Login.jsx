@@ -17,10 +17,10 @@ export default function Login(){
     return (
         <Container>
             <p>
-                email: ime.prezime@email.com
+                email: ivan.steko5@gmail.com
             </p>
             <p>
-                lozinka: lozinka
+                lozinka: edunovawp8
             </p>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className='mb-3' controlId='email'>
