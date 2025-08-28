@@ -8,6 +8,8 @@ import { Button, Row, Col, Form, Container, Table } from "react-bootstrap";
 import IgracService from "../../services/IgracService";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
+import IgraService from "../../services/IgraService";
+import ClanService from "../../services/ClanService";
 
 export default function IgreDodaj() {
   const { sifra, sifraTurnira } = useParams();
@@ -16,13 +18,13 @@ export default function IgreDodaj() {
   const { prikaziError } = useError();
   const [igraci, setIgraci] = useState([]);
   const [redovi, setRedovi] = useState([]);
-  const [sudionici, setSudionici] = useState([]);
-  const [sifraIgrac, setIgracSifra] = useState(0);
+
+  const [sifraNoveIgre, setSifraNoveIgre] = useState(0);
 
   const [turniri, setTurniri] = useState([]);
 
   function dodajRed() {
-    redovi.push({ igrac: "", brojBodova: 0, pobjeda: false });
+    redovi.push({sifraIgra: 0, sifraIgrac: igraci[0].sifra, brojBodova: 0, pobjeda: false });
     setRedovi([...redovi]);
   }
 
@@ -59,36 +61,48 @@ export default function IgreDodaj() {
 
   async function dodajIgru(e) {
     showLoading();
-    const odgovor = await Service.dodaj(e);
+    const odgovor = await IgraService.dodaj(e);
     hideLoading();
     if (odgovor.greska) {
       prikaziError(odgovor.poruka);
       return;
     }
+    //console.log(odgovor)
+    //console.log(odgovor.poruka.sifra);
+    //setSifraNoveIgre(parseInt(odgovor.poruka.sifra));
+   // console.log('Šifra nove igre:');
+    //console.log(sifraNoveIgre + ' - ' + odgovor.poruka.sifra)
+    redovi.forEach(red => {
+      //console.log(sifraNoveIgre + ' - ' + odgovor.poruka.sifra)
+    //red.sifraIgra = odgovor.poruka.sifra;
+    console.log(red);
+    dodajClanove(odgovor.poruka.sifra, red.sifraIgrac, red.brojBodova, red.pobjeda);
+    })
   }
 
-  // //funkcija za dodat clanovu u igru
-  // async function dodajClanove(){
-  //   showLoading();
-  //   redovi.forEach(red => {
-  //     const odgovor = Service.dodajClan(red);
-  //     if (odgovor.greska) {
-  //       prikaziError(odgovor.poruka);
-  //       return;
-  //     }
-  //   });
 
-  // }
+  async function dodajClanove(sifraIgra,sifraIgrac, brojBodova, pobjeda){
+    showLoading();
+   // red.sifraIgra=sifraNoveIgre;
+   // console.log(red);
+    const odgovor = ClanService.dodaj({sifraIgra: sifraIgra, sifraIgrac: sifraIgrac, brojBodova: brojBodova, pobjeda: pobjeda });
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka);
+      return;
+    }
+  };
+
+  
 
   function obradiSubmit(e) {
     e.preventDefault();
 
     const podaci = new FormData(e.target);
-    console.log(podaci)
 
     dodajIgru({
       datum: moment.utc(podaci.get("datum")),
-      turnirSifra: parseInt(sifra),
+      turnirSifra: sifra,
     });
 
     // navigate(`/turnir/${sifra}`);
@@ -150,7 +164,7 @@ export default function IgreDodaj() {
                       <Form.Group controlId="igrac">
                           <Form.Select name="sifraIgrac"
                             onChange={(e) => {
-                            setIgracSifra(e.target.value);
+                            r.sifraIgrac = parseInt(e.target.value);
                             }}>
                               {igraci &&
                                 igraci.map((i, index) => (
@@ -169,6 +183,8 @@ export default function IgreDodaj() {
                             name="brojBodova" 
                             style={{width:'fit-content'}}
                             className="sredina"
+                            onChange={(e)=> {
+                              r.brojBodova = parseInt(e.target.value)}}
                             />
                         </Form.Group>
                       </td>
@@ -176,7 +192,10 @@ export default function IgreDodaj() {
                       <td>
                         <Form.Group controlId="pobjeda" className="sredina">
                           <Form.Check name="pobjeda" 
-                          value={r.pobjeda}/>
+                          value={r.pobjeda}
+                          onChange={(e)=> {
+                            r.pobjeda = e.target.checked}}
+                          />
                         </Form.Group>
                       </td>
 
