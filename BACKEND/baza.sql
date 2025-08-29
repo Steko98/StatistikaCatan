@@ -40,6 +40,12 @@ brojbodova int,
 pobjeda bit not null default 0
 );
 
+create table operateri(
+sifra int not null primary key identity(1,1),
+email varchar(50) not null,
+lozinka varchar(200) not null
+);
+
 --create table rekordi(
 --sifra int not null primary key identity(1,1),
 --naziv varchar(100),
@@ -285,21 +291,5 @@ insert into clanovi(igra, igrac, pobjeda, brojbodova) values
 (180, 4, 1, 10), (180, 6, 0, 6), (180, 3, 0, 4), (180, 1, 0, 9),
 (181, 6, 0, 6), (181, 3, 1, 10), (181, 1, 0, 5);
 
---insert into rekordi(naziv) values
---('Naviše pobjeda'),
---('Najduži niz'),
---('Najbolji postotak'),
---('Najviše bodova'),
---('Najviše odigranih');
-
---insert into turnirRekord (turnir, rekord, igrac)
---values (1, 1, 1)
---,(1, 2, 1)
---,(1, 3, 5)
---,(1, 4, 3)
---,(1, 5, 1)
---,(2, 1, 1)
---,(2, 2, 4)
---,(2, 3, 4)
---,(2, 4, 1)
---,(2, 5, 1);
+insert into operateri values ('ivan.steko5@gmail.com',
+'$2a$12$kaXJkhoU4M1kO6qEidXWHOpAL0b/BYaSgnVuoQTwmexxlXphLCF3K');
