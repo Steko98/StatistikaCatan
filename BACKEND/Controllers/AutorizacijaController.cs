@@ -10,12 +10,22 @@ using System.Text;
 
 namespace BACKEND.Controllers
 {
+    /// <summary>
+    /// API kontroler za autorizaciju korisnika i generiranje JWT tokena.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class AutorizacijaController(EdunovaContext context) : ControllerBase
     {
         private readonly EdunovaContext _context = context;
 
+        /// <summary>
+        /// Generira JWT token za autoriziranog operatera.
+        /// </summary>
+        /// <param name="operater">Podaci o operateru (email i lozinka).</param>
+        /// <returns>
+        /// JWT token ako su podaci ispravni; inače vraća status 403 (Niste autorizirani) ili 400 (Neispravan model).
+        /// </returns>
         [HttpPost("token")]
         [SwaggerRequestExample(typeof(OperaterDTO), typeof(AutorizacijaExampleProvider))]
         public IActionResult GenerirajToken(OperaterDTO operater)

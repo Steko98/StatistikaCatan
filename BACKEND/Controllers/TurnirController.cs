@@ -8,11 +8,19 @@ using Microsoft.EntityFrameworkCore;
 namespace BACKEND.Controllers
 {
 
+    /// <summary>
+    /// Kontroler za upravljanje turnirima.
+    /// Omogućuje dohvat, pretragu, dodavanje, izmjenu i brisanje turnira te dohvat povezanih igara i detalja turnira.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class TurnirController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
     {
 
+        /// <summary>
+        /// Dohvaća sve turnire iz baze podataka.
+        /// </summary>
+        /// <returns>Lista svih turnira u obliku DTO objekata.</returns>
         [HttpGet]
         public ActionResult<List<TurnirDTORead>> Get()
         {
@@ -31,7 +39,11 @@ namespace BACKEND.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Dohvaća turnir prema zadanoj šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra turnira.</param>
+        /// <returns>DTO objekt turnira za unos ili izmjenu.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<TurnirDTOInsertUpdate> GetBySifra(int sifra)
@@ -44,7 +56,7 @@ namespace BACKEND.Controllers
             try
             {
                 e = _context.Turniri.Find(sifra);
-            } 
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
@@ -57,6 +69,11 @@ namespace BACKEND.Controllers
             return Ok(_mapper.Map<TurnirDTOInsertUpdate>(e));
         }
 
+        /// <summary>
+        /// Dodaje novi turnir u bazu podataka.
+        /// </summary>
+        /// <param name="dto">DTO objekt s podacima za unos turnira.</param>
+        /// <returns>Kreirani turnir u obliku DTO objekta.</returns>
         [HttpPost]
         public IActionResult Post(TurnirDTOInsertUpdate dto)
         {
@@ -70,14 +87,19 @@ namespace BACKEND.Controllers
                 _context.Turniri.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<TurnirDTORead>(e));
-            } 
+            }
             catch (Exception ex)
             {
-                return BadRequest(new {poruka = ex.Message});
+                return BadRequest(new { poruka = ex.Message });
             }
         }
 
-
+        /// <summary>
+        /// Ažurira postojeći turnir prema zadanoj šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra turnira koji se ažurira.</param>
+        /// <param name="dto">DTO objekt s novim podacima turnira.</param>
+        /// <returns>Poruka o uspješnosti ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -87,7 +109,7 @@ namespace BACKEND.Controllers
             {
                 return BadRequest(new { poruka = ModelState });
             }
-            
+
             try
             {
                 Turnir? e;
@@ -113,10 +135,15 @@ namespace BACKEND.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new {poruka = ex.Message});
+                return BadRequest(new { poruka = ex.Message });
             }
         }
 
+        /// <summary>
+        /// Briše turnir prema zadanoj šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra turnira koji se briše.</param>
+        /// <returns>Poruka o uspješnosti brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -146,15 +173,20 @@ namespace BACKEND.Controllers
 
                 _context.Turniri.Remove(e);
                 _context.SaveChanges();
-                return Ok(new {poruka="Uspješno obrisano"});
+                return Ok(new { poruka = "Uspješno obrisano" });
 
             }
             catch (Exception ex)
             {
-                return BadRequest(new {poruka = ex.Message});
+                return BadRequest(new { poruka = ex.Message });
             }
         }
 
+        /// <summary>
+        /// Dohvaća sve igre povezane s određenim turnirom.
+        /// </summary>
+        /// <param name="sifraTurnira">Šifra turnira.</param>
+        /// <returns>Lista igara u obliku DTO objekata.</returns>
         [HttpGet]
         [Route("Igre/{sifraTurnira:int}")]
         public ActionResult<List<IgraDTORead>> GetIgre(int sifraTurnira)
@@ -181,6 +213,11 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Pretražuje turnire prema uvjetu (nazivu).
+        /// </summary>
+        /// <param name="uvjet">Uvjet pretrage (najmanje 3 znaka).</param>
+        /// <returns>Lista pronađenih turnira u obliku DTO objekata.</returns>
         [HttpGet]
         [Route("trazi/{uvjet}")]
         public ActionResult<List<TurnirDTORead>> TraziTurnir(string uvjet)
@@ -206,6 +243,11 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća detalje turnira, uključujući igre i članove igara.
+        /// </summary>
+        /// <param name="sifra">Šifra turnira.</param>
+        /// <returns>Detalji turnira u obliku DTO objekta.</returns>
         [HttpGet]
         [Route("{sifra:int}/detalji")]
         public ActionResult<List<DetaljiTurnirDTORead>> GetDetalji(int sifra)

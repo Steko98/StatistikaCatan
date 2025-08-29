@@ -46,6 +46,7 @@ export default function IgraciPregled() {
 
   return (
     <Container>
+      <h2 className="sredina">Popis igrača</h2>
       <Link className="btn btn-success" to={RouteNames.IGRAC_NOVI}>
         Dodaj igrača
       </Link>
@@ -72,13 +73,7 @@ export default function IgraciPregled() {
                     >
                       Detalji
                     </Button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <Button
-                      variant="warning"
-                      onClick={() => navigate(`/igraci/${igrac.sifra}`)}
-                    >
-                      Uredi
-                    </Button>
+
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button
                       variant="danger"

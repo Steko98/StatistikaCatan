@@ -105,7 +105,7 @@ export default function IgreDodaj() {
       turnirSifra: sifra,
     });
 
-    // navigate(`/turnir/${sifra}`);
+    navigate(`/turnir/${sifra}`);
   }
 
   return (

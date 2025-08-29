@@ -33,7 +33,7 @@ export default function IgraciPromjena() {
     setIgrac(odgovor.poruka);
 
     if (odgovor.poruka.slika!=null) {
-      setTrenutnaSlika(BACKEND_URL + odgovor.poruka.slika + `${Date.now()}`)
+      setTrenutnaSlika(BACKEND_URL + odgovor.poruka.slika + `?${Date.now()}`)
     } else {
       setTrenutnaSlika(profilna)
     }

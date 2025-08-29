@@ -7,11 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
+    /// <summary>
+    /// API kontroler za upravljanje članovima (Clan) u sustavu.
+    /// Omogućuje dohvat, unos, izmjenu, djelomičnu izmjenu i brisanje članova.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class ClanController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
     {
 
+        /// <summary>
+        /// Dohvaća sve članove iz baze podataka.
+        /// </summary>
+        /// <returns>Lista DTO objekata članova.</returns>
         [HttpGet]
         public ActionResult<List<ClanDTORead>> Get()
         {
@@ -33,7 +41,11 @@ namespace BACKEND.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Dohvaća člana prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra člana.</param>
+        /// <returns>DTO objekt za unos/izmjenu člana.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<ClanDTOInsertUpdate> GetBySifra(int sifra)
@@ -62,6 +74,11 @@ namespace BACKEND.Controllers
             return Ok(_mapper.Map<ClanDTOInsertUpdate>(e));
         }
 
+        /// <summary>
+        /// Dodaje novog člana u bazu podataka.
+        /// </summary>
+        /// <param name="dto">DTO objekt za unos/izmjenu člana.</param>
+        /// <returns>Kreirani član u obliku DTO objekta.</returns>
         [HttpPost]
         public IActionResult Post(ClanDTOInsertUpdate dto)
         {
@@ -96,7 +113,6 @@ namespace BACKEND.Controllers
                 return NotFound(new { poruka = "Odabrani igrač nije pronađen" });
             }
 
-
             try
             {
                 var e = _mapper.Map<Clan>(dto);
@@ -112,7 +128,12 @@ namespace BACKEND.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Ažurira podatke postojećeg člana.
+        /// </summary>
+        /// <param name="sifra">Šifra člana koji se ažurira.</param>
+        /// <param name="dto">DTO objekt s novim podacima.</param>
+        /// <returns>Poruka o uspješnosti ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -151,7 +172,7 @@ namespace BACKEND.Controllers
                 {
                     return BadRequest(new { poruka = ex.Message });
                 }
-                if (es==null)
+                if (es == null)
                 {
                     return NotFound(new { poruka = "Igra nije pronađena" });
                 }
@@ -184,6 +205,13 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Djelomično ažurira broj bodova člana prema šifri igrača i igre.
+        /// </summary>
+        /// <param name="sifraIgrac">Šifra igrača.</param>
+        /// <param name="sifraIgra">Šifra igre.</param>
+        /// <param name="bodovi">Novi broj bodova.</param>
+        /// <returns>Poruka o uspješnosti promjene bodova.</returns>
         [HttpPatch]
         [Route("clan")]
         public IActionResult Patch(int sifraIgrac, int sifraIgra, int bodovi)
@@ -221,6 +249,13 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Djelomično ažurira status pobjede člana prema šifri igrača i igre.
+        /// </summary>
+        /// <param name="sifraIgrac">Šifra igrača.</param>
+        /// <param name="sifraIgra">Šifra igre.</param>
+        /// <param name="pobjeda">Status pobjede (true/false).</param>
+        /// <returns>Poruka o uspješnosti promjene.</returns>
         [HttpPatch("pobjeda")]
         public IActionResult PatchPobjeda(int sifraIgrac, int sifraIgra, bool pobjeda)
         {
@@ -257,6 +292,11 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Briše člana iz baze podataka prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra člana koji se briše.</param>
+        /// <returns>Poruka o uspješnosti brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -294,8 +334,5 @@ namespace BACKEND.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
-
-
-
     }
 }

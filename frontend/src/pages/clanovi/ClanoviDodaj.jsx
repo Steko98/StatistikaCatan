@@ -89,6 +89,8 @@ export default function ClanoviDodaj() {
           <Form.Label>Broj bodova</Form.Label>
           <Form.Control type="number" name="brojBodova" />
         </Form.Group>
+        
+        <br />
 
         <Form.Group controlId="pobjeda">
           <Form.Check label="Pobjeda" name="pobjeda" />

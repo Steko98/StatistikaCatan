@@ -8,6 +8,10 @@ using System.Text;
 
 namespace BACKEND.Extensions
 {
+    /// <summary>
+    /// Proširenja za konfiguraciju Catan aplikacije.
+    /// Sadrži metode za dodavanje Swagger dokumentacije, CORS politike i sigurnosti.
+    /// </summary>
     public static class CatanExtensions
     {
         public static void AddCatanSwaggerGen(this IServiceCollection Services)
@@ -70,6 +74,10 @@ namespace BACKEND.Extensions
             Services.AddSwaggerExamplesFromAssemblies(typeof(AutorizacijaExampleProvider).Assembly);
         }
 
+        /// <summary>
+        /// Dodaje CORS politiku koja omogućuje pristup API-ju sa svih izvora, metoda i zaglavlja.
+        /// </summary>
+        /// <param name="Services">Kolekcija servisa aplikacije.</param>
         public static void AddCatanCORS(this IServiceCollection Services)
         {
             Services.AddCors(opcije =>
@@ -81,6 +89,10 @@ namespace BACKEND.Extensions
             });
         }
 
+        /// <summary>
+        /// Dodaje JWT autentikaciju i konfigurira sigurnosne parametre za Catan API.
+        /// </summary>
+        /// <param name="Services">Kolekcija servisa aplikacije.</param>
         public static void AddCatanSecurity(this IServiceCollection Services)
         {
             Services.AddAuthentication(x =>

@@ -7,11 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
+    /// <summary>
+    /// Kontroler za upravljanje entitetima igrača.
+    /// Omogućuje dohvat, pretragu, dodavanje, ažuriranje i brisanje igrača te upravljanje njihovim sudjelovanjem u igrama.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class IgracController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
     {
 
+        /// <summary>
+        /// Dohvaća sve igrače iz baze podataka.
+        /// </summary>
+        /// <returns>Lista DTO objekata igrača.</returns>
         [HttpGet]
         public ActionResult<List<IgracDTORead>> Get()
         {
@@ -29,6 +37,11 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća sve igrače koji nisu sudjelovali u određenoj igri.
+        /// </summary>
+        /// <param name="sifraIgra">Šifra igre za koju se traže dostupni igrači.</param>
+        /// <returns>Lista DTO objekata igrača koji nisu članovi navedene igre.</returns>
         [HttpGet]
         [Route("IgraciZaIgru/{sifraIgra:int}")]
         public ActionResult<List<IgracDTORead>> GetIgraciZaIgru(int sifraIgra)
@@ -53,9 +66,18 @@ namespace BACKEND.Controllers
             {
                 return BadRequest(new { poruka = ex.Message });
             }
+
         }
 
 
+        /// <summary>
+        /// Dohvaća igrača prema zadanoj šifri.
+        /// </summary>
+        /// <param name="sifra">Jedinstvena šifra igrača kojeg treba dohvatiti.</param>
+        /// <returns>
+        /// Ako je igrač pronađen, vraća DTO objekt igrača.
+        /// Ako nije pronađen, vraća poruku o pogrešci.
+        /// </returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<IgracDTORead> GetBySifra(int sifra)
@@ -81,6 +103,14 @@ namespace BACKEND.Controllers
             return Ok(_mapper.Map<IgracDTORead>(e));
         }
 
+        /// <summary>
+        /// Dodaje novog igrača u bazu podataka.
+        /// </summary>
+        /// <param name="dto">DTO objekt s podacima o igraču koji se dodaje.</param>
+        /// <returns>
+        /// Status 201 Created s DTO objektom novog igrača ako je unos uspješan.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// </returns>
         [HttpPost]
         public IActionResult Post(IgracDTOInsertUpdate dto)
         {
@@ -101,6 +131,16 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Ažurira podatke postojećeg igrača prema zadanoj šifri.
+        /// </summary>
+        /// <param name="sifra">Jedinstvena šifra igrača kojeg treba ažurirati.</param>
+        /// <param name="dto">DTO objekt s novim podacima za igrača.</param>
+        /// <returns>
+        /// Status 200 OK s porukom o uspješnoj izmjeni ako je ažuriranje uspješno.
+        /// Status 404 NotFound ako igrač nije pronađen.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// </returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -140,6 +180,15 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Briše igrača iz baze podataka prema zadanoj šifri.
+        /// </summary>
+        /// <param name="sifra">Jedinstvena šifra igrača kojeg treba obrisati.</param>
+        /// <returns>
+        /// Status 200 OK s porukom o uspješnom brisanju ako je igrač obrisan.
+        /// Status 404 NotFound ako igrač nije pronađen.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// </returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -178,6 +227,14 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća sve igre u kojima sudjeluje određeni igrač.
+        /// </summary>
+        /// <param name="sifraIgraca">Jedinstvena šifra igrača za kojeg se dohvaćaju igre.</param>
+        /// <returns>
+        /// Lista DTO objekata članova (igara) u kojima igrač sudjeluje.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// </returns>
         [HttpGet]
         [Route("Igre/{sifraIgraca:int}")]
         public ActionResult<List<ClanDTORead>> GetIgre(int sifraIgraca)
@@ -198,12 +255,24 @@ namespace BACKEND.Controllers
                 }
                 return Ok(_mapper.Map<List<ClanDTORead>>(p.Clanovi));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
         }
 
+        /// <summary>
+        /// Dodaje igrača u određenu igru s brojem bodova i oznakom pobjede.
+        /// </summary>
+        /// <param name="sifra">Jedinstvena šifra igrača koji se dodaje u igru.</param>
+        /// <param name="igraSifra">Jedinstvena šifra igre u koju se igrač dodaje.</param>
+        /// <param name="brojBodova">Broj bodova koje je igrač ostvario u igri.</param>
+        /// <param name="pobjeda">Označava je li igrač ostvario pobjedu u igri.</param>
+        /// <returns>
+        /// Status 200 OK s porukom o uspješnom dodavanju igrača u igru.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// Status 503 ServiceUnavailable ako dođe do iznimke prilikom spremanja u bazu.
+        /// </returns>
         [HttpPost]
         [Route("{sifra:int}/dodaj/{igraSifra:int}")]
         public IActionResult DodajIgru(int sifra, int igraSifra, int brojBodova, bool pobjeda)
@@ -244,6 +313,15 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Briše vezu između igrača i igre (uklanja igrača iz određene igre).
+        /// </summary>
+        /// <param name="sifra">Jedinstvena šifra igrača kojeg treba ukloniti iz igre.</param>
+        /// <param name="igraSifra">Jedinstvena šifra igre iz koje se igrač uklanja.</param>
+        /// <returns>
+        /// Status 200 OK s porukom o uspješnom uklanjanju igrača iz igre.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// </returns>
         [HttpDelete]
         [Route("{sifra:int}/obrisi/{igraSifra:int}")]
         public IActionResult ObrisiIgru(int sifra, int igraSifra)
@@ -288,6 +366,14 @@ namespace BACKEND.Controllers
         }
 
 
+        /// <summary>
+        /// Pretražuje igrače prema zadanom uvjetu (ime ili dio imena).
+        /// </summary>
+        /// <param name="uvjet">Tekstualni uvjet za pretragu igrača (najmanje 3 znaka).</param>
+        /// <returns>
+        /// Lista DTO objekata igrača koji odgovaraju uvjetu pretrage.
+        /// Status 400 BadRequest ako je uvjet prekratak ili dođe do iznimke.
+        /// </returns>
         [HttpGet]
         [Route("trazi/{uvjet}")]
         public ActionResult<List<IgracDTORead>> TraziIgraca(string uvjet)
@@ -313,6 +399,15 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Postavlja ili ažurira sliku igrača na temelju šifre igrača.
+        /// </summary>
+        /// <param name="sifra">Jedinstvena šifra igrača kojem se postavlja slika.</param>
+        /// <param name="slika">DTO objekt koji sadrži sliku u Base64 formatu.</param>
+        /// <returns>
+        /// Status 200 OK s porukom o uspješnom spremanju slike.
+        /// Status 400 BadRequest s porukom o pogrešci ako unos nije valjan ili dođe do iznimke.
+        /// </returns>
         [HttpPut]
         [Route("postaviSliku/{sifra:int}")]
         public IActionResult PostaviSliku(int sifra, SlikaDTO slika)

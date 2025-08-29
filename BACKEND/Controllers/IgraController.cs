@@ -7,11 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BACKEND.Controllers
 {
+    /// <summary>
+    /// API kontroler za upravljanje entitetom Igra.
+    /// Omogućuje dohvat, unos, izmjenu, brisanje i pretragu igara te upravljanje članovima igre.
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class IgraController(EdunovaContext context, IMapper mapper) : CatanController(context, mapper)
     {
 
+        /// <summary>
+        /// Dohvaća sve igre iz baze podataka.
+        /// </summary>
+        /// <returns>Lista svih igara u obliku DTO objekata.</returns>
         [HttpGet]
         public ActionResult<List<IgraDTORead>> Get()
         {
@@ -29,7 +37,11 @@ namespace BACKEND.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Dohvaća igru prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra igre.</param>
+        /// <returns>Igra u obliku DTO objekta za unos/izmjenu.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<IgraDTOInsertUpdate> GetBySifra(int sifra)
@@ -55,6 +67,11 @@ namespace BACKEND.Controllers
             return Ok(_mapper.Map<IgraDTOInsertUpdate>(e));
         }
 
+        /// <summary>
+        /// Dodaje novu igru u bazu podataka.
+        /// </summary>
+        /// <param name="dto">DTO objekt s podacima o igri.</param>
+        /// <returns>Kreirana igra u obliku DTO objekta.</returns>
         [HttpPost]
         public IActionResult Post(IgraDTOInsertUpdate dto)
         {
@@ -91,7 +108,12 @@ namespace BACKEND.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Ažurira podatke postojeće igre.
+        /// </summary>
+        /// <param name="sifra">Šifra igre.</param>
+        /// <param name="dto">DTO objekt s novim podacima o igri.</param>
+        /// <returns>Poruka o uspješnosti ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -145,7 +167,12 @@ namespace BACKEND.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Djelomično ažurira podatke igre (samo datum).
+        /// </summary>
+        /// <param name="sifra">Šifra igre.</param>
+        /// <param name="datum">Novi datum igre.</param>
+        /// <returns>Poruka o uspješnosti ažuriranja datuma.</returns>
         [HttpPatch]
         [Route("{sifra:int}")]
         public IActionResult Patch(int sifra, DateTime datum)
@@ -181,6 +208,11 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Briše igru iz baze podataka.
+        /// </summary>
+        /// <param name="sifra">Šifra igre.</param>
+        /// <returns>Poruka o uspješnosti brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -219,6 +251,11 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća sve članove (igrače) određene igre.
+        /// </summary>
+        /// <param name="sifraIgre">Šifra igre.</param>
+        /// <returns>Lista članova igre u obliku DTO objekata.</returns>
         [HttpGet]
         [Route("Igraci/{sifraIgre:int}")]
         public ActionResult<List<ClanDTORead>> GetIgraci(int sifraIgre)
@@ -246,6 +283,14 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Dodaje igrača u igru.
+        /// </summary>
+        /// <param name="sifra">Šifra igre.</param>
+        /// <param name="igracSifra">Šifra igrača.</param>
+        /// <param name="brojBodova">Broj bodova koje je igrač ostvario.</param>
+        /// <param name="pobjeda">Označava je li igrač pobijedio.</param>
+        /// <returns>Poruka o uspješnosti dodavanja igrača.</returns>
         [HttpPost]
         [Route("{sifra:int}/dodaj/{igracSifra:int}")]
         public IActionResult DodajIgraca(int sifra, int igracSifra, int brojBodova, bool pobjeda)
@@ -291,6 +336,12 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Uklanja igrača iz igre.
+        /// </summary>
+        /// <param name="sifra">Šifra igre.</param>
+        /// <param name="igracSifra">Šifra igrača.</param>
+        /// <returns>Poruka o uspješnosti uklanjanja igrača.</returns>
         [HttpDelete]
         [Route("{sifra:int}/obrisi/{igracSifra:int}")]
         public IActionResult ObrisiIgraca(int sifra, int igracSifra)
@@ -336,6 +387,12 @@ namespace BACKEND.Controllers
             }
         }
 
+        /// <summary>
+        /// Pretražuje igre prema datumu održavanja.
+        /// </summary>
+        /// <param name="uvjetPocetak">Početni datum pretrage.</param>
+        /// <param name="uvjetKraj">Završni datum pretrage.</param>
+        /// <returns>Lista igara koje zadovoljavaju uvjete pretrage.</returns>
         [HttpGet]
         [Route("trazi")]
         public ActionResult<List<IgracDTORead>> TraziIgru(DateTime uvjetPocetak, DateTime uvjetKraj)
