@@ -53,7 +53,7 @@ export default function IgrePregled() {
       <hr />
 
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Table striped bordered hover responsive>
+        <Table striped bordered hover responsive >
           <thead>
             <tr>
               {/* <th>Redni broj</th> */}

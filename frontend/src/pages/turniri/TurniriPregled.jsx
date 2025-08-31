@@ -61,12 +61,12 @@ export default function TurniriPregled() {
       <h2 className="sredina">Pregled turnira</h2>
 
       <Link className="btn btn-success" to={RouteNames.TURNIR_NOVI}>
-        Dodavanje novog turnira
+        + Dodavanje novog turnira
       </Link>
 
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Table striped bordered hover responsive className="tablice">
+        <Table striped bordered hover responsive className="tablice" >
           <thead>
             <tr>
               <th>Naziv</th>

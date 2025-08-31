@@ -44,6 +44,7 @@ app.UseSwaggerUI(opcije =>
 });
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 //security
 app.UseAuthentication();
@@ -56,6 +57,6 @@ app.UseStaticFiles();
 app.UseDefaultFiles();
 app.MapFallbackToFile("index.html");
 
-app.UseCors("CorsPolicy");
+
 
 app.Run();

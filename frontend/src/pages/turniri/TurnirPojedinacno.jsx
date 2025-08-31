@@ -66,7 +66,7 @@ export default function TurnirPojedinacno() {
     <Container>
       <h2 className="sredina">{turnir.naziv}</h2>
       <Link className="btn btn-success" to={`/igre/dodaj/${turnir.sifra}`}>
-        Dodaj igru
+        + Dodaj igru
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <Link className="btn btn-danger" to={RouteNames.TURNIR_PREGLED}>
@@ -76,7 +76,7 @@ export default function TurnirPojedinacno() {
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
         <h2>Igre</h2>
         <br />
-        <Table striped hover responsive bordered>
+        <Table striped hover responsive bordered >
           <thead>
             <tr>
               <th>#</th>

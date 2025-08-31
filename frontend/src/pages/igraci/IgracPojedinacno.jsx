@@ -77,7 +77,7 @@ export default function IgracPojedinacno() {
       <hr />
       <Row>
         <Col key="1" sm={12} lg={3} md={3}>
-          <Card style={{ marginTop: "1rem" }}>
+          <Card style={{ marginTop: "1rem" }} >
             <Card.Img variant="top" src={slika(igrac)} className="slika" />
             <Card.Body className="text-center">
               <Card.Title className="sredina">{igrac.ime}</Card.Title>

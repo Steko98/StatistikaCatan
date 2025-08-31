@@ -398,6 +398,40 @@ namespace BACKEND.Controllers
                 return BadRequest(new { poruka = e.Message });
             }
         }
+        /// <summary>
+        /// Pretražuje igrače prema zadanom uvjetu i vraća rezultate s podrškom za straničenje.
+        /// </summary>
+        /// <param name="stranica">Redni broj stranice rezultata (počinje od 1).</param>
+        /// <param name="uvjet">Tekstualni uvjet za pretragu igrača (opcionalno, može biti prazan).</param>
+        /// <returns>
+        /// Status 200 OK s listom DTO objekata igrača za traženu stranicu.
+        /// Status 400 BadRequest s porukom o pogrešci ako dođe do iznimke.
+        /// </returns>
+        [HttpGet]
+        [Route("traziStranicenje/{stranica}")]
+        public IActionResult TraziIgracStranicenje(int stranica, string uvjet = "")
+        {
+            var poStranici = 6;
+            uvjet = uvjet.ToLower();
+            try
+            {
+                IEnumerable<Igrac> query = _context.Igraci;
+
+                var niz = uvjet.Split(" ");
+                foreach (var s in niz)
+                {
+                    query = query.Where(p => p.Ime.ToLower().Contains(s));
+                }
+                query.OrderBy(i => i.Ime);
+                var igraci = query.ToList();
+                var filtriranaLista = igraci.Skip((poStranici * stranica) - poStranici).Take(poStranici);
+                return Ok(_mapper.Map<List<IgracDTORead>>(filtriranaLista.ToList()));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         /// <summary>
         /// Postavlja ili ažurira sliku igrača na temelju šifre igrača.

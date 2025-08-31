@@ -133,7 +133,7 @@ export default function IgraPojedinacno() {
         {turnir.naziv} - Igra#{routeParams.sifra}
       </h2>
       <Link className="btn btn-success" to={`/clan/dodaj/${routeParams.sifra}`}>
-        Dodaj igrača
+        +  Dodaj igrača
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <Button className="btn btn-danger" onClick={() => navigate(-1)}>
@@ -141,7 +141,7 @@ export default function IgraPojedinacno() {
       </Button>
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Table striped bordered responsive hover>
+        <Table striped bordered responsive hover >
           <thead>
             <tr>
               <th>Igrač</th>

@@ -120,6 +120,12 @@ async function traziIgrac(uvjet) {
     });
 }
 
+async function getStranicenje(stranica, uvjet) {
+  return await HttpService.get('Igrac/traziStranicenje/'+stranica+'?uvjet='+uvjet)
+  .then((odgovor)=>{return{greska:false, poruka: odgovor.data}})
+  .catch((e)=>{return {greska:true, poruka: 'Problem kod traženja igrača'}})
+}
+
 async function postaviSliku(sifra, slika) {
   return await HttpService.put('/Igrac/postaviSliku/' + sifra, slika)
   .then((odgovor)=>{return {greska: false, poruka: odgovor.data};})
@@ -137,5 +143,6 @@ export default {
   obrisiIgru,
   traziIgrac,
   getIgraciZaIgru,
-  postaviSliku
+  postaviSliku,
+  getStranicenje
 };
