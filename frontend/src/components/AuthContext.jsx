@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import useLoading from '../hooks/useLoading';
 import { useNavigate } from "react-router-dom";
 import { RouteNames } from "../constants";
-import { logInService } from "../services/AuthService";
+import AuthService from "../services/AuthService";
 
 export const AuthContext = createContext();
 
@@ -26,7 +26,7 @@ export function AuthProvider({children}) {
 
     async function login(userData) {
         showLoading();
-        const odgovor = await logInService(userData);
+        const odgovor = await AuthService.logInService(userData);
         hideLoading();
         if (!odgovor.greska) {
             localStorage.setItem('Bearer', odgovor.poruka);

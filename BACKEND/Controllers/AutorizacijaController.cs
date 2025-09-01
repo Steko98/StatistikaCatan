@@ -1,5 +1,6 @@
 ﻿using BACKEND.Data;
 using BACKEND.Filters;
+using BACKEND.Models;
 using BACKEND.Models.DTO;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace BACKEND.Controllers
             {
                 return StatusCode(StatusCodes.Status403Forbidden, "Niste autorizirani");
             }
-            if (!BCrypt.Net.BCrypt.Verify(operater.Password, operBaza.Lozinka))
+            if (!BCrypt.Net.BCrypt.EnhancedVerify(operater.Password, operBaza.Lozinka))
             {
                 return StatusCode(StatusCodes.Status403Forbidden, "Niste autorizirani");
             }
@@ -59,6 +60,44 @@ namespace BACKEND.Controllers
             var jwt = tokenHandler.WriteToken(token);
 
             return Ok(jwt);
+        }
+
+
+
+        /// <summary>
+        /// Registrira novog operatera u sustavu.
+        /// </summary>
+        /// <param name="dto">Podaci o operateru za registraciju (email i lozinka).</param>
+        /// <returns>
+        /// Vraća status 200 i poruku o uspješnoj registraciji ako je registracija uspješna.<br/>
+        /// Vraća status 400 i detalje o greškama modela ako podaci nisu ispravni.<br/>
+        /// Vraća status 409 ako već postoji korisnik s istom e-mail adresom.
+        /// </returns>
+        [HttpPost("registracija")]
+        public IActionResult Post(OperaterDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            var vecPostoji = _context.Operateri
+                .FirstOrDefault(o => o.Email == dto.Email);
+            if (vecPostoji != null)
+            {
+                return Conflict("Već postoji korisnik registriran pod ovom e-mail adresom.");
+            }
+            var hashLozinka = BCrypt.Net.BCrypt.EnhancedHashPassword(dto.Password);
+
+            var noviOperater = new Operater
+            {
+                Email = dto.Email,
+                Lozinka = hashLozinka
+            };
+
+            _context.Operateri.Add(noviOperater);
+            _context.SaveChanges();
+
+            return Ok("Uspješna registracija korisnika!");
         }
     }
 }

@@ -30,7 +30,7 @@ namespace BACKEND.Extensions
                     Description = "Ovo je dokumentacija za Catan API",
                     License = new Microsoft.OpenApi.Models.OpenApiLicense()
                     {
-                        Name = "Edukacijska licenca?"
+                        Name = "Edukacijska licenca"
                     }
                 };
                 sgo.SwaggerDoc("v1", o);

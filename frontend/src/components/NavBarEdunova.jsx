@@ -45,7 +45,10 @@ export default function NavBarEdunova() {
               <Nav.Link onClick={logout}>Odjava</Nav.Link>
             </>
           ) : (
+            <>
             <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>Prijava</Nav.Link>
+            <Nav.Link onClick={() => navigate(RouteNames.REGISTER)}>Registracija</Nav.Link>
+            </>
           )}
         </Nav>
       </Navbar.Collapse>

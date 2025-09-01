@@ -21,7 +21,8 @@ export const RouteNames = {
     CLAN_PROMJENI: '/clanovi/:sifra', //ne koristi se
 
     LOGIN: '/login',
-    ERA: '/era'
+    ERA: '/era',
+    REGISTER: '/register'
 }
 
 export const BACKEND_URL='https://steko98-001-site1.ntempurl.com';

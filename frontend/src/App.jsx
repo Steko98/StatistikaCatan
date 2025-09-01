@@ -26,6 +26,7 @@ import ErrorModal from "./components/ErrorModal";
 import LoadingSpinner from "./components/LoadingSpinner";
 import useAuth from "./hooks/useAuth";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import EraDijagram from "./pages/EraDijagram";
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
           ) : (
             <>
               <Route path={RouteNames.LOGIN} element={<Login />} />
+              <Route path={RouteNames.REGISTER} element={<Register/>}/>
             </>
           )}
         </Routes>
