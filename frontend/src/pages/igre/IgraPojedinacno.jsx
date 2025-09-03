@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import {
-  Button,
-  Container,
-  Table,
-  Form,
-  Alert,
-  AlertHeading,
-} from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Container, Table, Form, Alert, Row, Col,} from "react-bootstrap";
 import { FaFaceSmileWink } from "react-icons/fa6";
 import { FaSadTear } from "react-icons/fa";
 import IgraService from "../../services/IgraService";
@@ -17,6 +10,7 @@ import { RouteNames } from "../../constants";
 import moment from "moment";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
+import IgracService from "../../services/IgracService";
 
 export default function IgraPojedinacno() {
   const navigate = useNavigate();
@@ -29,6 +23,8 @@ export default function IgraPojedinacno() {
   const [datum, setDatum] = useState("");
   const [turnir, setTurnir] = useState({});
   const [show, setShow] = useState(false);
+  const [igraciZaIgru, setIgraciZaIgru] = useState([]);
+  const [igracSifra, setIgracSifra] = useState(0);
 
   async function dohvatiDetaljeIgre() {
     showLoading();
@@ -67,9 +63,22 @@ export default function IgraPojedinacno() {
     setTurnir(odgovor.poruka);
   }
 
+  async function dohvatiIgrace() {
+    showLoading();
+    const odgovor = await IgracService.getIgraciZaIgru(routeParams.sifra);
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka)
+      return
+    }
+    setIgraciZaIgru(odgovor.poruka)
+    setIgracSifra(odgovor.poruka[0].sifra)
+  }
+
   useEffect(() => {
     dohvatiIgru();
     dohvatiDetaljeIgre();
+    dohvatiIgrace();
   }, []);
 
   async function obrisiClana(sifra) {
@@ -81,6 +90,7 @@ export default function IgraPojedinacno() {
       return;
     }
     dohvatiDetaljeIgre();
+    dohvatiIgrace();
   }
   function obrisi(sifra) {
     if (!confirm("Sigurno obrisati?")) {
@@ -117,6 +127,33 @@ export default function IgraPojedinacno() {
     dohvatiDetaljeIgre();
   }
 
+  async function dodajIgraca(e) {
+    showLoading();
+    const odgovor = await ClanService.dodaj(e)
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.poruka)
+      return
+    }
+
+    dohvatiDetaljeIgre();
+    dohvatiIgrace();
+  }
+
+  function obradiSubmit(e){
+    e.preventDefault();
+
+    const podaci = new FormData(e.target);
+
+    dodajIgraca({
+      brojBodova: parseInt(podaci.get("brojBodova")),
+      pobjeda: podaci.get("pobjeda") == "on" ? true : false,
+      sifraIgrac: igracSifra,
+      sifraIgra: routeParams.sifra,
+    });
+
+  }
+
   function popupAlert() {
     if (show) {
       return (
@@ -132,13 +169,6 @@ export default function IgraPojedinacno() {
       <h2 className="sredina">
         {turnir.naziv} - Igra#{routeParams.sifra}
       </h2>
-      <Link className="btn btn-success" to={`/clan/dodaj/${routeParams.sifra}`}>
-        +  Dodaj igrača
-      </Link>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <Button className="btn btn-danger" onClick={() => navigate(-1)}>
-        Povratak
-      </Button>
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Table striped bordered responsive hover >
@@ -245,6 +275,49 @@ export default function IgraPojedinacno() {
           </Alert>
         )}
       </div>
+      <br />
+      <h5 className="sredina">Dodavanje igrača</h5>
+      <br />
+        <Form onSubmit={obradiSubmit}>
+          <Row className="align-items-end">
+            <Col key={1} sm={12} md={4} lg={4}>
+              <Form.Group controlId="igrac">
+                <Form.Label>Igrač</Form.Label>
+                <Form.Select
+                name="sifraIgrac"
+                onChange={(e) => {
+                  setIgracSifra(e.target.value)
+                }}>
+                  {igraciZaIgru && igraciZaIgru.map((i, index)=>(
+                    <option key={index} value={i.sifra}>
+                      {i.ime}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col key={2} sm={12} md={4} lg={4}>
+                <Form.Group controlId="brojBodova">
+                  <Form.Label>Broj bodova</Form.Label>
+                  <Form.Control type="number" name="brojBodova"/>
+                </Form.Group>
+            </Col>
+            <Col key={3} sm={12} md={2} lg={1}>
+              <Form.Group className="mb-2" controlId="pobjeda">
+                <Form.Check label="Pobjeda" name="pobjeda"/>
+              </Form.Group>
+            </Col>
+            <Col key={4} sm={12} md={2} lg={3}>
+              <Button variant="success" type="submit" className="siroko">
+                + Dodaj igrača
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      <hr />
+      <Button className="btn btn-danger siroko" onClick={() => navigate(-1)}>
+        Povratak
+      </Button>
     </Container>
   );
 }

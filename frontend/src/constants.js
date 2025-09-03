@@ -17,7 +17,7 @@ export const RouteNames = {
     IGRAC_POJEDINACNO: '/igrac/:sifra',
 
     CLAN_PREGLED: '/clanovi', //ne koristi se
-    CLAN_NOVI: '/clan/dodaj/:sifra',
+    CLAN_NOVI: '/clan/dodaj/:sifra', // ne koristi se
     CLAN_PROMJENI: '/clanovi/:sifra', //ne koristi se
 
     LOGIN: '/login',
