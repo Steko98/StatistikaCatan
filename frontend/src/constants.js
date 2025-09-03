@@ -6,19 +6,13 @@ export const RouteNames = {
     TURNIR_PROMJENI: '/turniri/:sifra',
     TURNIR_DETALJI: '/turnir/:sifra',
 
-    IGRE_PREGLED: '/igre', //ne koristi se
     IGRE_NOVI: '/igre/dodaj/:sifra',
-    IGRE_PROMJENI: '/igre/:sifra', //ne koristi se
     IGRA_POJEDINACNO: '/igra/:sifra',
 
     IGRACI_PREGLED: '/igraci',
     IGRAC_NOVI: '/igraci/dodaj',
     IGRAC_PROMJENI: '/igraci/:sifra',
     IGRAC_POJEDINACNO: '/igrac/:sifra',
-
-    CLAN_PREGLED: '/clanovi', //ne koristi se
-    CLAN_NOVI: '/clan/dodaj/:sifra', // ne koristi se
-    CLAN_PROMJENI: '/clanovi/:sifra', //ne koristi se
 
     LOGIN: '/login',
     ERA: '/era',
