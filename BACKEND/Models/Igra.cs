@@ -22,6 +22,6 @@ namespace BACKEND.Models
         /// <summary>
         /// Kolekcija članova koji sudjeluju u igri.
         /// </summary>
-        public ICollection<Clan> Clanovi { get; set; }
+        public ICollection<Clan>? Clanovi { get; set; }
     }
 }

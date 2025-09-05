@@ -27,6 +27,10 @@ namespace BACKEND.Models
         /// <summary>
         /// Kolekcija igara koje su povezane s ovim turnirom.
         /// </summary>
-        public ICollection<Igra> Igre { get; set; }
+        public ICollection<Igra>? Igre { get; set; }
+
+        [Column("operater_id")]
+        public int OperaterId { get; set; }
+        public Operater Operater { get; set; }
     }
 }

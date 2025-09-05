@@ -2,6 +2,7 @@
 using BACKEND.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BACKEND.Controllers
 {
@@ -31,6 +32,19 @@ namespace BACKEND.Controllers
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        protected int trenutniKorsnik
+        {
+            get
+            {
+                var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (claim == null)
+                {
+                    throw new UnauthorizedAccessException("ID korisnika nije prinađen u tokenu");
+                }
+                return int.Parse(claim.Value);
+            }
         }
     }
 }

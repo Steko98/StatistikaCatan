@@ -29,7 +29,11 @@ namespace BACKEND.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<IgraDTORead>>(_context.Igre.Include(i => i.Turnir)));
+                var igraDb = _context.Igre
+                    .Include(i => i.Turnir)
+                    .Where(i => i.Turnir.OperaterId == trenutniKorsnik)
+                    .ToList();
+                return Ok(_mapper.Map<List<IgraDTORead>>(igraDb));
             }
             catch (Exception ex)
             {
@@ -53,7 +57,8 @@ namespace BACKEND.Controllers
             Igra? e;
             try
             {
-                e = _context.Igre.Include(i => i.Turnir).FirstOrDefault(i => i.Sifra == sifra);
+                e = _context.Igre.Include(i => i.Turnir)
+                    .FirstOrDefault(i => i.Sifra == sifra && i.Turnir.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -83,7 +88,8 @@ namespace BACKEND.Controllers
             Turnir? es;
             try
             {
-                es = _context.Turniri.Find(dto.TurnirSifra);
+                es = _context.Turniri
+                    .FirstOrDefault(t => t.Sifra == dto.TurnirSifra && t.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -129,7 +135,9 @@ namespace BACKEND.Controllers
                 Igra? e;
                 try
                 {
-                    e = _context.Igre.Include(i => i.Turnir).FirstOrDefault(x => x.Sifra == sifra);
+                    e = _context.Igre
+                        .Include(i => i.Turnir)
+                        .FirstOrDefault(x => x.Sifra == sifra && x.Turnir.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -143,7 +151,8 @@ namespace BACKEND.Controllers
                 Turnir? es;
                 try
                 {
-                    es = _context.Turniri.Find(dto.TurnirSifra);
+                    es = _context.Turniri
+                        .FirstOrDefault(x => x.Sifra == dto.TurnirSifra && x.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -187,7 +196,8 @@ namespace BACKEND.Controllers
                 Igra? e;
                 try
                 {
-                    e = _context.Igre.Find(sifra);
+                    e = _context.Igre
+                        .FirstOrDefault(x => x.Sifra == sifra && x.Turnir.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -228,7 +238,8 @@ namespace BACKEND.Controllers
                 Igra? e;
                 try
                 {
-                    e = _context.Igre.Find(sifra);
+                    e = _context.Igre
+                        .FirstOrDefault(x => x.Sifra == sifra && x.Turnir.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -269,7 +280,7 @@ namespace BACKEND.Controllers
                 var p = _context.Igre
                     .Include(i => i.Clanovi)
                         .ThenInclude(c => c.Igrac)
-                    .FirstOrDefault(x => x.Sifra == sifraIgre);
+                    .FirstOrDefault(x => x.Sifra == sifraIgre && x.Turnir.OperaterId == trenutniKorsnik);
                 if (p == null)
                 {
                     return BadRequest("Ne postoji igra pod šifrom " + sifraIgre);
@@ -308,7 +319,7 @@ namespace BACKEND.Controllers
                 var igra = _context.Igre
                     .Include(i => i.Clanovi)
                         .ThenInclude(c => c.Igrac)
-                    .FirstOrDefault(i => i.Sifra == sifra);
+                    .FirstOrDefault(x => x.Sifra == sifra && x.Turnir.OperaterId == trenutniKorsnik);
                 if (igra == null)
                 {
                     return BadRequest("Igra pod odabranom šifrom nije pronađena");
@@ -404,7 +415,8 @@ namespace BACKEND.Controllers
             try
             {
                 IEnumerable<Igra> query = _context.Igre
-                    .Include(i => i.Turnir);
+                    .Include(i => i.Turnir)
+                    .Where(i => i.Turnir.OperaterId == trenutniKorsnik);
                 query = query.Where(i => i.Datum >= uvjetPocetak && i.Datum <= uvjetKraj);
                 var igre = query.ToList();
                 return Ok(_mapper.Map<List<IgraDTORead>>(igre));

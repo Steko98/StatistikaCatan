@@ -29,7 +29,10 @@ namespace BACKEND.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<IgracDTORead>>(_context.Igraci));
+                var igraciDb = _context.Igraci
+                    .Where(i => i.OperaterId == trenutniKorsnik)
+                    .ToList();
+                return Ok(_mapper.Map<List<IgracDTORead>>(igraciDb));
             }
             catch (Exception ex)
             {
@@ -55,8 +58,8 @@ namespace BACKEND.Controllers
                 // Execute raw SQL: select * from igraci where sifra not in (select distinct igrac from clanovi where igra = @sifraIgra);
                 var igraci = _context.Igraci
                     .FromSqlRaw(
-                        "SELECT * FROM Igraci WHERE Sifra NOT IN (SELECT DISTINCT Igrac FROM Clanovi WHERE Igra = {0})",
-                        sifraIgra
+                        @"SELECT * FROM Igraci WHERE operater_id = {0} AND Sifra NOT IN (SELECT DISTINCT Igrac FROM Clanovi WHERE Igra = {1})",
+                        trenutniKorsnik, sifraIgra
                     )
                     .ToList();
 
@@ -89,7 +92,8 @@ namespace BACKEND.Controllers
             Igrac? e;
             try
             {
-                e = _context.Igraci.Find(sifra);
+                e = _context.Igraci
+                    .FirstOrDefault(i => i.Sifra == sifra && i.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -121,6 +125,7 @@ namespace BACKEND.Controllers
             try
             {
                 var e = _mapper.Map<Igrac>(dto);
+                e.OperaterId = trenutniKorsnik;
                 _context.Igraci.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<IgracDTORead>(e));
@@ -156,7 +161,8 @@ namespace BACKEND.Controllers
                 Igrac? e;
                 try
                 {
-                    e = _context.Igraci.Find(sifra);
+                    e = _context.Igraci
+                        .FirstOrDefault(i => i.Sifra == sifra && i.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -204,7 +210,8 @@ namespace BACKEND.Controllers
                 Igrac? e;
                 try
                 {
-                    e = _context.Igraci.Find(sifra);
+                    e = _context.Igraci
+                        .FirstOrDefault(i => i.Sifra == sifra && i.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -248,7 +255,7 @@ namespace BACKEND.Controllers
                 var p = _context.Igraci
                     .Include(i => i.Clanovi)
                         .ThenInclude(c => c.Igra)
-                    .FirstOrDefault(x => x.Sifra == sifraIgraca);
+                    .FirstOrDefault(x => x.Sifra == sifraIgraca && x.OperaterId == trenutniKorsnik);
                 if (p == null)
                 {
                     return BadRequest("Ne postoji igrač pod šifrom " + sifraIgraca);
@@ -290,7 +297,7 @@ namespace BACKEND.Controllers
                 var igrac = _context.Igraci
                     .Include(i => i.Clanovi)
                         .ThenInclude(c => c.Igra)
-                    .FirstOrDefault(i => i.Sifra == sifra);
+                    .FirstOrDefault(i => i.Sifra == sifra && i.OperaterId == trenutniKorsnik);
                 if (igrac == null)
                 {
                     return BadRequest("Igra pod odabranom šifrom nije pronađena");
@@ -339,7 +346,7 @@ namespace BACKEND.Controllers
                 var igrac = _context.Igraci
                     .Include(i => i.Clanovi)
                         .ThenInclude(c => c.Igra)
-                    .FirstOrDefault(i => i.Sifra == sifra);
+                    .FirstOrDefault(i => i.Sifra == sifra && i.OperaterId == trenutniKorsnik);
                 if (igrac == null)
                 {
                     return BadRequest("Igrač pod odabranom šifrom nije pronađen");
@@ -385,7 +392,8 @@ namespace BACKEND.Controllers
             uvjet = uvjet.ToLower();
             try
             {
-                IEnumerable<Igrac> query = _context.Igraci;
+                IEnumerable<Igrac> query = _context.Igraci
+                    .Where(i => i.OperaterId == trenutniKorsnik);
                 foreach (var s in uvjet.Split(" "))
                 {
                     query = query.Where(i => i.Ime.ToLower().Contains(s));
@@ -415,7 +423,8 @@ namespace BACKEND.Controllers
             uvjet = uvjet.ToLower();
             try
             {
-                IEnumerable<Igrac> query = _context.Igraci;
+                IEnumerable<Igrac> query = _context.Igraci
+                    .Where(i => i.OperaterId == trenutniKorsnik);
 
                 var niz = uvjet.Split(" ");
                 foreach (var s in niz)
@@ -454,7 +463,8 @@ namespace BACKEND.Controllers
             {
                 return BadRequest("Slika nije postavljena");
             }
-            var i = _context.Igraci.Find(sifra);
+            var i = _context.Igraci
+                .FirstOrDefault(x=> x.Sifra == sifra && x.OperaterId == trenutniKorsnik);
             if (i == null)
             {
                 return BadRequest("Igrač pod šifrom " + sifra + "nije pronađen");

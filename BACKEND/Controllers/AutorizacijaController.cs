@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace BACKEND.Controllers
@@ -47,11 +48,17 @@ namespace BACKEND.Controllers
                 return StatusCode(StatusCodes.Status403Forbidden, "Niste autorizirani");
             }
 
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, operBaza.Sifra.ToString()),
+                new Claim(ClaimTypes.Email, operBaza.Email)
+            };
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes("NeZnamZaStoJeOvoTocnoAliJeKaoNekiTajniKljuc");
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(TimeSpan.FromHours(8)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };

@@ -4,6 +4,7 @@ using BACKEND.Models;
 using BACKEND.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BACKEND.Controllers
 {
@@ -30,7 +31,10 @@ namespace BACKEND.Controllers
             }
             try
             {
-                var turniriDb = _context.Turniri.ToList();
+              
+                var turniriDb = _context.Turniri
+                    .Where(t => t.OperaterId == trenutniKorsnik)
+                    .ToList();
                 return Ok(_mapper.Map<List<TurnirDTORead>>(turniriDb));
             }
             catch (Exception ex)
@@ -55,7 +59,8 @@ namespace BACKEND.Controllers
             Turnir? e;
             try
             {
-                e = _context.Turniri.Find(sifra);
+                e = _context.Turniri
+                    .FirstOrDefault(t => t.Sifra == sifra && t.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -84,6 +89,7 @@ namespace BACKEND.Controllers
             try
             {
                 var e = _mapper.Map<Turnir>(dto);
+                e.OperaterId = trenutniKorsnik;
                 _context.Turniri.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<TurnirDTORead>(e));
@@ -115,7 +121,8 @@ namespace BACKEND.Controllers
                 Turnir? e;
                 try
                 {
-                    e = _context.Turniri.Find(sifra);
+                    e = _context.Turniri
+                        .FirstOrDefault(t=> t.Sifra == sifra && t.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -159,7 +166,8 @@ namespace BACKEND.Controllers
                 Turnir? e;
                 try
                 {
-                    e = _context.Turniri.Find(sifra);
+                    e = _context.Turniri
+                        .FirstOrDefault(t => t.Sifra == sifra && t.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -199,7 +207,7 @@ namespace BACKEND.Controllers
             {
                 var p = _context.Turniri
                     .Include(i => i.Igre)
-                    .FirstOrDefault(x => x.Sifra == sifraTurnira);
+                    .FirstOrDefault(x => x.Sifra == sifraTurnira && x.OperaterId == trenutniKorsnik);
                 if (p == null)
                 {
                     return BadRequest("Ne postoji turnir pod šifrom " + sifraTurnira);
@@ -229,7 +237,8 @@ namespace BACKEND.Controllers
             uvjet = uvjet.ToLower();
             try
             {
-                IEnumerable<Turnir> query = _context.Turniri;
+                IEnumerable<Turnir> query = _context.Turniri
+                    .Where(t => t.OperaterId == trenutniKorsnik);
                 foreach (var s in uvjet.Split(" "))
                 {
                     query = query.Where(t => t.Naziv.ToLower().Contains(s));
@@ -262,7 +271,7 @@ namespace BACKEND.Controllers
                     .Include(t => t.Igre)
                         .ThenInclude(i => i.Clanovi)
                             .ThenInclude(c => c.Igrac)
-                    .FirstOrDefault(t => t.Sifra == sifra);
+                    .FirstOrDefault(t => t.Sifra == sifra && t.OperaterId == trenutniKorsnik);
                 if (turnir == null)
                 {
                     return BadRequest("Turnir nije pronađen");

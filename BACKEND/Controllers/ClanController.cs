@@ -32,6 +32,7 @@ namespace BACKEND.Controllers
                 var clanoviDb = _context.Clanovi
                     .Include(c => c.Igrac)
                     .Include(c => c.Igra)
+                    .Where(i=> i.Igrac.OperaterId == trenutniKorsnik)
                     .ToList();
                 return Ok(_mapper.Map<List<ClanDTORead>>(clanoviDb));
             }
@@ -60,7 +61,7 @@ namespace BACKEND.Controllers
                 e = _context.Clanovi
                     .Include(i => i.Igrac)
                     .Include(i => i.Igra)
-                    .FirstOrDefault(i => i.Sifra == sifra);
+                    .FirstOrDefault(i => i.Sifra == sifra && i.Igrac.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -89,7 +90,9 @@ namespace BACKEND.Controllers
             Igra? g;
             try
             {
-                g = _context.Igre.Find(dto.SifraIgra);
+                g = _context.Igre
+                    .Include(i => i.Turnir)
+                    .FirstOrDefault(i => i.Sifra == dto.SifraIgra && i.Turnir.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -102,7 +105,8 @@ namespace BACKEND.Controllers
             Igrac? p;
             try
             {
-                p = _context.Igraci.Find(dto.SifraIgrac);
+                p = _context.Igraci
+                    .FirstOrDefault(i => i.Sifra == dto.SifraIgrac && i.OperaterId == trenutniKorsnik);
             }
             catch (Exception ex)
             {
@@ -152,7 +156,7 @@ namespace BACKEND.Controllers
                     e = _context.Clanovi
                         .Include(c => c.Igrac)
                         .Include(c => c.Igra)
-                        .FirstOrDefault(x => x.Sifra == sifra);
+                        .FirstOrDefault(x => x.Sifra == sifra && x.Igrac.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -166,7 +170,9 @@ namespace BACKEND.Controllers
                 Igra? es;
                 try
                 {
-                    es = _context.Igre.Find(dto.SifraIgra);
+                    es = _context.Igre
+                        .Include(t => t.Turnir)
+                        .FirstOrDefault(x => x.Sifra == dto.SifraIgra && x.Turnir.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -180,7 +186,8 @@ namespace BACKEND.Controllers
                 Igrac? esi;
                 try
                 {
-                    esi = _context.Igraci.Find(dto.SifraIgrac);
+                    esi = _context.Igraci
+                        .FirstOrDefault(i => i.Sifra == dto.SifraIgrac && i.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -227,7 +234,14 @@ namespace BACKEND.Controllers
                 try
                 {
                     e = _context.Clanovi
-                        .FirstOrDefault(c => c.Igra.Sifra == sifraIgra && c.Igrac.Sifra == sifraIgrac);
+                        .Include(i => i.Igra)
+                            .ThenInclude(t => t.Turnir)
+                        .Include(i => i.Igrac)
+                        .FirstOrDefault(x =>
+                        x.Igra.Sifra == sifraIgra &&
+                        x.Igra.Turnir.OperaterId == trenutniKorsnik &&
+                        x.Igrac.Sifra == sifraIgrac &&
+                        x.Igrac.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -270,7 +284,14 @@ namespace BACKEND.Controllers
                 try
                 {
                     e = _context.Clanovi
-                        .FirstOrDefault(c => c.Igra.Sifra == sifraIgra && c.Igrac.Sifra == sifraIgrac);
+                        .Include(i => i.Igra)
+                            .ThenInclude(t => t.Turnir)
+                        .Include(i => i.Igrac)
+                        .FirstOrDefault(x =>
+                        x.Igra.Sifra == sifraIgra &&
+                        x.Igra.Turnir.OperaterId == trenutniKorsnik &&
+                        x.Igrac.Sifra == sifraIgrac &&
+                        x.Igrac.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
@@ -312,7 +333,9 @@ namespace BACKEND.Controllers
                 Clan? e;
                 try
                 {
-                    e = _context.Clanovi.Find(sifra);
+                    e = _context.Clanovi
+                        .FirstOrDefault(x => x.Sifra == sifra &&
+                        x.Igrac.OperaterId == trenutniKorsnik);
                 }
                 catch (Exception ex)
                 {
