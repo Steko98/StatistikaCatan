@@ -66,7 +66,7 @@ export default function IgraciPromjena() {
   }
 
   function onCrop() {
-    setSlikaZaServer(cropperRef.current.cropper.getCroppedCanvas().toDataURL());
+    setSlikaZaServer(cropperRef.current.cropper.getCroppedCanvas({maxWidth: 512, maxHeight: 512, imageSmoothingEnabled: true, imageSmoothingQuality: 'high'}).toDataURL());
   }
 
   function onChangeImage(e) {
