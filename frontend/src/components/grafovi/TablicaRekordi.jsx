@@ -146,7 +146,7 @@ export default function TablicaRekordi() {
           </>
         ) : (
           <tr>
-            <td>Učitavanje</td>
+            <td className="sredina" colSpan={3}>Nema rezultata</td>
           </tr>
         )}
       </tbody>

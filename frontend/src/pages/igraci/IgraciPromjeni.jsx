@@ -80,7 +80,35 @@ export default function IgraciPromjena() {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      setSlikaZaCrop(reader.result);
+      const img = document.createElement('img')
+      img.onload = () => {
+        let maxDimension = 1024
+        let largerDimension = 0
+        if (img.height > img.width) {
+          largerDimension = img.height
+        } else {
+          largerDimension = img.width
+        }
+        let scaleFactor = 0
+        if (largerDimension < maxDimension) {
+          scaleFactor = 1
+        } else {
+          scaleFactor = maxDimension / largerDimension
+        }
+        let canvasHeight = img.height * scaleFactor
+        let canvasWidth = img.width * scaleFactor
+
+        const canvas = document.createElement('canvas')
+        canvas.width = Math.round(canvasWidth)
+        canvas.height = Math.round(canvasHeight)
+
+        const context = canvas.getContext('2d')
+        context.drawImage(img, 0, 0, canvasWidth, canvasHeight)
+
+        const base64 = canvas.toDataURL()
+        setSlikaZaCrop(base64)
+      }
+      img.src = reader.result
     };
     try {
       reader.readAsDataURL(files[0]);
