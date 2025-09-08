@@ -27,27 +27,18 @@ export default function NavBarEdunova() {
         <Nav className="me-auto">
           {isLoggedIn ? (
             <>
-              <NavDropdown title={<span className="nav-tekst">Programi</span>} id="basic-nav-dropdown" className="nav-tekst">
-                <NavDropdown.Item onClick={() => navigate(RouteNames.TURNIR_PREGLED)}>
-                  Turniri
-                </NavDropdown.Item>
-                <NavDropdown.Item onClick={() => navigate(RouteNames.IGRACI_PREGLED)}>
-                  Igrači
-                </NavDropdown.Item>
-              </NavDropdown>
-
-              <Nav.Link onClick={() => OpenSwaggerURL()} className="nav-tekst">
-                Swagger
-              </Nav.Link>
-
-              <Nav.Link onClick={()=>navigate(RouteNames.ERA)}>ERA dijagram</Nav.Link>
-
-              <Nav.Link onClick={logout}>Odjava</Nav.Link>
+                <Nav.Link onClick={() => navigate(RouteNames.TURNIR_PREGLED)}>
+                  My Tournaments
+                </Nav.Link >
+                <Nav.Link  onClick={() => navigate(RouteNames.IGRACI_PREGLED)}>
+                  Players
+                </Nav.Link >
+              <Nav.Link onClick={logout}>Sign out</Nav.Link>
             </>
           ) : (
             <>
-            <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>Prijava</Nav.Link>
-            <Nav.Link onClick={() => navigate(RouteNames.REGISTER)}>Registracija</Nav.Link>
+            <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>Sign in</Nav.Link>
+            <Nav.Link onClick={() => navigate(RouteNames.REGISTER)}>Sign up</Nav.Link>
             </>
           )}
         </Nav>

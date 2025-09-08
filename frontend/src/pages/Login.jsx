@@ -20,7 +20,7 @@ export default function Login(){
                 email: ivan.steko5@gmail.com
             </p>
             <p>
-                lozinka: edunovawp8
+                password: edunovawp8
             </p>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className='mb-3' controlId='email'>
@@ -34,7 +34,7 @@ export default function Login(){
                     />
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='lozinka'>
-                    <Form.Label>Lozinka</Form.Label>
+                    <Form.Label>Password</Form.Label>
                     <Form.Control
                     type='password'
                     name='lozinka'
@@ -42,7 +42,7 @@ export default function Login(){
                     />
                 </Form.Group>
                 <Button variant='primary' type='submit'>
-                    Autoriziraj
+                    Authorize
                 </Button>
             </Form>
         </Container>

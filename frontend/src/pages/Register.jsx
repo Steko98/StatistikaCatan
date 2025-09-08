@@ -47,7 +47,7 @@ export default function Register(){
                     />
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='lozinka'>
-                    <Form.Label>Lozinka</Form.Label>
+                    <Form.Label>Password</Form.Label>
                     <Form.Control
                     type='password'
                     name='lozinka'
@@ -55,7 +55,7 @@ export default function Register(){
                     />
                 </Form.Group>
                 <Button variant='primary' type='submit'>
-                    Registracija
+                    Register
                 </Button>
             </Form>
         </Container>

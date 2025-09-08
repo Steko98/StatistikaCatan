@@ -60,7 +60,7 @@ export default function TurniriPromjeni() {
     <Container>
       <Form onSubmit={odradiSubmit}>
         <Form.Group controlId="naziv">
-          <Form.Label>Naziv</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
             name="naziv"
@@ -70,7 +70,7 @@ export default function TurniriPromjeni() {
         </Form.Group>
 
         <Form.Group controlId="datumPocetka">
-          <Form.Label>Datum početka</Form.Label>
+          <Form.Label>Start date</Form.Label>
           <Form.Control
             type="date"
             name="datumPocetka"
@@ -79,7 +79,7 @@ export default function TurniriPromjeni() {
         </Form.Group>
 
         <Form.Group controlId="datumZavrsetka">
-          <Form.Label>Datum završetka</Form.Label>
+          <Form.Label>End date</Form.Label>
           <Form.Control
             type="date"
             name="datumZavrsetka"
@@ -92,12 +92,12 @@ export default function TurniriPromjeni() {
         <Row>
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
             <Link className="btn btn-danger siroko" to={RouteNames.TURNIR_PREGLED}>
-              Povratak
+              Return
             </Link>
           </Col>
           <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
             <Button variant="success" type="submit" className="siroko">
-              Spremi promjene
+              Save changes
             </Button>
           </Col>
         </Row>

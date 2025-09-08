@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
-const GrafTipovi = ["Postotak", "Zbroj bodova", "Broj odigranih"];
+const GrafTipovi = ["Percentage", "Total points", "Games played"];
 
 export default function GrafTabovi({ onChange }) {
   const [aktivan, setAktivan] = useState(GrafTipovi[0]);

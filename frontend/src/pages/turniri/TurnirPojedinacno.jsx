@@ -3,6 +3,7 @@ import TurnirService from "../../services/TurnirService";
 import { useEffect, useState } from "react";
 import { RouteNames } from "../../constants";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import moment from "moment";
 import IgraService from "../../services/IgraService";
 import ZbirBodovaGraf from "../../components/grafovi/ZbirBodovaGraf";
@@ -21,7 +22,7 @@ export default function TurnirPojedinacno() {
 
   const routeParams = useParams();
   const [turnir, setTurnir] = useState({});
-  const [odabraniGraf, setOdabraniGraf] = useState("Postotak");
+  const [odabraniGraf, setOdabraniGraf] = useState("Percentage");
 
   async function dohvatiDetaljeTurnira() {
     showLoading();
@@ -66,24 +67,24 @@ export default function TurnirPojedinacno() {
     <Container>
       <h2 className="sredina">{turnir.naziv}</h2>
       <Link className="btn btn-success" to={`/igre/dodaj/${turnir.sifra}`}>
-        + Dodaj igru
+        <IoIosAddCircleOutline /> Add game
       </Link>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <Link className="btn btn-danger" to={RouteNames.TURNIR_PREGLED}>
-        Povratak
+        Return
       </Link>
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <h2>Igre</h2>
+        <h2>Games</h2>
         <br />
         <Table striped hover responsive bordered >
           <thead>
             <tr>
               <th>#</th>
-              <th>Pobjednik</th>
-              <th>Igrači</th>
-              <th>Datum</th>
-              <th className="sredina akcije">Akcije</th>
+              <th>Winner</th>
+              <th>Players</th>
+              <th>Date</th>
+              <th className="sredina akcije"></th>
             </tr>
           </thead>
           <tbody>
@@ -106,11 +107,11 @@ export default function TurnirPojedinacno() {
                       variant="info"
                       onClick={() => navigate(`/igra/${igra.sifra}`)}
                     >
-                      Detalji
+                      Details
                     </Button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button variant="danger" onClick={() => obrisi(igra.sifra)}>
-                      Obriši
+                      Delete
                     </Button>
                   </td>
                 </tr>
@@ -119,7 +120,7 @@ export default function TurnirPojedinacno() {
         </Table>
       </div>
       <hr />
-      <h2 className="sredina">Statistika</h2>
+      <h2 className="sredina">Stats</h2>
       <br />
       <Row>
         <Col key="1" sm={12} md={6} lg={6}>
@@ -127,14 +128,14 @@ export default function TurnirPojedinacno() {
             <GrafTabovi onChange={setOdabraniGraf}/>            
           </div>
           <div className="mt-4 d-flex align-items-center">
-            {odabraniGraf === "Postotak" && <PostotakGraf igre={turnir.igre}/>}
-            {odabraniGraf === "Zbroj bodova" && <ZbirBodovaGraf igre={turnir.igre}/>}
-            {odabraniGraf === "Broj odigranih" && <OdigraneGraf igre={turnir.igre}/>}
+            {odabraniGraf === "Percentage" && <PostotakGraf igre={turnir.igre}/>}
+            {odabraniGraf === "Total points" && <ZbirBodovaGraf igre={turnir.igre}/>}
+            {odabraniGraf === "Games played" && <OdigraneGraf igre={turnir.igre}/>}
           </div>
         </Col>
 
         <Col key="2" sm={12} md={6} lg={6} className="d-flex align-items-center justify-content-center">
-          <TablicaRekordi/>
+          {turnir.igre && <TablicaRekordi igre={turnir.igre}/>}
         </Col>
       </Row>
     </Container>

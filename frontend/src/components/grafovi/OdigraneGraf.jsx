@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import {
   Bar,
   BarChart,
@@ -9,32 +8,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import TurnirService from "../../services/TurnirService";
 import { useEffect, useState } from "react";
-import useError from "../../hooks/useError";
-import useLoading from "../../hooks/useLoading";
 
 export default function OdigraneGraf({igre}) {
-  // const routeParams = useParams();
+
   const [grafPodaci, setGrafPodaci] = useState([]);
-  // const { showLoading, hideLoading } = useLoading();
-  // const { prikaziError } = useError();
-  // const [turnir, setTurnir] = useState({});
-
-  // async function dohvatiDetaljeTurnira() {
-  //   // showLoading();
-  //   const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
-  //   // hideLoading();
-  //   if (odgovor.greska) {
-  //     prikazi(odgovor.poruka);
-  //     return;
-  //   }
-  //   setTurnir(odgovor.poruka);
-
-  //   const igre = odgovor.poruka.igre || [];
-  //   const podaci = pripremiPodatke(igre);
-  //   setGrafPodaci(podaci);
-  // }
 
   useEffect(() => {
     const podaci = pripremiPodatke(igre);
@@ -78,8 +56,8 @@ export default function OdigraneGraf({igre}) {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="odigrano" stackId="a" fill="#8884d8" />
-              <Bar dataKey="pobjede" stackId="a" fill="#82ca9d" />
+              <Bar dataKey="odigrano" stackId="a" fill="#8884d8" name="Lost "/>
+              <Bar dataKey="pobjede" stackId="a" fill="#82ca9d" name="Won"/>
             </BarChart>
           </ResponsiveContainer>
         </div>

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Service from "../../services/IgraService";
 import TurnirService from "../../services/TurnirService";
-import { RouteNames } from "../../constants";
 import moment from "moment";
 import { Button, Row, Col, Form, Container, Table } from "react-bootstrap";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import IgracService from "../../services/IgracService";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
@@ -67,14 +66,7 @@ export default function IgreDodaj() {
       prikaziError(odgovor.poruka);
       return;
     }
-    //console.log(odgovor)
-    //console.log(odgovor.poruka.sifra);
-    //setSifraNoveIgre(parseInt(odgovor.poruka.sifra));
-   // console.log('Šifra nove igre:');
-    //console.log(sifraNoveIgre + ' - ' + odgovor.poruka.sifra)
     redovi.forEach(red => {
-      //console.log(sifraNoveIgre + ' - ' + odgovor.poruka.sifra)
-    //red.sifraIgra = odgovor.poruka.sifra;
     console.log(red);
     dodajClanove(odgovor.poruka.sifra, red.sifraIgrac, red.brojBodova, red.pobjeda);
     })
@@ -83,8 +75,6 @@ export default function IgreDodaj() {
 
   async function dodajClanove(sifraIgra,sifraIgrac, brojBodova, pobjeda){
     showLoading();
-   // red.sifraIgra=sifraNoveIgre;
-   // console.log(red);
     const odgovor = ClanService.dodaj({sifraIgra: sifraIgra, sifraIgrac: sifraIgrac, brojBodova: brojBodova, pobjeda: pobjeda });
     hideLoading();
     if (odgovor.greska) {
@@ -110,7 +100,7 @@ export default function IgreDodaj() {
 
   return (
     <Container>
-      <h2 className="sredina">Dodavanje igre</h2>
+      <h2 className="sredina">New game</h2>
 
       <br />
 
@@ -118,7 +108,7 @@ export default function IgreDodaj() {
         <Row>
           <Col sm={12} md={4} lg={3}>
             <Form.Group controlId="datum">
-              <Form.Label>Datum</Form.Label>
+              <Form.Label>Date</Form.Label>
               <Form.Control
                 type="date"
                 name="datum"
@@ -130,7 +120,7 @@ export default function IgreDodaj() {
             <br />
 
             <Form.Group className="mb-3" controlId="turnir">
-              <Form.Label>Turnir</Form.Label>
+              <Form.Label>Tournament</Form.Label>
               <Form.Select
                 value={sifra}
                 onChange={(e) => {
@@ -150,10 +140,10 @@ export default function IgreDodaj() {
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
-                  <th>Igrač</th>
-                  <th className="sredina">Broj bodova</th>
-                  <th className="sredina">Pobjeda</th>
-                  <th className="sredina">Akcije</th>
+                  <th>Player</th>
+                  <th className="sredina">Points</th>
+                  <th className="sredina">Win</th>
+                  <th className="sredina"></th>
                 </tr>
               </thead>
               <tbody>
@@ -201,7 +191,7 @@ export default function IgreDodaj() {
 
                       <td className="sredina">
                         <Button variant="danger" onClick={() => obrisiRed(index)}>
-                          Obriši
+                          Delete
                         </Button>
                       </td>
 
@@ -213,7 +203,7 @@ export default function IgreDodaj() {
                 <tr>
                   <td colSpan={4} className="sredina">
                     <Button variant="success" onClick={dodajRed}>
-                      Dodaj sudionika
+                      <IoIosAddCircleOutline /> Add player
                     </Button>
                   </td>
                 </tr>
@@ -230,12 +220,12 @@ export default function IgreDodaj() {
               onClick={() => navigate(`/turnir/${sifra}`)}
               className="btn btn-danger siroko"
             >
-              Povratak
+              Return
             </Button>
           </Col>
           <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
             <Button variant="success" type="submit" className="siroko">
-              Dodaj igru
+              <IoIosAddCircleOutline /> Add game
             </Button>
           </Col>
         </Row>

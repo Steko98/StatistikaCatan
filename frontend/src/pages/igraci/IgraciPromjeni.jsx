@@ -132,21 +132,21 @@ export default function IgraciPromjena() {
 
   return (
     <Container>
-      <h2 className="sredina">Uređivanje igrača</h2>
+      <h2 className="sredina">Edit player</h2>
 
       <Form onSubmit={obradiSubmit}>
         <Link to={-1} className="btn btn-danger">
-          Povratak
+          Return
         </Link>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button variant="primary" type="submit">
-          Promjeni igrača
+        <Button variant="success" type="submit">
+          Save changes
         </Button>
         <hr />
         <Row className="mb-4">
           <Col key="1" sm={12} md={4} lg={3}>
             <Form.Group controlId="ime">
-              <Form.Label>Ime</Form.Label>
+              <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
                 name="ime"
@@ -156,7 +156,7 @@ export default function IgraciPromjena() {
             </Form.Group>
           </Col>
           <Col key="2" sm={12} md={4} lg={6}>
-            <p className="form-label">Trenutna slika</p>
+            <p className="form-label">Current profile picture</p>
             <Image
               src={trenutnaSlika}
               className="slika"
@@ -166,7 +166,7 @@ export default function IgraciPromjena() {
           <Col key="3" sm={12} md={4} lg={3}>
             {slikaZaServer && (
               <>
-                <p className="form-label">Nova slika</p>
+                <p className="form-label">New picture</p>
                 <Image src={slikaZaServer || slikaZaCrop} className="slika" />
               </>
             )}
@@ -175,7 +175,7 @@ export default function IgraciPromjena() {
       </Form>
       <input className="mb-3" type="file" onChange={onChangeImage} />
       <Button disabled={!slikaZaServer} onClick={spremiSliku}>
-        Spremi sliku
+        Save new picture
       </Button>
       <Cropper
         src={slikaZaCrop}

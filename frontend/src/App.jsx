@@ -22,7 +22,6 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import useAuth from "./hooks/useAuth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import EraDijagram from "./pages/EraDijagram";
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -65,8 +64,6 @@ function App() {
               <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj />} />
               <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni />} />
               <Route path={RouteNames.IGRAC_POJEDINACNO} element={<IgracPojedinacno />}/>
-
-              <Route path={RouteNames.ERA} element={<EraDijagram/>}/>
             </>
           ) : (
             <>
@@ -76,8 +73,7 @@ function App() {
           )}
         </Routes>
       </Container>
-      <Container>
-      <hr />
+      <Container className="footer">
       Ivan Šteko &copy; {godina()}
       </Container>
     </>

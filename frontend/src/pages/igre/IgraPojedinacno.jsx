@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Container, Table, Form, Alert, Row, Col,} from "react-bootstrap";
 import { FaFaceSmileWink } from "react-icons/fa6";
 import { FaSadTear } from "react-icons/fa";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import IgraService from "../../services/IgraService";
 import ClanService from "../../services/ClanService";
 import TurnirService from "../../services/TurnirService";
@@ -158,7 +159,7 @@ export default function IgraPojedinacno() {
     if (show) {
       return (
         <Alert variant="success" onClose={() => setShow(false)} dismissible>
-          <Alert.Heading>Datum uspješno promijenjen</Alert.Heading>
+          <Alert.Heading>Date change successful!</Alert.Heading>
         </Alert>
       );
     }
@@ -167,17 +168,17 @@ export default function IgraPojedinacno() {
   return (
     <Container>
       <h2 className="sredina">
-        {turnir.naziv} - Igra#{routeParams.sifra}
+        {turnir.naziv} - Game #{routeParams.sifra}
       </h2>
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Table striped bordered responsive hover >
           <thead>
             <tr>
-              <th>Igrač</th>
-              <th className="sredina">Broj bodova</th>
-              <th className="sredina">Pobjeda</th>
-              <th className="sredina akcije">Akcije</th>
+              <th>Player</th>
+              <th className="sredina">Points</th>
+              <th className="sredina">Win</th>
+              <th className="sredina akcije"></th>
             </tr>
           </thead>
           <tbody>
@@ -236,7 +237,7 @@ export default function IgraPojedinacno() {
                   <td className="sredina akcije">
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button variant="danger" onClick={() => obrisi(clan.sifra)}>
-                      Obriši igrača
+                      Delete player
                     </Button>
                   </td>
                 </tr>
@@ -245,7 +246,7 @@ export default function IgraPojedinacno() {
 
           <tfoot>
             <tr>
-              <th>Datum</th>
+              <th>Date</th>
               <td className="sredina" colSpan={2}>
                 <Form.Group controlId="datum">
                   <Form.Control
@@ -260,10 +261,10 @@ export default function IgraPojedinacno() {
               </td>
               <td className="sredina">
                 <Button
-                  className="btn btn-warning"
+                  className="btn btn-warning siroko"
                   onClick={() => promjenaDatuma()}
                 >
-                  Promjeni datum
+                  Save date change
                 </Button>
               </td>
             </tr>
@@ -271,18 +272,18 @@ export default function IgraPojedinacno() {
         </Table>
         {show && (
           <Alert variant="success" onClose={() => setShow(false)} dismissible>
-            <p>Datum uspješno promijenjen!</p>
+            <p>Date change successful!</p>
           </Alert>
         )}
       </div>
       <br />
-      <h5 className="sredina">Dodavanje igrača</h5>
+      <h5 className="sredina">Add player</h5>
       <br />
         <Form onSubmit={obradiSubmit}>
           <Row className="align-items-end">
             <Col key={1} sm={12} md={4} lg={4}>
               <Form.Group controlId="igrac">
-                <Form.Label>Igrač</Form.Label>
+                <Form.Label>Player</Form.Label>
                 <Form.Select
                 name="sifraIgrac"
                 onChange={(e) => {
@@ -298,25 +299,25 @@ export default function IgraPojedinacno() {
             </Col>
             <Col key={2} sm={12} md={4} lg={4}>
                 <Form.Group controlId="brojBodova">
-                  <Form.Label>Broj bodova</Form.Label>
+                  <Form.Label>Points</Form.Label>
                   <Form.Control type="number" name="brojBodova"/>
                 </Form.Group>
             </Col>
             <Col key={3} sm={12} md={2} lg={1}>
               <Form.Group className="mb-2" controlId="pobjeda">
-                <Form.Check label="Pobjeda" name="pobjeda"/>
+                <Form.Check label="Win" name="pobjeda"/>
               </Form.Group>
             </Col>
             <Col key={4} sm={12} md={2} lg={3}>
               <Button variant="success" type="submit" className="siroko">
-                + Dodaj igrača
+                <IoIosAddCircleOutline /> Add player
               </Button>
             </Col>
           </Row>
         </Form>
       <hr />
       <Button className="btn btn-danger siroko" onClick={() => navigate(-1)}>
-        Povratak
+        Return
       </Button>
     </Container>
   );

@@ -1,10 +1,10 @@
-/* .app {
+.app {
     min-height: 100vh;
     min-width: 100%;
     margin: 0px;
-    padding-top: 10px;
-    background-color: #471396;
-} */
+    padding: 0px;
+    background-color: bisque;
+}
 
 
 .siroko{
@@ -50,54 +50,3 @@
   object-fit: cover;
   width: 100%;
 }
-/* 
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23B13BFF' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-.navbar-toggler-icon:hover {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23FFCC00' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-.nav-tekst {
-    cursor: pointer;
-    color: #B13BFF;
-    font-family: "Nova Mono", monospace;
-    font-weight: 400;
-    font-style: normal;
-}
-.nav-brand:hover {
-    color: #FFCC00;
-    text-shadow: 2px 2px 4px #AF47D2;
-    transform: translateY(-3px);
-}
-
-.nav-tekst:hover {
-    color: #FFCC00;
-}
-
-.navbar .dropdown-toggle::after {
-  border-top-color: #B13BFF !important;
-}
-
-.tablice {
-    background-color: #FFCC00;
-    border-color: #090040;
-}
-
-.tablice td {
-    background-color: transparent;
-
-}
-.tablice th {
-    background-color: transparent;
-
-}
-
-hr {
-    background-color: #FFCC00;
-    color: #FFCC00;
-    height: 3px;
-    opacity: 1;
-    border-radius: 50%;
-} */

@@ -5,14 +5,14 @@ export default function ErrorModal({show, onHide, errors}){
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Pogreška!</Modal.Title>
+                <Modal.Title>Error!</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {errors}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='secondary' onClick={onHide}>
-                    Zatvori
+                    Close
                 </Button>
             </Modal.Footer>
         </Modal>

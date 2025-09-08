@@ -72,7 +72,7 @@ export default function IgracPojedinacno() {
 
   return (
     <Container>
-      <h2 className="sredina">Pregled igrača - {igrac.ime}</h2>
+      <h2 className="sredina">Player profile - {igrac.ime}</h2>
 
       <hr />
       <Row>
@@ -85,7 +85,7 @@ export default function IgracPojedinacno() {
                 className="btn btn-warning"
                 to={`/igraci/${routeParams.sifra}`}
               >
-                Uredi <FaUserEdit />
+                Edit <FaUserEdit />
               </Link>
             </Card.Body>
           </Card>
@@ -96,10 +96,10 @@ export default function IgracPojedinacno() {
             <Table bordered hover responsive striped>
               <thead>
                 <tr>
-                  <td className="sredina">Šifra igre</td>
-                  <td className="sredina">Broj bodova</td>
-                  <td className="sredina">Pobjeda</td>
-                  <td className="sredina akcije">Akcije</td>
+                  <th className="sredina">Game ID</th>
+                  <th className="sredina">Points</th>
+                  <th className="sredina">Win</th>
+                  <th className="sredina akcije"></th>
                 </tr>
               </thead>
               <tbody>
@@ -120,14 +120,14 @@ export default function IgracPojedinacno() {
                           className="btn btn-info"
                           onClick={() => navigate(`/igra/${clan.sifraIgra}`)}
                         >
-                          Detalji igre
+                          Details
                         </Button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <Button
                           className="btn btn-danger"
                           onClick={() => obrisiClana(clan.sifra)}
                         >
-                          Obriši
+                          Delete
                         </Button>
                       </td>
                     </tr>
@@ -139,7 +139,7 @@ export default function IgracPojedinacno() {
       </Row>
       <hr />
             <Link className="btn btn-danger siroko" to={-1}>
-        Povratak
+        Return
       </Link>
     </Container>
   );

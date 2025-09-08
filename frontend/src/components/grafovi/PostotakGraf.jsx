@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import TurnirService from "../../services/TurnirService";
 import {
   CartesianGrid,
   Legend,
@@ -11,29 +9,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import useError from "../../hooks/useError";
-// import useLoading from "../../hooks/useLoading";
 
 export default function PostotakGraf({igre}) {
-  // const routeParams = useParams();
-  // const { showLoading, hideLoading } = useLoading();
-  // const { prikaziError } = useError();
   const [grafPodaci, setGrafPodaci] = useState([]);
   const [igraci, setIgraci] = useState([]);
 
-  // async function dohvatiDetaljeTurnira() {
-  //   const odgovor = await TurnirService.getDetaljiTurnir(routeParams.sifra);
-  //   if (odgovor.greska) {
-  //     prikaziError(odgovor.poruka);
-  //     return;
-  //   }
-  //   setTurnir(odgovor.poruka);
-
-  //   const igre = odgovor.poruka.igre || [];
-  //   const { podaci, igraci } = pripremiPodatke(igre);
-  //   setGrafPodaci(podaci);
-  //   setIgraci(igraci);
-  // }
 
   useEffect(() => {
     if (!igre || igre.length === 0) {
@@ -99,14 +79,14 @@ export default function PostotakGraf({igre}) {
               <XAxis
                 dataKey="igra"
                 label={{
-                  value: "Broj igre",
+                  value: "Games",
                   position: "insideBottom",
                   offset: -5,
                 }}
               />
               <YAxis
                 label={{
-                  value: "Postotak",
+                  value: "Win percentage",
                   angle: -90,
                   position: "insideLeft",
                 }}

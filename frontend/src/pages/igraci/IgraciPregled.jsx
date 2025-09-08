@@ -15,7 +15,7 @@ import { BACKEND_URL, RouteNames } from "../../constants";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
 import profilna from "../../assets/profilna.png";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 export default function IgraciPregled() {
   const navigate = useNavigate();
@@ -101,7 +101,7 @@ export default function IgraciPregled() {
           <Form.Control
             type="text"
             name="trazilica"
-            placeholder="Dio imena igrača [Enter]"
+            placeholder="Type something [Enter]"
             maxLength={255}
             defaultValue=""
             onKeyUp={promjeniUvjet}
@@ -109,7 +109,7 @@ export default function IgraciPregled() {
         </Col>
         <Col key={2} sm={12} md={4} lg={4}>
           <Link to={RouteNames.IGRAC_NOVI} className="btn btn-success">
-            + Dodaj
+            <IoIosAddCircleOutline /> Add player
           </Link>
         </Col>
       </Row>
@@ -128,12 +128,12 @@ export default function IgraciPregled() {
                         className="btn btn-info"
                         onClick={() => navigate(`/igrac/${i.sifra}`)}
                       >
-                        Detalji
+                        Details
                       </Button>
                     </Col>
                     <Col key={2} xs={6}>
                       <Button variant="danger" onClick={() => obrisi(i.sifra)}>
-                        Obriši
+                        Delete
                       </Button>
                     </Col>
                   </Row>

@@ -4,7 +4,7 @@ import { RouteNames } from "../../constants";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
-import { useEffect } from "react";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 export default function IgraciDodaj() {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export default function IgraciDodaj() {
     <Container>
       <Form onSubmit={obradiSubmit}>
         <Form.Group controlId="ime">
-          <Form.Label>Ime</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control type="text" name="ime" required />
         </Form.Group>
 
@@ -46,12 +46,12 @@ export default function IgraciDodaj() {
         <Row>
           <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
             <Button onClick={() => navigate(-1)} className="btn btn-danger siroko">
-              Povratak
+              Return
             </Button>
           </Col>
           <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-            <Button variant="primary" type="submit" className="siroko">
-              Dodaj igrača
+            <Button variant="success" type="submit" className="siroko">
+              <IoIosAddCircleOutline /> Add player
             </Button>
           </Col>
         </Row>

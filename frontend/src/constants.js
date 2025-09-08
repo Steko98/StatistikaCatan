@@ -15,7 +15,6 @@ export const RouteNames = {
     IGRAC_POJEDINACNO: '/igrac/:sifra',
 
     LOGIN: '/login',
-    ERA: '/era',
     REGISTER: '/register'
 }
 

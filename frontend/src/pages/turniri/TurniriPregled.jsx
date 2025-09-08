@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import TurnirService from "../../services/TurnirService";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
@@ -58,10 +59,10 @@ export default function TurniriPregled() {
 
   return (
     <Container>
-      <h2 className="sredina">Pregled turnira</h2>
+      <h2 className="sredina">My tournaments</h2>
 
       <Link className="btn btn-success" to={RouteNames.TURNIR_NOVI}>
-        + Dodavanje novog turnira
+        <IoIosAddCircleOutline /> Create new tournament
       </Link>
 
       <hr />
@@ -69,10 +70,10 @@ export default function TurniriPregled() {
         <Table striped bordered hover responsive className="tablice" >
           <thead>
             <tr>
-              <th>Naziv</th>
-              <th>Datum početka</th>
-              <th>Datum završetka</th>
-              <th className="sredina akcije">Akcije</th>
+              <th>Tournament</th>
+              <th className="sredina">Start date</th>
+              <th className="sredina">End date</th>
+              <th className="sredina akcije"></th>
             </tr>
           </thead>
           <tbody>
@@ -80,29 +81,29 @@ export default function TurniriPregled() {
               turniri.map((turnir, index) => (
                 <tr key={index}>
                   <td>{turnir.naziv}</td>
-                  <td>{formatirajDatum(turnir.datumPocetka)}</td>
-                  <td>{formatirajDatum(turnir.datumZavrsetka)}</td>
+                  <td className="sredina">{formatirajDatum(turnir.datumPocetka)}</td>
+                  <td className="sredina">{formatirajDatum(turnir.datumZavrsetka)}</td>
 
                   <td className="sredina akcije">
                     <Button
                       variant="info"
                       onClick={() => navigate(`/turnir/${turnir.sifra}`)}
                     >
-                      Detalji
+                      Details
                     </Button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button
                       variant="warning"
                       onClick={() => navigate(`/turniri/${turnir.sifra}`)}
                     >
-                      Uredi
+                      Edit
                     </Button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button
                       variant="danger"
                       onClick={() => obrisi(turnir.sifra)}
                     >
-                      Obriši
+                      Delete
                     </Button>
                   </td>
                 </tr>
