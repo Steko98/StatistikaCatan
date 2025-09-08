@@ -129,6 +129,14 @@ async function obrisiIgraca(igra, igrac) {
 //     .catch ((e)=>{return {greska: true, poruka: "Problem kod traženja igre"}})
 // }
 
+async function ukupnoIgara() {
+  return await HttpService.get("/Pocetna/UkupnoIgara")
+  .then((odgovor)=>{
+    return odgovor.data
+  })
+  .catch((e)=>{console.error(e)})
+}
+
 export default {
   get,
   getBySifra,
@@ -138,6 +146,7 @@ export default {
   getIgraci,
   dodajIgraca,
   obrisiIgraca,
-  promjeniDatum
+  promjeniDatum,
+  ukupnoIgara
   // traziIgra
 };

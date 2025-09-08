@@ -103,6 +103,14 @@ async function getDetaljiTurnir(sifra) {
     });
 }
 
+async function ukupnoTurnira() {
+  return await HttpService.get("/Pocetna/UkupnoTurnira")
+  .then((odgovor)=>{
+    return odgovor.data
+  })
+  .catch((e)=>{console.error(e)})
+}
+
 export default {
   get,
   dodaj,
@@ -112,4 +120,5 @@ export default {
   getIgre,
   traziTurnir,
   getDetaljiTurnir,
+  ukupnoTurnira
 };

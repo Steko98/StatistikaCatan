@@ -50,3 +50,7 @@
   object-fit: cover;
   width: 100%;
 }
+
+.naslovna {
+  font-size: 7rem;
+}

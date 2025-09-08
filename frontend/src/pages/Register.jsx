@@ -26,7 +26,6 @@ export default function Register(){
         e.preventDefault();
 
         const podaci = new FormData(e.target);
-        console.log(podaci)
         registriraj({
             email: podaci.get("email"),
             password: podaci.get("lozinka"),

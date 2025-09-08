@@ -132,6 +132,14 @@ async function postaviSliku(sifra, slika) {
   .catch((e)=>{return {greska:true, poruka:'Problem kod postavljanja slike'}})
 }
 
+async function ukupnoIgraca() {
+  return await HttpService.get("/Pocetna/UkupnoIgraca")
+  .then((odgovor)=>{
+    return odgovor.data
+  })
+  .catch((e)=>{console.error(e)})
+}
+
 export default {
   get,
   getBySifra,
@@ -144,5 +152,6 @@ export default {
   traziIgrac,
   getIgraciZaIgru,
   postaviSliku,
-  getStranicenje
+  getStranicenje,
+  ukupnoIgraca
 };
