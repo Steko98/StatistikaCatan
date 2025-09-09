@@ -67,7 +67,7 @@ export default function TurniriPregled() {
 
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Table striped bordered hover responsive className="tablice" >
+        <Table striped bordered hover responsive variant="dark">
           <thead>
             <tr>
               <th>Tournament</th>

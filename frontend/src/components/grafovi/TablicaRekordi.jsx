@@ -85,7 +85,7 @@ export default function TablicaRekordi({igre}) {
   return (
     <Row>
 
-    <Table bordered responsive hover striped>
+    <Table bordered responsive hover striped variant="dark">
         <thead>
           <tr>
             <th>Player</th>
@@ -106,7 +106,7 @@ export default function TablicaRekordi({igre}) {
         </tbody>
     </Table>
 
-    <Table striped hover responsive bordered>
+    <Table striped hover responsive bordered variant="dark">
       <thead>
         <tr>
           <th></th>

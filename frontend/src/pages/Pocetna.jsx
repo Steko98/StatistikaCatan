@@ -3,7 +3,7 @@ import useLoading from "../hooks/useLoading"
 import TurnirService from '../services/TurnirService';
 import IgracService from "../services/IgracService";
 import IgraService from "../services/IgraService";
-import { Col, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import CountUp from "react-countup";
 
 
@@ -50,7 +50,7 @@ export default function Pocetna(){
     },[])
 
     return(
-        <>
+        <Container>
             <Row>
                 <h2 className="sredina">Currently counting:</h2>
                 
@@ -88,6 +88,6 @@ export default function Pocetna(){
                 <h4 className="sredina">Players</h4>
                 </Col>
             </Row>
-        </>
+        </Container>
     )
 }

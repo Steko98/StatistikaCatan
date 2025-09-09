@@ -38,7 +38,10 @@
 
 
 .nav-brand {
-    cursor: pointer;
+  cursor: pointer;
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
 }
 .nav-brand:hover{
     transform: translate(-2px,-2px);
@@ -53,4 +56,18 @@
 
 .naslovna {
   font-size: 7rem;
+}
+
+.footer {
+  background-color: #212529;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 100%;
+}
+
+.tag{
+  color: white;
+  margin: 0;
+  padding: 10px;
 }

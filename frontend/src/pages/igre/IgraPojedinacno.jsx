@@ -172,7 +172,7 @@ export default function IgraPojedinacno() {
       </h2>
       <hr />
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Table striped bordered responsive hover >
+        <Table striped bordered responsive hover variant="dark">
           <thead>
             <tr>
               <th>Player</th>

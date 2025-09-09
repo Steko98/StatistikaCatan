@@ -74,7 +74,7 @@ function App() {
         </Routes>
       </Container>
       <Container className="footer">
-      Ivan Šteko &copy; {godina()}
+        <p className="tag sredina">ivan.steko5@gmail.com &copy; {godina()}</p>
       </Container>
     </>
   );

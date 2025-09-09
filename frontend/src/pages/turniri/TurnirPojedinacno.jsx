@@ -77,7 +77,7 @@ export default function TurnirPojedinacno() {
       <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
         <h2>Games</h2>
         <br />
-        <Table striped hover responsive bordered >
+        <Table striped hover responsive bordered variant="dark">
           <thead>
             <tr>
               <th>#</th>

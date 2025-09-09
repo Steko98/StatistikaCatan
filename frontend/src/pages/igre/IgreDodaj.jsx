@@ -137,7 +137,7 @@ export default function IgreDodaj() {
             </Form.Group>
           </Col>
           <Col sm={12} md={8} lg={9}>
-            <Table striped bordered hover responsive>
+            <Table striped bordered hover responsive variant="dark">
               <thead>
                 <tr>
                   <th>Player</th>

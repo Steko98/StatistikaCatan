@@ -18,5 +18,5 @@ export const RouteNames = {
     REGISTER: '/register'
 }
 
-export const BACKEND_URL='https://steko98-001-site1.ntempurl.com';
+export const BACKEND_URL='https://catancaro.com';
 // export const BACKEND_URL='https://localhost:7141';

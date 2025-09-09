@@ -153,48 +153,6 @@ export default function IgraciPregled() {
           </Pagination>
         </div>
       )}
-
-      {/* <h2 className="sredina">Popis igrača</h2>
-      <Link className="btn btn-success" to={RouteNames.IGRAC_NOVI}>
-        + Dodaj igrača
-      </Link>
-
-      <hr />
-
-      <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>Ime</th>
-              <th className="sredina akcije">Akcije</th>
-            </tr>
-          </thead>
-          <tbody>
-            {igraci &&
-              igraci.map((igrac, index) => (
-                <tr key={index}>
-                  <td>{igrac.ime}</td>
-                  <td className="sredina akcije">
-                    <Button
-                      variant="info"
-                      onClick={() => navigate(`/igrac/${igrac.sifra}`)}
-                    >
-                      Detalji
-                    </Button>
-
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <Button
-                      variant="danger"
-                      onClick={() => obrisi(igrac.sifra)}
-                    >
-                      Obriši
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-      </div> */}
     </Container>
   );
 }
