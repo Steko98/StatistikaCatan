@@ -6,13 +6,11 @@ import { Route, Routes } from "react-router-dom";
 import { RouteNames } from "./constants";
 import Pocetna from "./pages/Pocetna";
 import TurniriPregled from "./pages/turniri/TurniriPregled";
-import TurniriDodaj from "./pages/turniri/TurniriDodaj";
 import TurniriPromjeni from "./pages/turniri/TurniriPromjeni";
 import TurnirPojedinacno from "./pages/turniri/TurnirPojedinacno";
 import IgraciPregled from "./pages/igraci/IgraciPregled";
 import IgraciDodaj from "./pages/igraci/IgraciDodaj";
 import IgraciPromjeni from "./pages/igraci/IgraciPromjeni";
-import IgreDodaj from "./pages/igre/IgreDodaj";
 import IgraPojedinacno from "./pages/igre/IgraPojedinacno";
 import IgracPojedinacno from "./pages/igraci/IgracPojedinacno";
 
@@ -53,11 +51,9 @@ function App() {
           {isLoggedIn ? (
             <>
               <Route path={RouteNames.TURNIR_PREGLED} element={<TurniriPregled />}/>
-              <Route path={RouteNames.TURNIR_NOVI} element={<TurniriDodaj />}/>
               <Route path={RouteNames.TURNIR_PROMJENI} element={<TurniriPromjeni />}/>
               <Route path={RouteNames.TURNIR_DETALJI} element={<TurnirPojedinacno />}/>
 
-              <Route path={RouteNames.IGRE_NOVI} element={<IgreDodaj />}/>
               <Route path={RouteNames.IGRA_POJEDINACNO} element={<IgraPojedinacno />}/>
 
               <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />} />

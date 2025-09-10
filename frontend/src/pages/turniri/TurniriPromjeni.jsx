@@ -6,6 +6,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
+import { TbArrowBackUp } from "react-icons/tb";
+import { TfiSave } from "react-icons/tfi";
 
 export default function TurniriPromjeni() {
   const navigate = useNavigate();
@@ -58,6 +60,8 @@ export default function TurniriPromjeni() {
 
   return (
     <Container>
+      <h2 className="sredina headers">Edit tournament</h2>
+      <hr />
       <Form onSubmit={odradiSubmit}>
         <Form.Group controlId="naziv">
           <Form.Label>Name</Form.Label>
@@ -68,7 +72,7 @@ export default function TurniriPromjeni() {
             defaultValue={turnir.naziv}
           />
         </Form.Group>
-
+        <br />
         <Form.Group controlId="datumPocetka">
           <Form.Label>Start date</Form.Label>
           <Form.Control
@@ -77,7 +81,7 @@ export default function TurniriPromjeni() {
             defaultValue={turnir.datumPocetka}
           />
         </Form.Group>
-
+        <br />
         <Form.Group controlId="datumZavrsetka">
           <Form.Label>End date</Form.Label>
           <Form.Control
@@ -90,15 +94,16 @@ export default function TurniriPromjeni() {
         <hr style={{ marginTop: "50px" }} />
 
         <Row>
-          <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-            <Link className="btn btn-danger siroko" to={RouteNames.TURNIR_PREGLED}>
-              Return
-            </Link>
-          </Col>
-          <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6} xxl={6} className="mb-3">
             <Button variant="success" type="submit" className="siroko">
-              Save changes
+              <TfiSave /> Save changes
             </Button>
+          </Col>
+          <br />          
+          <Col xs={12} sm={12} md={6} lg={6} xl={6} xxl={6} className="mb-3">
+            <Link className="btn btn-danger siroko" to={RouteNames.TURNIR_PREGLED}>
+             <TbArrowBackUp /> Return
+            </Link>
           </Col>
         </Row>
       </Form>

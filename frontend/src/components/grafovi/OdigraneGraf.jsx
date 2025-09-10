@@ -56,8 +56,8 @@ export default function OdigraneGraf({igre}) {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="odigrano" stackId="a" fill="#8884d8" name="Lost "/>
-              <Bar dataKey="pobjede" stackId="a" fill="#82ca9d" name="Won"/>
+              <Bar dataKey="odigrano" stackId="a" fill="#FFC107" name="Lost "/>
+              <Bar dataKey="pobjede" stackId="a" fill="#347433" name="Won"/>
             </BarChart>
           </ResponsiveContainer>
         </div>

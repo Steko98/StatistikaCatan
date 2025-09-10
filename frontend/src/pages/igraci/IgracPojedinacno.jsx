@@ -3,13 +3,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import IgracService from "../../services/IgracService";
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { BACKEND_URL, RouteNames } from "../../constants";
-import { GiPodiumWinner } from "react-icons/gi";
+import { FaFaceSmileWink } from "react-icons/fa6";
 import { FaSadTear } from "react-icons/fa";
 import { FaUserEdit } from "react-icons/fa";
+import { TbArrowBackUp } from "react-icons/tb";
 import ClanService from "../../services/ClanService";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
-import profilna from "../../assets/profilna.png";
+import profilna from "../../assets/profilna.svg";
 
 export default function IgracPojedinacno() {
   const navigate = useNavigate();
@@ -72,15 +73,15 @@ export default function IgracPojedinacno() {
 
   return (
     <Container>
-      <h2 className="sredina">Player profile - {igrac.ime}</h2>
+      <h2 className="sredina headers">Player profile - {igrac.ime}</h2>
 
       <hr />
       <Row>
         <Col key="1" sm={12} lg={2} md={2}>
-          <Card style={{ marginTop: "1rem" }}>
+          <Card style={{ marginTop: "1rem" }} className="dark-card">
             <Card.Img variant="top" src={slika(igrac)} className="slika" />
             <Card.Body className="text-center">
-              <Card.Title className="sredina">{igrac.ime}</Card.Title>
+              <Card.Title className="sredina imena">{igrac.ime}</Card.Title>
               <Link
                 className="btn btn-warning"
                 to={`/igraci/${routeParams.sifra}`}
@@ -92,7 +93,7 @@ export default function IgracPojedinacno() {
         </Col>
 
         <Col key="2" sm={12} lg={10} md={10}>
-          <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
+          <div style={{ maxHeight: "60vh", overflowY: "auto" }} className="scrollable">
             <Table bordered hover responsive striped variant="dark">
               <thead>
                 <tr>
@@ -110,7 +111,7 @@ export default function IgracPojedinacno() {
                       <td className="sredina">{clan.brojBodova}</td>
                       <td className="sredina">
                         {clan.pobjeda ? (
-                          <GiPodiumWinner size={35} color="green" />
+                          <FaFaceSmileWink size={25} color="green" />
                         ) : (
                           <FaSadTear size={25} color="red" />
                         )}
@@ -139,7 +140,7 @@ export default function IgracPojedinacno() {
       </Row>
       <hr />
             <Link className="btn btn-danger siroko" to={-1}>
-        Return
+        <TbArrowBackUp /> Return
       </Link>
     </Container>
   );

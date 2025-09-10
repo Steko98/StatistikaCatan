@@ -21,17 +21,17 @@ export default function NavBarEdunova() {
         style={{
           marginLeft: "20px",
           display: "flex",
-          alignItems: "center", // vertically centers children
-          gap: "8px", // optional spacing between icon and text
+          alignItems: "center",
+          gap: "8px",
         }}
       >
-        <TbPhotoHexagon size={28}/>
+        <TbPhotoHexagon size={28} />
         CATANCARO.com
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <>
               <Nav.Link onClick={() => navigate(RouteNames.TURNIR_PREGLED)}>
                 My Tournaments
@@ -39,8 +39,13 @@ export default function NavBarEdunova() {
               <Nav.Link onClick={() => navigate(RouteNames.IGRACI_PREGLED)}>
                 Players
               </Nav.Link>
-              <Nav.Link onClick={logout}>Sign out</Nav.Link>
             </>
+          )}
+        </Nav>
+
+        <Nav style={{marginRight:'20px'}}>
+          {isLoggedIn ? (
+            <Nav.Link onClick={logout}>Sign out</Nav.Link>
           ) : (
             <>
               <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>

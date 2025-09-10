@@ -19,7 +19,6 @@ export default function IgraciDodaj() {
       prikaziError(odgovor.poruka);
       return;
     }
-    navigate(RouteNames.IGRACI_PREGLED);
   }
 
   function obradiSubmit(e) {

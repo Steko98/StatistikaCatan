@@ -1,9 +1,9 @@
-import { Row, Table } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
-export default function TablicaRekordi({igre}) {
+export default function TablicaRekordi({ igre }) {
   const [rekordi, setRekordi] = useState(null);
-  const [podaciTablice, setPodaci] = useState(null)
+  const [podaciTablice, setPodaci] = useState(null);
 
   useEffect(() => {
     if (!igre || igre.length === 0) {
@@ -11,9 +11,9 @@ export default function TablicaRekordi({igre}) {
       return;
     }
     const podaci = pripremiPodatke(igre);
-    const sviRekordi = izvuciRekorde(podaci)
-    setPodaci(Object.values(podaci))
-    setRekordi(sviRekordi)
+    const sviRekordi = izvuciRekorde(podaci);
+    setPodaci(Object.values(podaci));
+    setRekordi(sviRekordi);
   }, [igre]);
 
   function pripremiPodatke(igre) {
@@ -64,6 +64,18 @@ export default function TablicaRekordi({igre}) {
 
   function izvuciRekorde(podaci) {
     const igraci = Object.values(podaci);
+
+    if (igraci.length === 0) {
+    return {
+      najviseOdigranih: null,
+      najvisePobjeda: null,
+      najboljiPostotak: null,
+      najduziNizPobjeda: null,
+      najviseBodova: null,
+      najveciProsjek: null,
+    };
+  }
+
     return {
       najviseOdigranih: igraci.reduce((a, b) =>
         a.odigrano > b.odigrano ? a : b
@@ -84,83 +96,93 @@ export default function TablicaRekordi({igre}) {
 
   return (
     <Row>
+      <Col sm={12} md={6} lg={6}>
+        <h4 className="headers">Leaderboard</h4>
+        <Table bordered responsive hover striped variant="dark">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th className="sredina">Played</th>
+              <th className="sredina">Wins</th>
+              <th className="sredina">Percentage %</th>
+            </tr>
+          </thead>
+          <tbody>
+            {podaciTablice &&
+              podaciTablice.map((igrac, index) => (
+                <tr key={index}>
+                  <td>{igrac.ime}</td>
+                  <td className="sredina">{igrac.odigrano}</td>
+                  <td className="sredina">{igrac.pobjeda}</td>
+                  <td className="sredina">{igrac.postotakPobjeda}</td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </Col>
 
-    <Table bordered responsive hover striped variant="dark">
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th className="sredina">Played</th>
-            <th className="sredina">Wins</th>
-            <th className="sredina">Percentage %</th>
-          </tr>
-        </thead>
-        <tbody>
-          {podaciTablice && podaciTablice.map((igrac, index)=>(
-            <tr key={index}>
-              <td>{igrac.ime}</td>
-              <td className="sredina">{igrac.odigrano}</td>
-              <td className="sredina">{igrac.pobjeda}</td>
-              <td className="sredina">{igrac.postotakPobjeda}</td>
-            </tr>
-          ))}
-        </tbody>
-    </Table>
-
-    <Table striped hover responsive bordered variant="dark">
-      <thead>
-        <tr>
-          <th></th>
-          <th className="sredina">Score</th>
-          <th className="desno">Player</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rekordi ? (
-          <>
+      <Col sm={12} md={6} lg={6}>
+        <h4 className="headers">Records</h4>
+        <Table striped hover responsive bordered variant="dark">
+          <thead>
             <tr>
-              <th>Most games</th>
-              <td className="sredina">{rekordi.najviseOdigranih.odigrano}</td>
-              <td className="desno">{rekordi.najviseOdigranih.ime}</td>
+              <th></th>
+              <th className="sredina">Score</th>
+              <th className="desno">Player</th>
             </tr>
-            <tr>
-              <th>Most wins</th>
-              <td className="sredina">{rekordi.najvisePobjeda.pobjeda}</td>
-              <td className="desno">{rekordi.najvisePobjeda.ime}</td>
-            </tr>
-            <tr>
-              <th>Highest win percentage</th>
-              <td className="sredina">
-                {rekordi.najboljiPostotak.postotakPobjeda}
-              </td>
-              <td className="desno">{rekordi.najboljiPostotak.ime}</td>
-            </tr>
-            <tr>
-              <th>Longest win streak</th>
-              <td className="sredina">
-                {rekordi.najduziNizPobjeda.najduziNiz}
-              </td>
-              <td className="desno">{rekordi.najduziNizPobjeda.ime}</td>
-            </tr>
-            <tr>
-              <th>Most points</th>
-              <td className="sredina">{rekordi.najviseBodova.bodovi}</td>
-              <td className="desno">{rekordi.najviseBodova.ime}</td>
-            </tr>
-            <tr>
-              <th>Highest point average</th>
-              <td className="sredina">
-                {rekordi.najveciProsjek.prosjekBodova}
-              </td>
-              <td className="desno">{rekordi.najveciProsjek.ime}</td>
-            </tr>
-          </>
-        ) : (
-          <tr>
-            <td className="sredina" colSpan={3}>Nema rezultata</td>
-          </tr>
-        )}
-      </tbody>
-    </Table>
-  </Row>
+          </thead>
+          <tbody>
+            {rekordi ? (
+              <>
+                <tr>
+                  <th>Most games</th>
+                  <td className="sredina">
+                    {rekordi.najviseOdigranih?.odigrano ?? "-"}
+                  </td>
+                  <td className="desno">{rekordi.najviseOdigranih?.ime ?? "-"}</td>
+                </tr>
+                <tr>
+                  <th>Most wins</th>
+                  <td className="sredina">{rekordi.najvisePobjeda?.pobjeda ?? "-"}</td>
+                  <td className="desno">{rekordi.najvisePobjeda?.ime ?? "-"}</td>
+                </tr>
+                <tr>
+                  <th>Highest win percentage</th>
+                  <td className="sredina">
+                    {rekordi.najboljiPostotak?.postotakPobjeda ?? "-"}
+                  </td>
+                  <td className="desno">{rekordi.najboljiPostotak?.ime ?? "-"}</td>
+                </tr>
+                <tr>
+                  <th>Longest win streak</th>
+                  <td className="sredina">
+                    {rekordi.najduziNizPobjeda?.najduziNiz ?? "-"}
+                  </td>
+                  <td className="desno">{rekordi.najduziNizPobjeda?.ime ?? "-"}</td>
+                </tr>
+                <tr>
+                  <th>Most points</th>
+                  <td className="sredina">{rekordi.najviseBodova?.bodovi ?? "-"}</td>
+                  <td className="desno">{rekordi.najviseBodova?.ime ?? "-"}</td>
+                </tr>
+                <tr>
+                  <th>Highest point average</th>
+                  <td className="sredina">
+                    {rekordi.najveciProsjek?.prosjekBodova ?? "-"}
+                  </td>
+                  <td className="desno">{rekordi.najveciProsjek?.ime ?? "-"}</td>
+                </tr>
+              </>
+            ) : (
+              <tr>
+                <td className="sredina" colSpan={3}>
+                  Nema rezultata
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </Col>
+    </Row>
   );
 }

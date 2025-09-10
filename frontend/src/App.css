@@ -3,9 +3,15 @@
     min-width: 100%;
     margin: 0px;
     padding: 0px;
-    background-color: bisque;
+    background-color: #393B44;
 }
 
+.btn {
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: large;
+}
 
 .siroko{
   width: 100%;
@@ -42,6 +48,7 @@
   font-family: "Nova Mono", monospace;
   font-weight: 400;
   font-style: normal;
+  font-size: 1.5rem;
 }
 .nav-brand:hover{
     transform: translate(-2px,-2px);
@@ -64,10 +71,145 @@
   padding: 0;
   width: 100%;
   min-width: 100%;
+  border-top: 2px solid #D6E0F0;
 }
 
 .tag{
-  color: white;
+  color: #D6E0F0;
   margin: 0;
   padding: 10px;
+}
+
+.headers{
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -2px;
+  color: #D6E0F0;
+  margin-bottom: 0;
+}
+
+.nav-link {
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-style: normal;;
+  font-size: 1.2rem;
+}
+
+.navbar {
+  border-bottom: 2px solid #D6E0F0;
+}
+
+.table {
+  margin: 30px 0px;
+  border: 2px solid #181722;
+  border-radius: 10px;
+  padding-bottom: 10px;
+  box-shadow: 2px 2px 10px#181722;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #444 #1a1a1a;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+.scrollable table {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+label {
+  font-family: "Amatic SC", sans-serif;
+  font-size: 1.2rem;
+  color: #D6E0F0;
+}
+
+hr {
+  background-color: #D6E0F0;
+  border: none;
+  height: 2px;
+}
+
+table th,
+table td {
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+  background-color: #D6E0F0; 
+  border: 1px solid #444;
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  border: 2px solid #181722;
+}
+
+#igrac {
+  background-color: #D6E0F0; 
+  border: 1px solid #444;
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  border: 2px solid #181722;
+}
+
+.recharts-legend-item{
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.my-pagination .page-item .page-link {
+  background-color: #212529; /* purple */
+  color: #D6E0F0;
+}
+
+.my-pagination .page-item.active .page-link {
+  background-color: #212529; /* darker purple */
+  color: #D6E0F0;
+}
+
+.imena {
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -2px;
+  color: #D6E0F0;  
+}
+
+
+.dark-card {
+  background-color: #212529;
+  color: #D6E0F0;
+  border: 1px solid #333;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 1rem;
+}
+
+.dark-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }

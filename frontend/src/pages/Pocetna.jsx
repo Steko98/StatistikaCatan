@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import useLoading from "../hooks/useLoading"
 import TurnirService from '../services/TurnirService';
 import IgracService from "../services/IgracService";
 import IgraService from "../services/IgraService";
@@ -10,7 +9,6 @@ import CountUp from "react-countup";
 
 export default function Pocetna(){
 
-    const {showLoading, hideLoading} = useLoading();
     const [turnira, setTurnira] = useState(0);
     const [igraca, setIgraca] = useState(0);
     const [igara, setIgara] = useState(0);
@@ -52,10 +50,10 @@ export default function Pocetna(){
     return(
         <Container>
             <Row>
-                <h2 className="sredina">Currently counting:</h2>
+                <h2 className="sredina headers">Currently counting:</h2>
                 
                 <Col sm={12} md={4} lg={4}>
-                <div className="naslovna d-flex align-items-center justify-content-center">
+                <div className="naslovna d-flex align-items-center justify-content-center headers">
                     <CountUp
                     start={0}
                     end={turnira}
@@ -63,10 +61,10 @@ export default function Pocetna(){
                     separator="."
                     ></CountUp>
                 </div>
-                <h4 className="sredina">Tournaments</h4>
+                <h4 className="sredina headers">Tournaments</h4>
                 </Col>
                 <Col sm={12} md={4} lg={4}>
-                <div className="naslovna d-flex align-items-center justify-content-center">
+                <div className="naslovna d-flex align-items-center justify-content-center headers">
                     <CountUp
                     start={0}
                     end={igara}
@@ -74,10 +72,10 @@ export default function Pocetna(){
                     separator="."
                     ></CountUp>
                 </div>
-                <h4 className="sredina">Games</h4>
+                <h4 className="sredina headers">Games</h4>
                 </Col>
                 <Col sm={12} md={4} lg={4}>
-                <div className="naslovna d-flex align-items-center justify-content-center">
+                <div className="naslovna d-flex align-items-center justify-content-center headers">
                     <CountUp
                     start={0}
                     end={igraca}
@@ -85,7 +83,7 @@ export default function Pocetna(){
                     separator="."
                     ></CountUp>
                 </div>
-                <h4 className="sredina">Players</h4>
+                <h4 className="sredina headers">Players</h4>
                 </Col>
             </Row>
         </Container>

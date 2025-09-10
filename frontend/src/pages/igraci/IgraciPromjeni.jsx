@@ -5,10 +5,10 @@ import IgracService from "../../services/IgracService";
 import { BACKEND_URL, RouteNames } from "../../constants";
 import useError from "../../hooks/useError";
 import useLoading from "../../hooks/useLoading";
-
+import { TbArrowBackUp } from "react-icons/tb";
 import { Cropper } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import profilna from "../../assets/profilna.png";
+import profilna from "../../assets/profilna.svg";
 
 export default function IgraciPromjena() {
   const navigate = useNavigate();
@@ -132,11 +132,11 @@ export default function IgraciPromjena() {
 
   return (
     <Container>
-      <h2 className="sredina">Edit player</h2>
+      <h2 className="sredina headers">Edit player</h2>
 
       <Form onSubmit={obradiSubmit}>
         <Link to={-1} className="btn btn-danger">
-          Return
+          <TbArrowBackUp /> Return
         </Link>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <Button variant="success" type="submit">
@@ -192,8 +192,6 @@ export default function IgraciPromjena() {
         cropend={onCrop}
         ref={cropperRef}
       />
-
-      <hr />
     </Container>
   );
 }

@@ -15,7 +15,7 @@ export default function GrafTabovi({ onChange }) {
             setAktivan(tip);
             onChange(tip);
           }}
-          className={`btn ${aktivan === tip ? "btn-primary" : "btn-secondary"}`}
+          className={`btn ${aktivan === tip ? "btn-dark" : "btn-secondary"}`}
         >
           {tip}
         </Button>

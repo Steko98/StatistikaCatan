@@ -70,7 +70,8 @@ export default function ZbirBodovaGraf({igre}) {
                   label={{
                     value: "Games",
                     position: "insideBottom",
-                    offset: -5,
+                    offset: -20,
+                    style: {fontFamily: "Amatic SC, sans-serif", fontSize: "1.5rem", fill: "#D6E0F0"}
                   }}
                 />
                 <YAxis
@@ -78,10 +79,12 @@ export default function ZbirBodovaGraf({igre}) {
                     value: "Points",
                     angle: -90,
                     position: "insideLeft",
+                    style: {fontFamily: "Amatic SC, sans-serif", fontSize: "1.5rem", fill: "#D6E0F0"}
                   }}
                 />
                 <Tooltip />
-                <Legend />
+                <Legend 
+                wrapperStyle={{paddingTop: "25px"}}/>
                 {igraci.map((ime, i) => (
                   <Line
                     key={ime}
