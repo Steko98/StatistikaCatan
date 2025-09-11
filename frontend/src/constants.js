@@ -8,7 +8,6 @@ export const RouteNames = {
     IGRA_POJEDINACNO: '/igra/:sifra',
 
     IGRACI_PREGLED: '/igraci',
-    IGRAC_NOVI: '/igraci/dodaj',
     IGRAC_PROMJENI: '/igraci/:sifra',
     IGRAC_POJEDINACNO: '/igrac/:sifra',
 

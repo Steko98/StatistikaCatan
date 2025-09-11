@@ -66,7 +66,16 @@ export default function IgraciPromjena() {
   }
 
   function onCrop() {
-    setSlikaZaServer(cropperRef.current.cropper.getCroppedCanvas({maxWidth: 512, maxHeight: 512, imageSmoothingEnabled: true, imageSmoothingQuality: 'high'}).toDataURL());
+    setSlikaZaServer(
+      cropperRef.current.cropper
+        .getCroppedCanvas({
+          maxWidth: 512,
+          maxHeight: 512,
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: "high",
+        })
+        .toDataURL()
+    );
   }
 
   function onChangeImage(e) {
@@ -80,35 +89,35 @@ export default function IgraciPromjena() {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      const img = document.createElement('img')
+      const img = document.createElement("img");
       img.onload = () => {
-        let maxDimension = 1024
-        let largerDimension = 0
+        let maxDimension = 1024;
+        let largerDimension = 0;
         if (img.height > img.width) {
-          largerDimension = img.height
+          largerDimension = img.height;
         } else {
-          largerDimension = img.width
+          largerDimension = img.width;
         }
-        let scaleFactor = 0
+        let scaleFactor = 0;
         if (largerDimension < maxDimension) {
-          scaleFactor = 1
+          scaleFactor = 1;
         } else {
-          scaleFactor = maxDimension / largerDimension
+          scaleFactor = maxDimension / largerDimension;
         }
-        let canvasHeight = img.height * scaleFactor
-        let canvasWidth = img.width * scaleFactor
+        let canvasHeight = img.height * scaleFactor;
+        let canvasWidth = img.width * scaleFactor;
 
-        const canvas = document.createElement('canvas')
-        canvas.width = Math.round(canvasWidth)
-        canvas.height = Math.round(canvasHeight)
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(canvasWidth);
+        canvas.height = Math.round(canvasHeight);
 
-        const context = canvas.getContext('2d')
-        context.drawImage(img, 0, 0, canvasWidth, canvasHeight)
+        const context = canvas.getContext("2d");
+        context.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
-        const base64 = canvas.toDataURL()
-        setSlikaZaCrop(base64)
-      }
-      img.src = reader.result
+        const base64 = canvas.toDataURL();
+        setSlikaZaCrop(base64);
+      };
+      img.src = reader.result;
     };
     try {
       reader.readAsDataURL(files[0]);
@@ -133,65 +142,96 @@ export default function IgraciPromjena() {
   return (
     <Container>
       <h2 className="sredina headers">Edit player</h2>
-
+      <hr />
       <Form onSubmit={obradiSubmit}>
-        <Link to={-1} className="btn btn-danger">
-          <TbArrowBackUp /> Return
-        </Link>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button variant="success" type="submit">
+        <Button variant="success" type="submit" className="siroko mt-2 mb-2 ">
           Save changes
         </Button>
-        <hr />
-        <Row className="mb-4">
-          <Col key="1" sm={12} md={4} lg={3}>
-            <Form.Group controlId="ime">
-              <Form.Label>Name</Form.Label>
+
+        <br />
+
+        <Row className="mb-3">
+          <Form.Group as={Row} controlId="ime">
+            <Form.Label>Name</Form.Label>
+            <Col sm={8} md={6} lg={4}>
               <Form.Control
                 type="text"
                 name="ime"
                 required
                 defaultValue={igrac.ime}
               />
-            </Form.Group>
-          </Col>
-          <Col key="2" sm={12} md={4} lg={6}>
-            <p className="form-label">Current profile picture</p>
+            </Col>
+          </Form.Group>
+        </Row>
+
+        <hr />
+
+        <Row className="d-flex justify-content-center align-items-center">
+          <Col key="1" sm={12} md={12} lg={4} className="mb-3">
+            <p className="form-label profilna">Current profile picture</p>
             <Image
               src={trenutnaSlika}
               className="slika"
-              style={{ maxWidth: "400px" }}
+              style={{
+                maxWidth: "256px",
+                minHeight: "256px",
+                minWidth: "256px",
+                maxHeight: "256px",
+              }}
             />
           </Col>
-          <Col key="3" sm={12} md={4} lg={3}>
+
+          <Col key="2" sm={12} md={4} lg={4}>
             {slikaZaServer && (
               <>
-                <p className="form-label">New picture</p>
-                <Image src={slikaZaServer || slikaZaCrop} className="slika" />
+                <p className="form-label profilna">New picture</p>
+                <Image
+                  src={slikaZaServer || slikaZaCrop}
+                  className="slika"
+                  style={{
+                    maxWidth: "256px",
+                    minHeight: "256px",
+                    minWidth: "256px",
+                    maxHeight: "256px",
+                  }}
+                />
               </>
             )}
           </Col>
+
+          <Col key={3} sm={12} md={4} lg={4}>
+            <input className="mb-3" type="file" onChange={onChangeImage} />
+            <Button disabled={!slikaZaServer} onClick={spremiSliku}>
+              Save new picture
+            </Button>
+            <Cropper
+              src={slikaZaCrop}
+              style={{
+                maxWidth: "256px",
+                minHeight: "256px",
+                minWidth: "256px",
+                maxHeight: "256px",
+              }}
+              initialAspectRatio={1}
+              guides={true}
+              minCropBoxWidth={50}
+              minCropBoxHeight={50}
+              cropBoxResizable={true}
+              background={false}
+              responsive={true}
+              checkOrientation={false}
+              cropstart={onCrop}
+              cropend={onCrop}
+              ref={cropperRef}
+            />
+          </Col>
         </Row>
       </Form>
-      <input className="mb-3" type="file" onChange={onChangeImage} />
-      <Button disabled={!slikaZaServer} onClick={spremiSliku}>
-        Save new picture
-      </Button>
-      <Cropper
-        src={slikaZaCrop}
-        style={{ height: 400, width: "100%" }}
-        initialAspectRatio={1}
-        guides={true}
-        minCropBoxWidth={50}
-        minCropBoxHeight={50}
-        cropBoxResizable={true}
-        background={false}
-        responsive={true}
-        checkOrientation={false}
-        cropstart={onCrop}
-        cropend={onCrop}
-        ref={cropperRef}
-      />
+
+      <hr />
+      <Link to={-1} className="btn btn-danger siroko mb-3">
+        <TbArrowBackUp /> Return
+      </Link>
     </Container>
   );
 }

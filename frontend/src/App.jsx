@@ -9,7 +9,6 @@ import TurniriPregled from "./pages/turniri/TurniriPregled";
 import TurniriPromjeni from "./pages/turniri/TurniriPromjeni";
 import TurnirPojedinacno from "./pages/turniri/TurnirPojedinacno";
 import IgraciPregled from "./pages/igraci/IgraciPregled";
-import IgraciDodaj from "./pages/igraci/IgraciDodaj";
 import IgraciPromjeni from "./pages/igraci/IgraciPromjeni";
 import IgraPojedinacno from "./pages/igre/IgraPojedinacno";
 import IgracPojedinacno from "./pages/igraci/IgracPojedinacno";
@@ -57,7 +56,6 @@ function App() {
               <Route path={RouteNames.IGRA_POJEDINACNO} element={<IgraPojedinacno />}/>
 
               <Route path={RouteNames.IGRACI_PREGLED} element={<IgraciPregled />} />
-              <Route path={RouteNames.IGRAC_NOVI} element={<IgraciDodaj />} />
               <Route path={RouteNames.IGRAC_PROMJENI} element={<IgraciPromjeni />} />
               <Route path={RouteNames.IGRAC_POJEDINACNO} element={<IgracPojedinacno />}/>
             </>
@@ -68,6 +66,9 @@ function App() {
             </>
           )}
         </Routes>
+
+
+        
       </Container>
       <Container className="footer">
         <p className="tag sredina">ivan.steko5@gmail.com &copy; {godina()}</p>

@@ -48,7 +48,7 @@ export default function TurnirPojedinacno() {
 
   function formatirajDatum(datum) {
     if (datum == null) {
-      return "Nije definirano";
+      return "Not defined";
     }
     return moment.utc(datum).format("DD.MM.YYYY.");
   }
@@ -64,7 +64,7 @@ export default function TurnirPojedinacno() {
     dohvatiDetaljeTurnira();
   }
   function obrisi(sifra) {
-    if (!confirm("Sigurno obrisati?")) {
+    if (!confirm("Are you sure? This action CANNOT be undone!")) {
       return;
     }
     obrisiIgru(sifra);
@@ -159,8 +159,9 @@ export default function TurnirPojedinacno() {
       <br />
       <Row className="justify-content-center">
         <Col sm={12} md={12} lg={8}>
-          <h3 className="sredina headers">Graphs</h3>
           <hr />
+          <h3 className="sredina headers">Graphs</h3>
+          <br />
           <div className="d-flex justify-content-center">
             <GrafTabovi onChange={setOdabraniGraf} />
           </div>
@@ -180,8 +181,9 @@ export default function TurnirPojedinacno() {
       <br />
       <Row>
         <Col sm={12} md={12} lg={6} className="mb-3">
+        <hr />
           <h3 className="sredina headers">Matches</h3>
-          <hr />
+          <br />
           <div
             style={{ maxHeight: "60vh", overflowY: "auto" }}
             className="scrollable"
@@ -237,8 +239,9 @@ export default function TurnirPojedinacno() {
           </div>
         </Col>
         <Col sm={12} md={12} lg={6}>
+        <hr />
           <h3 className="sredina headers">Add match</h3>
-          <hr />
+          <br />
           <Form onSubmit={obradiSubmit}>
             <Row>
               <Form.Group controlId="datum">
@@ -256,7 +259,7 @@ export default function TurnirPojedinacno() {
 
             <Row>
               <Col sm={12} md={12} lg={12}>
-                <Table striped bordered hover responsive variant="dark">
+                <Table striped bordered hover variant="dark">
                   <thead>
                     <tr>
                       <th>Player</th>
@@ -343,13 +346,15 @@ export default function TurnirPojedinacno() {
               </Col>
             </Row>
 
+          
+
             <Button variant="success" type="submit" className="siroko">
               <IoIosAddCircleOutline /> Add game
             </Button>
           </Form>
         </Col>
       </Row>
-      <br />
+      <hr />
 
       <Link className="btn btn-danger siroko mb-4" to={RouteNames.TURNIR_PREGLED}>
         <TbArrowBackUp /> Return

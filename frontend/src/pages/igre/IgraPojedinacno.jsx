@@ -182,161 +182,185 @@ export default function IgraPojedinacno() {
         {turnir.naziv} - Game #{brojIgre ?? routeParams.sifra}
       </h2>
       <hr />
-      <div
-        style={{ maxHeight: "60vh", overflowY: "auto" }}
-        className="scrollable"
-      >
-        <Table striped bordered responsive hover variant="dark">
-          <thead>
-            <tr>
-              <th>Player</th>
-              <th className="sredina">Points</th>
-              <th className="sredina">Win</th>
-              <th className="sredina akcije"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {clanovi &&
-              clanovi.map((clan, index) => (
-                <tr key={index}>
-                  <td>{clan.imeIgrac}</td>
 
-                  <td style={{ textAlign: "center" }}>
-                    <Form.Group controlId="bodovi">
+      <Row>
+        <Col sm={12} md={12} lg={8}>
+          <h3 className="sredina headers">Match details</h3>
+          <br />
+          <div
+            style={{ maxHeight: "60vh", overflowY: "auto" }}
+            className="scrollable"
+          >
+            <Table striped bordered responsive hover variant="dark">
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th className="sredina">Points</th>
+                  <th className="sredina">Win</th>
+                  <th className="sredina akcije"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {clanovi &&
+                  clanovi.map((clan, index) => (
+                    <tr key={index}>
+                      <td>{clan.imeIgrac}</td>
+
+                      <td style={{ textAlign: "center" }}>
+                        <Form.Group controlId="bodovi">
+                          <Form.Control
+                            type="number"
+                            name="bodovi"
+                            defaultValue={clan.brojBodova}
+                            onChange={(e) =>
+                              promjenaBodova(
+                                clan.sifraIgra,
+                                clan.sifraIgrac,
+                                e.target.value
+                              )
+                            }
+                            required
+                            step={1}
+                            className="sredina"
+                            style={{ display: "inline-block", width: "auto" }}
+                          />
+                        </Form.Group>
+                      </td>
+
+                      <td className="sredina">
+                        <span
+                          style={{
+                            display: "inline-block",
+                            marginRight: "5px",
+                          }}
+                        >
+                          <FaSadTear color="red" />
+                        </span>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            marginRight: "5px",
+                          }}
+                        >
+                          <Form.Check
+                            type="switch"
+                            checked={clan.pobjeda}
+                            onChange={(e) =>
+                              promjenaPobjede(
+                                clan.sifraIgra,
+                                clan.sifraIgrac,
+                                e.target.checked
+                              )
+                            }
+                          />
+                        </span>
+                        <span>
+                          <FaFaceSmileWink color="green" />
+                        </span>
+                      </td>
+
+                      <td className="sredina akcije">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button
+                          variant="danger"
+                          onClick={() => obrisi(clan.sifra)}
+                        >
+                          Delete player
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <th>Date</th>
+                  <td className="sredina" colSpan={2}>
+                    <Form.Group controlId="datum">
                       <Form.Control
-                        type="number"
-                        name="bodovi"
-                        defaultValue={clan.brojBodova}
-                        onChange={(e) =>
-                          promjenaBodova(
-                            clan.sifraIgra,
-                            clan.sifraIgrac,
-                            e.target.value
-                          )
-                        }
-                        required
-                        step={1}
                         className="sredina"
-                        style={{ display: "inline-block", width: "auto" }}
+                        type="date"
+                        name="datum"
+                        value={datum}
+                        required
+                        onChange={(e) => setDatum(e.target.value)}
                       />
                     </Form.Group>
                   </td>
-
                   <td className="sredina">
-                    <span
-                      style={{ display: "inline-block", marginRight: "5px" }}
+                    <Button
+                      className="btn btn-warning siroko"
+                      onClick={() => promjenaDatuma()}
                     >
-                      <FaSadTear color="red" />
-                    </span>
-                    <span
-                      style={{ display: "inline-block", marginRight: "5px" }}
-                    >
-                      <Form.Check
-                        type="switch"
-                        checked={clan.pobjeda}
-                        onChange={(e) =>
-                          promjenaPobjede(
-                            clan.sifraIgra,
-                            clan.sifraIgrac,
-                            e.target.checked
-                          )
-                        }
-                      />
-                    </span>
-                    <span>
-                      <FaFaceSmileWink color="green" />
-                    </span>
-                  </td>
-
-                  <td className="sredina akcije">
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <Button variant="danger" onClick={() => obrisi(clan.sifra)}>
-                      Delete player
+                      <TfiSave /> Save date change
                     </Button>
                   </td>
                 </tr>
-              ))}
-          </tbody>
+              </tfoot>
+            </Table>
+            {show && (
+              <Alert
+                variant="success"
+                onClose={() => setShow(false)}
+                dismissible
+              >
+                <p>Date change successful!</p>
+              </Alert>
+            )}
+          </div>
+        </Col>
 
-          <tfoot>
-            <tr>
-              <th>Date</th>
-              <td className="sredina" colSpan={2}>
-                <Form.Group controlId="datum">
+        <Col sm={12} md={12} lg={4}>
+          <h5 className="sredina headers mt-3">Add player</h5>
+          <br />
+          <Form onSubmit={obradiSubmit}>
+            <Row className="mb-2">
+              <Form.Group controlId="igrac">
+                <Form.Label>Player</Form.Label>
+                <Form.Select
+                  name="sifraIgrac"
+                  onChange={(e) => {
+                    setIgracSifra(e.target.value);
+                  }}
+                >
+                  {igraciZaIgru &&
+                    igraciZaIgru.map((i, index) => (
+                      <option key={index} value={i.sifra}>
+                        {i.ime}
+                      </option>
+                    ))}
+                </Form.Select>
+              </Form.Group>
+            </Row>
+            <Row className="mb-3 d-flex align-items-center">
+              <Col sm={10} md={10} lg={10}>
+                <Form.Group controlId="brojBodova">
+                  <Form.Label>Points</Form.Label>
                   <Form.Control
-                    className="sredina"
-                    type="date"
-                    name="datum"
-                    value={datum}
+                    type="number"
+                    name="brojBodova"
                     required
-                    onChange={(e) => setDatum(e.target.value)}
+                    step={1}
+                    className="sredina"
                   />
                 </Form.Group>
-              </td>
-              <td className="sredina">
-                <Button
-                  className="btn btn-warning siroko"
-                  onClick={() => promjenaDatuma()}
-                >
-                  <TfiSave /> Save date change
-                </Button>
-              </td>
-            </tr>
-          </tfoot>
-        </Table>
-        {show && (
-          <Alert variant="success" onClose={() => setShow(false)} dismissible>
-            <p>Date change successful!</p>
-          </Alert>
-        )}
-      </div>
-      <br />
-      <h5 className="sredina headers">Add player</h5>
-      <br />
-      <Form onSubmit={obradiSubmit}>
-        <Row className="align-items-end">
-          <Col key={1} sm={12} md={4} lg={4}>
-            <Form.Group controlId="igrac">
-              <Form.Label>Player</Form.Label>
-              <Form.Select
-                name="sifraIgrac"
-                onChange={(e) => {
-                  setIgracSifra(e.target.value);
-                }}
-              >
-                {igraciZaIgru &&
-                  igraciZaIgru.map((i, index) => (
-                    <option key={index} value={i.sifra}>
-                      {i.ime}
-                    </option>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col key={2} sm={12} md={4} lg={4}>
-            <Form.Group controlId="brojBodova">
-              <Form.Label>Points</Form.Label>
-              <Form.Control
-                type="number"
-                name="brojBodova"
-                required
-                step={1}
-                className="sredina"
-              />
-            </Form.Group>
-          </Col>
-          <Col key={3} sm={12} md={2} lg={1}>
-            <Form.Group className="mb-2" controlId="pobjeda">
-              <Form.Check label="Win" name="pobjeda" />
-            </Form.Group>
-          </Col>
-          <Col key={4} sm={12} md={2} lg={3}>
-            <Button variant="success" type="submit" className="siroko">
-              <IoIosAddCircleOutline /> Add player
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+              </Col>
+            
+            <Col sm={2} md={2} lg={2} >
+              <Form.Group controlId="pobjeda">
+                <Form.Check label="Win" name="pobjeda" className="check-box"/>
+              </Form.Group>
+            </Col>
+            </Row>
+            <Col sm={12} md={12} lg={12}>
+              <Button variant="success" type="submit" className="siroko">
+                <IoIosAddCircleOutline /> Add player
+              </Button>
+            </Col>
+          </Form>
+        </Col>
+      </Row>
+
       <hr />
       <Button
         className="btn btn-danger siroko"

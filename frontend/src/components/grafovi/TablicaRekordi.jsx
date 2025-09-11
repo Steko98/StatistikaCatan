@@ -98,7 +98,8 @@ export default function TablicaRekordi({ igre }) {
     <Row>
       <Col sm={12} md={6} lg={6}>
         <h4 className="headers">Leaderboard</h4>
-        <Table bordered responsive hover striped variant="dark">
+        <div style={{ overflow: "visible"}}>
+        <Table bordered hover striped variant="dark">
           <thead>
             <tr>
               <th>Player</th>
@@ -119,11 +120,13 @@ export default function TablicaRekordi({ igre }) {
               ))}
           </tbody>
         </Table>
+        </div>
       </Col>
-
+      
       <Col sm={12} md={6} lg={6}>
         <h4 className="headers">Records</h4>
-        <Table striped hover responsive bordered variant="dark">
+        <div style={{ overflow: "visible"}}>
+        <Table striped hover bordered variant="dark">
           <thead>
             <tr>
               <th></th>
@@ -182,6 +185,7 @@ export default function TablicaRekordi({ igre }) {
             )}
           </tbody>
         </Table>
+        </div>
       </Col>
     </Row>
   );

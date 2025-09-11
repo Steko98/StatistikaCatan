@@ -19,6 +19,7 @@ export default function IgracPojedinacno() {
   const { prikaziError } = useError();
   const [clanovi, setClanovi] = useState([]);
   const [igrac, setIgrac] = useState({});
+  const [podaci, setPodaci] = useState([]); 
 
   async function dohvatiIgreIgraca() {
     showLoading();
@@ -29,6 +30,7 @@ export default function IgracPojedinacno() {
       return;
     }
     setClanovi(odgovor.poruka);
+    pripremiPodatke(odgovor.poruka);
   }
 
   async function dohvatiIgraca() {
@@ -58,7 +60,7 @@ export default function IgracPojedinacno() {
     dohvatiIgreIgraca();
   }
   function obrisiClana(sifra) {
-    if (!confirm("Sigurno obrisati?")) {
+    if (!confirm("Are you sure? This action CANNOT be undone!")) {
       return;
     }
     asyncObrisiClana(sifra);
@@ -71,14 +73,48 @@ export default function IgracPojedinacno() {
     return profilna;
   }
 
+  function pripremiPodatke(igre) {
+    const statistika = {
+      odigrano:0,
+      pobjede: 0,
+      postotak: 0,
+      bodovi: 0,
+      prosjekBodova: 0,
+      winStreak: 0,
+      longestWinStreak: 0,
+      loseStreak: 0,
+      longestLoseStreak: 0
+      };
+
+    igre.forEach(igra => {
+      statistika.odigrano += 1;
+      if(igra.pobjeda == true){
+        statistika.pobjede += 1;
+        statistika.winStreak += 1;
+        statistika.longestWinStreak = Math.max(statistika.longestWinStreak,statistika.winStreak)
+        statistika.loseStreak = 0;        
+      } else {
+        statistika.loseStreak += 1;
+        statistika.longestLoseStreak = Math.max(statistika.longestLoseStreak,statistika.loseStreak)       
+        statistika.winStreak = 0;         
+      }
+      statistika.bodovi += igra.brojBodova
+    });
+
+    statistika.postotak = statistika.odigrano > 0 ? ((statistika.pobjede / statistika.odigrano) * 100).toFixed(2) : "0.00";
+    statistika.prosjekBodova = statistika.odigrano > 0 ? (statistika.bodovi / statistika.odigrano).toFixed(2) : "0.00";
+
+    setPodaci(statistika);
+  }
+
   return (
     <Container>
       <h2 className="sredina headers">Player profile - {igrac.ime}</h2>
 
       <hr />
-      <Row>
-        <Col key="1" sm={12} lg={2} md={2}>
-          <Card style={{ marginTop: "1rem" }} className="dark-card">
+      <Row className="d-flex align-items-center justify-content-center">
+        <Col key="1" xs={6} sm={5} md={4} lg={3} xl={2}>
+          <Card style={{ marginTop: "1rem" }} className="dark-card profil">
             <Card.Img variant="top" src={slika(igrac)} className="slika" />
             <Card.Body className="text-center">
               <Card.Title className="sredina imena">{igrac.ime}</Card.Title>
@@ -91,9 +127,46 @@ export default function IgracPojedinacno() {
             </Card.Body>
           </Card>
         </Col>
+        <Col key={2} md={8} lg={4}>
+          <Table bordered hover striped variant="dark">
+            <tbody>
+              <tr>
+                <th>Matches played</th>
+                <td className="sredina">{podaci.odigrano}</td>
+              </tr>
+              <tr>
+                <th>Matches won</th>
+                <td className="sredina">{podaci.pobjede}</td>
+              </tr>
+              <tr>
+                <th>Win %</th>
+                <td className="sredina">{podaci.postotak}</td>
+              </tr>
+              <tr>
+                <th>Total points</th>
+                <td className="sredina">{podaci.bodovi}</td>
+              </tr>
+              <tr>
+                <th>Match point avg.</th>
+                <td className="sredina">{podaci.prosjekBodova}</td>
+              </tr>
+              <tr>
+                <th>Longest win streak</th>
+                <td className="sredina">{podaci.longestWinStreak}</td>
+              </tr>
+              <tr>
+                <th>Longest losing streak</th>
+                <td className="sredina">{podaci.longestLoseStreak}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
 
-        <Col key="2" sm={12} lg={10} md={10}>
-          <div style={{ maxHeight: "60vh", overflowY: "auto" }} className="scrollable">
+        <Col key={3} sm={12} md={12} lg={5}>
+          <div
+            style={{ maxHeight: "50vh", overflowY: "auto" }}
+            className="scrollable"
+          >
             <Table bordered hover responsive striped variant="dark">
               <thead>
                 <tr>
@@ -139,7 +212,7 @@ export default function IgracPojedinacno() {
         </Col>
       </Row>
       <hr />
-            <Link className="btn btn-danger siroko" to={-1}>
+      <Link className="btn btn-danger siroko mb-3" to={-1}>
         <TbArrowBackUp /> Return
       </Link>
     </Container>

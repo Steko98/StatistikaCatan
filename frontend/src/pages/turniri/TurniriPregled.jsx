@@ -32,7 +32,7 @@ export default function TurniriPregled() {
 
   function formatirajDatum(datum) {
     if (datum == null) {
-      return "Nije definirano";
+      return "Not defined";
     }
     return moment.utc(datum).format("DD.MM.YYYY.");
   }
@@ -48,7 +48,7 @@ export default function TurniriPregled() {
     dohvatiTurnire();
   }
   function obrisi(sifra) {
-    if (!confirm("Sigurno obrisati?")) {
+    if (!confirm("Are you sure? This action CANNOT be undone and will permanently delete all the games inside the tournament!")) {
       return;
     }
     obrisiTurnir(sifra);
@@ -62,6 +62,7 @@ export default function TurniriPregled() {
       prikaziError(odgovor.poruka);
       return;
     }
+    dohvatiTurnire();
   }
 
   function odradiSubmit(e) {
@@ -82,11 +83,11 @@ export default function TurniriPregled() {
     <Container>
       <Row>
         <Col sm={12} md={6} lg={6} className="mb-3">
+          <hr />        
           <h2 className="sredina headers">My tournaments</h2>
-
-          <hr />
+          <br />
           <div style={{ maxHeight: "60vh", overflowY: "auto" }} className="scrollable">
-            <Table striped bordered hover responsive variant="dark">
+            <Table striped bordered responsive hover variant="dark">
               <thead>
                 <tr>
                   <th>Tournament</th>
@@ -137,8 +138,9 @@ export default function TurniriPregled() {
         </Col>
 
         <Col sm={12} md={6} lg={6}>
+          <hr />        
           <h2 className="sredina headers">Create new tournament</h2>
-          <hr />
+          <br />
           <Form onSubmit={odradiSubmit}>
             <Form.Group controlId="naziv">
               <Form.Label>Name</Form.Label>

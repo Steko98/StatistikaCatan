@@ -36,7 +36,7 @@ async function obrisi(sifra) {
       return { greska: false, poruka: odgovor.data };
     })
     .catch(() => {
-      return { greska: true, poruka: "Igrač nije pronađen" };
+      return { greska: true, poruka: "Greška kod brisanja igrača" };
     });
 }
 

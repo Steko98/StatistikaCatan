@@ -64,10 +64,11 @@ export default function IgraciPregled() {
     dohvatiIgrace();
   }
   function obrisi(sifra) {
-    if (!confirm("Sigurno obrisati?")) {
+    if (!confirm("Are you sure? This action CANNOT be undone and will remove this player from all matches and tournaments!")) {
       return;
     }
     obrisiIgraca(sifra);
+    dohvatiIgrace()
   }
 
   function promjeniUvjet(e) {
@@ -121,6 +122,8 @@ export default function IgraciPregled() {
       prikaziError(odgovor.poruka);
       return;
     }
+
+    dohvatiIgrace();
   }
 
   function obradiSubmit(e) {
@@ -135,8 +138,30 @@ export default function IgraciPregled() {
 
   return (
     <Container>
-      <h2 className="sredina headers">Player list</h2>
+
+      <Form onSubmit={obradiSubmit}>
+        <Row className="d-flex align-items-center justify-content-center mb-3">
+          <h3 className="sredina headers mb-3">Create new player</h3>
+          <Col sm={12} md={8} lg={4}>
+            <Form.Group controlId="ime">
+              <Form.Control
+                type="text"
+                name="ime"
+                placeholder="name"
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col sm={12} md={4} lg={3}>
+            <Button variant="success" type="submit" className="siroko mt-2 mb-2">
+              <IoIosAddCircleOutline /> Add player
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       <hr />
+      <h2 className="sredina headers">Player list</h2>
+
       <Row className="d-flex align-items-center">
         <Col key={1} sm={8} md={8} lg={4}>
           <Form.Control
@@ -158,7 +183,7 @@ export default function IgraciPregled() {
       <Row className="d-flex justify-content-center">
         {igraci &&
           igraci.map((i) => (
-            <Col key={i.sifra} sm={8} md={4} lg={2}>
+            <Col key={i.sifra} sm={5} md={4} lg={3} xl={2}>
               <Card style={{ marginTop: "1rem" }} className="dark-card">
                 <Card.Img variant="top" src={slika(i)} className="slika" />
                 <Card.Body>
@@ -195,28 +220,6 @@ export default function IgraciPregled() {
         </div>
       )}
 
-      <hr />
-
-      <Form onSubmit={obradiSubmit}>
-        <Row className="d-flex align-items-center justify-content-center mb-3">
-          <h3 className="sredina headers mb-3">Create new player</h3>
-          <Col sm={12} md={8} lg={4}>
-            <Form.Group controlId="ime">
-              <Form.Control
-                type="text"
-                name="ime"
-                placeholder="name"
-                required
-              />
-            </Form.Group>
-          </Col>
-          <Col sm={12} md={4} lg={3}>
-            <Button variant="success" type="submit" className="siroko mt-2 mb-2">
-              <IoIosAddCircleOutline /> Add player
-            </Button>
-          </Col>
-        </Row>
-      </Form>
       <hr />
       <Row className="d-flex justify-content-center">
       <Col sm={12} md={6} lg={6}>

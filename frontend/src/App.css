@@ -1,9 +1,9 @@
 .app {
-    min-height: 100vh;
-    min-width: 100%;
-    margin: 0px;
-    padding: 0px;
-    background-color: #393B44;
+  min-height: 100vh;
+  min-width: 100%;
+  margin: 0px;
+  padding: 0px;
+  background-color: #393b44;
 }
 
 .btn {
@@ -13,35 +13,33 @@
   font-size: large;
 }
 
-.siroko{
+.siroko {
   width: 100%;
 }
 
 .sredina {
-    text-align: center;
+  text-align: center;
 }
 
 .desno {
-    text-align: right;
+  text-align: right;
 }
 
 .akcije {
-    white-space: nowrap;
-    width: 30%;
+  white-space: nowrap;
+  width: 30%;
 }
 
 .loading-spinner-overlay {
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-
 
 .nav-brand {
   cursor: pointer;
@@ -50,9 +48,9 @@
   font-style: normal;
   font-size: 1.5rem;
 }
-.nav-brand:hover{
-    transform: translate(-2px,-2px);
-    text-shadow: 2px 2px 4px white;
+.nav-brand:hover {
+  transform: translate(-2px, -2px);
+  text-shadow: 2px 2px 4px white;
 }
 
 .slika {
@@ -71,41 +69,33 @@
   padding: 0;
   width: 100%;
   min-width: 100%;
-  border-top: 2px solid #D6E0F0;
+  border-top: 2px solid #d6e0f0;
 }
 
-.tag{
-  color: #D6E0F0;
+.tag {
+  color: #d6e0f0;
   margin: 0;
   padding: 10px;
 }
 
-.headers{
+.headers {
   font-family: "Nova Mono", monospace;
   font-weight: 400;
   font-style: normal;
   letter-spacing: -2px;
-  color: #D6E0F0;
+  color: #d6e0f0;
   margin-bottom: 0;
 }
 
 .nav-link {
   font-family: "Amatic SC", sans-serif;
   font-weight: 700;
-  font-style: normal;;
+  font-style: normal;
   font-size: 1.2rem;
 }
 
 .navbar {
-  border-bottom: 2px solid #D6E0F0;
-}
-
-.table {
-  margin: 30px 0px;
-  border: 2px solid #181722;
-  border-radius: 10px;
-  padding-bottom: 10px;
-  box-shadow: 2px 2px 10px#181722;
+  border-bottom: 2px solid #d6e0f0;
 }
 
 * {
@@ -130,21 +120,15 @@
   background-color: #666;
 }
 
-.scrollable table {
-  margin-bottom: 0;
-  margin-top: 0;
-}
 
-label {
-  font-family: "Amatic SC", sans-serif;
-  font-size: 1.2rem;
-  color: #D6E0F0;
-}
 
-hr {
-  background-color: #D6E0F0;
-  border: none;
-  height: 2px;
+
+
+
+
+.table {
+  margin: 30px 0px;
+  border: 1px solid #000;
 }
 
 table th,
@@ -154,10 +138,64 @@ table td {
   font-size: 1.3rem;
 }
 
+.scrollable table {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.scrollable {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.scrollable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+:not(.scrollable) table{
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+:not(.scrollable) table:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.check-box{
+  margin-top: 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+label {
+  font-family: "Amatic SC", sans-serif;
+  font-size: 1.2rem;
+  color: #d6e0f0;
+}
+
+hr {
+  background-color: #d6e0f0;
+  border: none;
+  height: 2px;
+}
+
 input[type="text"],
 input[type="date"],
 input[type="number"] {
-  background-color: #D6E0F0; 
+  background-color: #d6e0f0;
   border: 1px solid #444;
   font-family: "Amatic SC", sans-serif;
   font-weight: 700;
@@ -166,7 +204,7 @@ input[type="number"] {
 }
 
 #igrac {
-  background-color: #D6E0F0; 
+  background-color: #d6e0f0;
   border: 1px solid #444;
   font-family: "Amatic SC", sans-serif;
   font-weight: 700;
@@ -174,20 +212,20 @@ input[type="number"] {
   border: 2px solid #181722;
 }
 
-.recharts-legend-item{
+.recharts-legend-item {
   font-family: "Amatic SC", sans-serif;
   font-weight: 700;
   font-size: 1.5rem;
 }
 
 .my-pagination .page-item .page-link {
-  background-color: #212529; /* purple */
-  color: #D6E0F0;
+  background-color: #212529;
+  color: #d6e0f0;
 }
 
 .my-pagination .page-item.active .page-link {
-  background-color: #212529; /* darker purple */
-  color: #D6E0F0;
+  background-color: #212529;
+  color: #d6e0f0;
 }
 
 .imena {
@@ -195,21 +233,32 @@ input[type="number"] {
   font-weight: 400;
   font-style: normal;
   letter-spacing: -2px;
-  color: #D6E0F0;  
+  color: #d6e0f0;
 }
-
 
 .dark-card {
   background-color: #212529;
-  color: #D6E0F0;
+  color: #d6e0f0;
   border: 1px solid #333;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s, box-shadow 0.2s;
   margin-top: 1rem;
 }
 
 .dark-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.profil {
+  margin-bottom: 20px;
+}
+
+.profilna {
+    font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  color: #d6e0f0;
+  margin-bottom: 20px;
 }
