@@ -179,7 +179,7 @@ export default function TablicaRekordi({ igre }) {
             ) : (
               <tr>
                 <td className="sredina" colSpan={3}>
-                  Nema rezultata
+                  Empty
                 </td>
               </tr>
             )}

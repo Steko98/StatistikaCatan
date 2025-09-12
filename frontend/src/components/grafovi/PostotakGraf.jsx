@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { BiColor, BiFontColor } from "react-icons/bi";
 import {
   CartesianGrid,
   Legend,
