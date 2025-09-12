@@ -28,6 +28,9 @@ namespace BACKEND.Controllers
         /// </summary>
         /// <param name="context">Kontekst baze podataka.</param>
         /// <param name="mapper">AutoMapper instanca.</param>
+        /// 
+
+
         public CatanController(EdunovaContext context, IMapper mapper)
         {
             _context = context;

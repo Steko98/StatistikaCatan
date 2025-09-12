@@ -72,7 +72,7 @@ namespace BACKEND.Mapping
             {
                 var ds = Path.DirectorySeparatorChar;
                 string slika = Path.Combine(Directory.GetCurrentDirectory()
-                    + ds + "wwwroot" + ds + "slike" + ds + "igraci" + ds + e.Sifra + ".png");
+                , "wwwroot", "slike", "igraci" + ds + e.Sifra + ".png");
                 return File.Exists(slika) ? "/slike/igraci/" + e.Sifra + ".png" : null;
             }
             catch

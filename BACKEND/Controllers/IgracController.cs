@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using BACKEND.Data;
 using BACKEND.Models;
 using BACKEND.Models.DTO;
@@ -467,25 +468,82 @@ namespace BACKEND.Controllers
                 .FirstOrDefault(x=> x.Sifra == sifra && x.OperaterId == trenutniKorsnik);
             if (i == null)
             {
-                return BadRequest("Igrač pod šifrom " + sifra + "nije pronađen");
+                return NotFound("Igrač pod šifrom " + sifra + "nije pronađen");
             }
+
+            string base64 = slika.Base64;
+
+
+            byte[] bytes;
             try
             {
-                var ds = Path.DirectorySeparatorChar;
+                bytes = Convert.FromBase64String(base64);
+            } catch (FormatException)
+            {
+                return BadRequest("Neispravan format");
+            }
+            const int maxBytes = 5 * 1024 * 1024;
+            if (bytes.Length > maxBytes)
+            {
+                return BadRequest("Image cannot be over 5MB.");
+            }
+
+            try
+            {
                 string dir = Path.Combine(Directory.GetCurrentDirectory()
-                    + ds + "wwwroot" + ds + "slike" + ds + "igraci");
+                ,"wwwroot","slike","igraci");
 
                 if (!System.IO.Directory.Exists(dir))
                 {
                     System.IO.Directory.CreateDirectory(dir);
                 }
-                var putanja = Path.Combine(dir + ds + sifra + ".png");
-                System.IO.File.WriteAllBytes(putanja, Convert.FromBase64String(slika.Base64));
+                var putanja = Path.Combine(dir, sifra + ".png");
+                System.IO.File.WriteAllBytes(putanja, bytes);
                 return Ok("Uspješno pohranjena slika");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("obrisiSliku/{sifra:int}")]
+        public IActionResult ObrisiSliku(int sifra)
+        {
+            if (sifra < 1)
+            {
+                return BadRequest("Šifra mora biti veća od 1");
+            }
+            var i = _context.Igraci
+                .FirstOrDefault(x => x.Sifra == sifra && x.OperaterId == trenutniKorsnik);
+            if (i == null)
+            {
+                return NotFound("Igrač nije pronađen");
+            }
+
+
+            try
+            {
+                string dir = Path.Combine(Directory.GetCurrentDirectory()
+                , "wwwroot", "slike", "igraci");
+                var putanja = Path.Combine(dir, sifra + ".png");
+
+                if (!System.IO.File.Exists(putanja))
+                {
+                    return NotFound("Igrač nema postavljenu sliku");
+                } else
+                {
+                    System.IO.File.Delete(putanja);
+                    return Ok("Slika uspješno obrisana");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Greška pri brisanju slike");
             }
         }
     }

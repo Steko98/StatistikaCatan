@@ -139,6 +139,16 @@ export default function IgraciPromjena() {
     setTrenutnaSlika(slikaZaServer);
   }
 
+  async function obrisiSliku() {
+    showLoading();
+    const odgovor = await IgracService.ukloniSliku(routeParams.sifra)
+    hideLoading();
+    if (odgovor.greska) {
+      prikaziError(odgovor.podaci)
+    }
+    dohvatiIgrac();
+  }
+
   return (
     <Container>
       <h2 className="sredina headers">Edit player</h2>
@@ -168,7 +178,14 @@ export default function IgraciPromjena() {
 
         <Row className="d-flex justify-content-center align-items-center">
           <Col key="1" sm={12} md={12} lg={4} className="mb-3">
-            <p className="form-label profilna">Current profile picture</p>
+            <p className="form-label profilna">profile picture
+            <span style={{marginLeft:"10px"}}>
+              <Button className="btn btn-danger"
+              onClick={obrisiSliku}>
+                Delete</Button>
+            </span>
+            </p>
+
             <Image
               src={trenutnaSlika}
               className="slika"

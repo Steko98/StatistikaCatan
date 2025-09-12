@@ -132,6 +132,12 @@ async function postaviSliku(sifra, slika) {
   .catch((e)=>{return {greska:true, poruka:'Problem kod postavljanja slike'}})
 }
 
+async function ukloniSliku(sifra) {
+  return await HttpService.delete('/Igrac/obrisiSliku/' + sifra)
+  .then((odgovor) => {return{greska: false, poruka: odgovor.data}})
+  .catch((e)=>{return {greska: true, poruka:"Image delete failed"}})
+}
+
 async function ukupnoIgraca() {
   return await HttpService.get("/Pocetna/UkupnoIgraca")
   .then((odgovor)=>{
@@ -153,5 +159,6 @@ export default {
   getIgraciZaIgru,
   postaviSliku,
   getStranicenje,
-  ukupnoIgraca
+  ukupnoIgraca,
+  ukloniSliku
 };
